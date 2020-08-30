@@ -1,0 +1,17 @@
+   .product_summary_title{font-size:15px;color:#000000;;margin-left:10px;margin-top:15px;}/* #ADADAD */
+   .product_summary_sousuo{width:989px;height:61px;border-top:1px solid #EDEDED;border-bottom:1px solid #EDEDED;margin-top:5px;background-color: #fcfcfc}
+   .product_summary_sousuo_01{margin-left:20px;margin-top:15px;height:30px;}
+   .product_summary_sousuo_01 div{float:left;}
+   .summary_yesterday{width:60px;}
+   .summary_btn{height:30px;background-color:#63B8FF;border:0px;color:#ffffff;font-weight:600;}
+   .summary_07_day{width:86px;margin-left:8px;}
+   .summary_30_day{width:100px;margin-left:8px;}
+   .summary_90_day{width:100px;margin-left:8px;}
+   .summary_starttime{display:inline-block;width:80px;height:25px;border:1px solid  #d5d5d5;border-right:0px;margin-top:5px;padding-top: 3px;}
+   .summary_xiaoshou{width:60px;height:30px;border:1px solid  #d5d5d5;padding: 4.5px;border-right:0px;}
+   .summary_select{height:30px;width:80px;padding-top: 3.5px;}
+   #product_summarys{width:970px;height:450px;border:1px solid #ADADAD;margin-top: 20px;margin-left: 8px;}
+   #product_summarys_table{margin-top:10px;margin-bottom:10px;}
+   .summary_sel_btn{height:30px;background-color:#63B8FF;border:0px;color:#ffffff;width:60px;margin-left:10px;}
+   .summary_sel_week_btn{height:30px;background-color:#63B8FF;border:0px;color:#ffffff;width:60px;margin-left:10px;}
+   .month_summary_sel_btn{height:30px;background-color:#63B8FF;border:0px;color:#ffffff;width:60px;margin-left:10px;}

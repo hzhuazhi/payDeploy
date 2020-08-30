@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.tvdeploy.dao.SjYongzhaoDao">
+    <!-- 属性映射 -->
+    <resultMap type="com.xn.tvdeploy.model.sj.SjYongZhaoModel" id="dataMap">
+        <id property="id" column="id" />
+        <result property="dpId" column="dp_id" />
+        <result property="corporateName" column="corporate_name" />
+        <result property="productName" column="product_name" />
+        <result property="unitPrice" column="unit_price" />
+        <result property="activationNumber" column="activation_number" />
+        <result property="profit" column="profit" />
+        <result property="dataDay" column="data_day" />
+        <result property="curday" column="curday" />
+        <result property="yn" column="yn" />
+    </resultMap>
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List">
+        a.id,a.corporate_name,a.product_name,a.unit_price,a.activation_number,a.profit,a.data_day,a.curday
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+
+            <if test="corporateName != null and corporateName != '' " >
+                and a.corporate_name = #{corporateName}
+            </if>
+            <if test="productName != null and productName != '' " >
+                and a.product_name = #{productName}
+            </if>
+            <if test="startCurday != 0 and startCurday >0 and endCurday != 0 and endCurday >0" >
+                and a.curday >= #{startCurday} and a.curday &lt;= #{endCurday}
+            </if>
+            <if test="curday != 0 and curday >0 " >
+                and a.curday &lt;= #{curday}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <!-- 查询总数-->
+    <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1)
+        from tb_xn_sj_yongzhao a
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询分页列表 -->
+    <select id="queryByList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_sj_yongzhao a
+        <include refid="Example_Where_Clause"/>
+        order by a.curday desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+</mapper>

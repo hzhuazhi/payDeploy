@@ -1,0 +1,16 @@
+#mcTooltip 
+{
+    line-height:20px;
+    border-width: 1px;   
+    color:black; 
+    border-color:green;
+    padding:5px;
+    font-size: 12px;
+    font-family: Verdana, Arial;
+    border-radius:3px;
+    background-color:white;
+}
+#mcTooltipWrapper {position:absolute;visibility:hidden;overflow:visible;z-index:9999999999;top:-2000px;}
+#mcTooltip {float:left;border-style:solid;position:relative;overflow:hidden;}
+.mcTooltipInner {float:left;position:relative;width:auto;height:auto;}
+#mcttCo,  #mcttCo b{position:absolute;overflow:hidden;}

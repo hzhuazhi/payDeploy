@@ -1,0 +1,43 @@
+@CHARSET "utf-8";
+
+.condQueryCtrl div { height: 28px;}
+.greenClassBtn { background-color: #5bb966;border-color: #5bb966;color: white;font-weight: normal;text-shadow: none;} 
+.greenClassBtn:hover { background-color: #249E32;}
+
+.mem-center-content .content-right { width: 988px;}
+.category { border: 1px solid #ccc;border-bottom: 2px solid #59b9c6;margin-top: 20px;} 
+.category .title { height: 40px;line-height: 44px;border-bottom: 3px solid #0066cc; padding-left: 10px;} 
+.category .list table { width: 988px;}
+.category .list table tr td, .category .list table tr th { border-top: 1px solid #ccc;text-align: center;height: 35px;line-height: 35px;padding: 0;}
+.category .list table tr th { font-weight: bold;padding: 4px;background-color: white;text-shadow: none;border-top: 3px solid #0066cc;}   
+.category .list table tbody.bd tr td { border-top: 2px solid #ccc; }
+.category .list table .op {
+	font-weight: bold;width: 12px;line-height: 12px;height: 12px;text-align: center;display: inline-block;color: white;
+	background-color: #959595;margin-right: 10px;cursor: pointer;
+}
+.category .list table tr .th-cate-name, .category .list table tr .td-cate-name { width: 400px;text-align: left;padding-left: 25px;}
+.category .list table tbody tr td .op-a ,.category .op-up, .category .op-down { display: inline-block;height: 15px;width: 16px;}
+.category .list table tbody tr td .edit { background-image: url("../../images/2.png");}
+.category .list table tbody tr td .del { background-image: url("../../images/1.png");}
+.category .list table tbody tr td .up { background: url("../../images/T1VSWgXjtfXXXXXXXX-46-151.gif") no-repeat -4px -103px;}
+.category .list table tbody tr td .up:HOVER { background: url("../../images/T1VSWgXjtfXXXXXXXX-46-151.gif") no-repeat -4px -35px;border: 1px solid #ccc; }
+.category .list table tbody tr td .tr-up-hover, .category .op-up { background: url("../../images/T1VSWgXjtfXXXXXXXX-46-151.gif") no-repeat -26px -35px; }
+.category .list table tbody tr td .down { background: url("../../images/T1VSWgXjtfXXXXXXXX-46-151.gif") no-repeat -26px -86px;}
+.category .list table tbody tr td .down:HOVER { background: url("../../images/T1VSWgXjtfXXXXXXXX-46-151.gif") no-repeat -4px -18px;border: 1px solid #ccc; }
+.category .list table tbody tr td .tr-down-hover, .category .op-down { background: url("../../images/T1VSWgXjtfXXXXXXXX-46-151.gif") no-repeat -26px -18px; }
+.category .list table tbody tr.tr-hover { background: #E7E7E7;}
+.category .list table tbody tr.child-tr .td-cate-name { padding-left: 60px;}
+.category .list table tbody tr td .pro-list { color: #0066cc;}
+.category .list table tbody tr td .pro-list:HOVER { text-decoration: underline;}
+.category .list table tbody tr td .add { margin-left: 10px;color: #5A9D0F;line-height: 25px;height: 25px;border-radius: 2px;padding: 0 5px;background: white;display: inline-block;}
+.category .list table tbody tr td .add:HOVER { border: 1px solid #ccc;} 
+
+.category .update { padding: 10px 20px;background: #e7e7e7;margin-top: 50px;position: relative;}
+.category .update a, .category .update button { background: url("../../adminfile/images/queryBtn.png") repeat-x;border-radius: 2px;/* height: 25px; */line-height: 25px;display: inline-block;padding: 0 8px;border: 1px solid #ccc;color: #333;}
+.category .update a:HOVER, .category .update button:hover { background: #ccc;text-decoration: none;} 
+
+.line-name { padding: 10px 0 10px 20px;}  
+.line-name input[type=text] { width: 350px;height: 26px;}
+.category .change-index { background-color: #F5EDB6;} 
+table.stdtable tbody tr:hover { cursor: pointer;background-color: #F0F0F0;}
+table.stdtable td { border: 1px solid #ccc;} 

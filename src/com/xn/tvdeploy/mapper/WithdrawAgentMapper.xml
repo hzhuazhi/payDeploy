@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.tvdeploy.dao.WithdrawAgentDao">
+    <!-- 属性映射 -->
+    <resultMap type="com.xn.tvdeploy.model.WithdrawModel" id="dataMap">
+        <id property="id" column="id" />
+        <result property="linkId" column="link_id" />
+        <result property="money" column="money" />
+        <result property="serviceCharge" column="service_charge" />
+        <result property="bankId" column="bank_id" />
+        <result property="withdrawStatus" column="withdraw_status" />
+        <result property="withdrawExplain" column="withdraw_explain" />
+        <result property="runNum" column="run_num" />
+        <result property="runStatus" column="run_status" />
+        <result property="roleId" column="role_id" />
+        <result property="remark" column="remark" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="yn" column="yn" />
+        <result property="accountName" column="account_name" />
+        <result property="bankCard" column="bank_card" />
+        <result property="agentName" column="agent_name" />
+    </resultMap>
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List">
+        a.id,a.link_id,a.money,a.service_charge,a.bank_id,a.withdraw_status,a.withdraw_explain,a.role_id,a.remark,a.run_num,a.run_status,
+        a.create_time,a.update_time,a.yn,
+        b.account_name,b.bank_card,c.agent_name
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            <if test="linkId != 0 and linkId >0 " >
+                and a.link_id = #{linkId}
+            </if>
+            <if test="bankId != 0 and bankId >0 " >
+                and a.bank_id = #{bankId}
+            </if>
+            <if test="withdrawStatus != 0 and withdrawStatus >0 " >
+                and a.withdraw_status = #{withdrawStatus}
+            </if>
+            <if test="roleId != 0 and roleId >0 " >
+                and a.role_id = #{roleId}
+            </if>
+            <if test="accountName != null and accountName != '' " >
+                and b.account_name = #{accountName}
+            </if>
+            <if test="bankCard != null and bankCard != '' " >
+                and b.bank_card = #{bankCard}
+            </if>
+            <if test="agentName != null and agentName != '' " >
+                and c.agent_name = #{agentName}
+            </if>
+            <if test="runStatus != 0 and runStatus >0 " >
+                and a.run_status = #{runStatus}
+            </if>
+            and a.yn = 0
+        </trim>
+    </sql>
+
+    <!-- 查询条件_id -->
+    <sql id="Example_Where_Clause_id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            and a.yn = 0
+        </trim>
+    </sql>
+
+    <!-- 查询总数-->
+    <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1)
+        from tb_hz_withdraw a left join tb_hz_bank b on a.bank_id = b.id
+        left join tb_hz_agent c on a.link_id = c.id
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询分页列表 -->
+    <select id="queryByList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_withdraw a left join tb_hz_bank b on a.bank_id = b.id
+        left join tb_hz_agent c on a.link_id = c.id
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 查询列表-无分页-有条件/有条件 -->
+    <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_withdraw a left join tb_hz_bank b on a.bank_id = b.id
+        left join tb_hz_agent c on a.link_id = c.id
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+    </select>
+
+    <!-- 根据id查询记录 -->
+    <select id="queryById"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_withdraw a left join tb_hz_bank b on a.bank_id = b.id
+        left join tb_hz_agent c on a.link_id = c.id
+        <include refid="Example_Where_Clause_id"/>
+    </select>
+
+    <!-- 根据条件查询记录 -->
+    <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_withdraw a left join tb_hz_bank b on a.bank_id = b.id
+        left join tb_hz_agent c on a.link_id = c.id
+        <include refid="Example_Where_Clause"/>
+        limit 1
+    </select>
+
+    <!-- 添加记录 -->
+    <insert id="add" parameterType="Object" >
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        insert into tb_hz_withdraw
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="linkId != 0 and linkId >0 " >
+                link_id,
+            </if>
+            <if test="money != null and money != '' " >
+                money,
+            </if>
+            <if test="serviceCharge != null and serviceCharge != '' " >
+                service_charge,
+            </if>
+            <if test="bankId != 0 and bankId >0 " >
+                bank_id,
+            </if>
+            <if test="withdrawStatus != 0 and withdrawStatus >0 " >
+                withdraw_status,
+            </if>
+            <if test="withdrawExplain != null and withdrawExplain != '' " >
+                withdraw_explain,
+            </if>
+            <if test="roleId != 0 and roleId >0 " >
+                role_id,
+            </if>
+            <if test="remark != null and remark != '' " >
+                remark,
+            </if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="linkId != 0 and linkId >0 " >
+                <![CDATA[  #{linkId}, ]]>
+            </if>
+            <if test="money != null and money != '' " >
+                <![CDATA[  #{money}, ]]>
+            </if>
+            <if test="serviceCharge != null and serviceCharge != '' " >
+                <![CDATA[  #{serviceCharge}, ]]>
+            </if>
+            <if test="bankId != 0 and bankId >0 " >
+                <![CDATA[  #{bankId}, ]]>
+            </if>
+            <if test="withdrawStatus != 0 and withdrawStatus >0 " >
+                <![CDATA[  #{withdrawStatus}, ]]>
+            </if>
+            <if test="withdrawExplain != null and withdrawExplain != '' " >
+                <![CDATA[  #{withdrawExplain}, ]]>
+            </if>
+            <if test="roleId != 0 and roleId >0 " >
+                <![CDATA[  #{roleId}, ]]>
+            </if>
+            <if test="remark != null and remark != '' " >
+                <![CDATA[  #{remark}, ]]>
+            </if>
+            <![CDATA[  NOW(), ]]>
+        </trim>
+    </insert>
+
+
+    <!-- 更新记录 -->
+    <update id="update" parameterType="Object">
+        UPDATE tb_hz_withdraw a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="linkId != 0 and linkId >0 " >
+                a.link_id = #{linkId},
+            </if>
+            <if test="money != null and money != '' " >
+                a.money = #{money},
+            </if>
+            <if test="bankId != 0 and bankId >0 " >
+                a.bank_id = #{bankId},
+            </if>
+            <if test="withdrawStatus != 0 and withdrawStatus >0 " >
+                a.withdraw_status = #{withdrawStatus},
+            </if>
+            a.withdraw_explain = #{withdrawExplain},
+            a.remark = #{remark},
+            a.update_time = NOW(),
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+
+    <!-- 主要作用1.逻辑删除，2更新状态 -->
+    <update id="manyOperation" parameterType="Object">
+        update tb_hz_withdraw a
+        <trim prefix="set" suffixOverrides=",">
+            a.yn=#{yn},
+            a.update_time=NOW()
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+    <!--逻辑删除数据 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE tb_hz_withdraw a set a.yn = 1,
+        a.update_time = now()
+        where 1=1
+        and a.id =#{id}
+        and a.yn=0
+    </update>
+
+</mapper>

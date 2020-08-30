@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.tvdeploy.dao.GewayDao">
+    <!-- 属性映射 -->
+    <resultMap type="com.xn.tvdeploy.model.GewayModel" id="dataMap">
+        <id property="id" column="id" />
+        <result property="gewayName" column="geway_name" />
+        <result property="interfaceAds" column="interface_ads" />
+        <result property="companyName" column="company_name" />
+        <result property="contacts" column="contacts" />
+        <result property="phoneNum" column="phone_num" />
+        <result property="payType" column="pay_type" />
+        <result property="payId" column="pay_id" />
+        <result property="balance" column="balance" />
+        <result property="secretKey" column="secret_key" />
+        <result property="identify" column="identify" />
+        <result property="notifyUrl" column="notify_url" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="yn" column="yn" />
+        <result property="gewayName" column="geway_name" />
+    </resultMap>
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List">
+        a.id,a.geway_name,a.interface_ads,a.company_name,a.contacts,a.phone_num,a.pay_type,a.pay_id,
+        a.balance,a.secret_key,a.identify,a.notify_url,
+        a.create_time,a.update_time,a.yn
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            <if test="payType != 0 and payType >0 " >
+                and a.pay_type = #{payType}
+            </if>
+            <if test="gewayName != null and gewayName != '' " >
+                and a.geway_name = #{gewayName}
+            </if>
+            <if test="companyName != null and companyName != '' " >
+                and a.company_name = #{companyName}
+            </if>
+            <if test="contacts != null and contacts != '' " >
+                and a.contacts = #{contacts}
+            </if>
+            <if test="phoneNum != null and phoneNum != '' " >
+                and a.phone_num = #{phoneNum}
+            </if>
+            and a.yn = 0
+        </trim>
+    </sql>
+
+    <!-- 查询条件_id -->
+    <sql id="Example_Where_Clause_id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            and a.yn = 0
+        </trim>
+    </sql>
+
+    <!-- 查询总数-->
+    <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1)
+        from tb_hz_geway a
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询分页列表 -->
+    <select id="queryByList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_geway a
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 查询列表-无分页-有条件/有条件 -->
+    <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_geway a
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+    </select>
+
+    <!-- 根据id查询记录 -->
+    <select id="queryById"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_geway a
+        <include refid="Example_Where_Clause_id"/>
+    </select>
+
+    <!-- 根据条件查询记录 -->
+    <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_geway a
+        <include refid="Example_Where_Clause"/>
+        limit 1
+    </select>
+
+    <!-- 添加记录 -->
+    <insert id="add" parameterType="Object" >
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        insert into tb_hz_geway
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="gewayName != null and gewayName != '' " >
+                geway_name,
+            </if>
+            <if test="interfaceAds != null and interfaceAds != '' " >
+                interface_ads,
+            </if>
+            <if test="companyName != null and companyName != '' " >
+                company_name,
+            </if>
+            <if test="contacts != null and contacts != '' " >
+                contacts,
+            </if>
+            <if test="phoneNum != null and phoneNum != '' " >
+                phone_num,
+            </if>
+            <if test="payType != 0 and payType >0 " >
+                pay_type,
+            </if>
+            <if test="payId != null and payId != '' " >
+                pay_id,
+            </if>
+            <if test="balance != null and balance != '' " >
+                balance,
+            </if>
+            <if test="secretKey != null and secretKey != '' " >
+                secret_key,
+            </if>
+            <if test="identify != null and identify != '' " >
+                identify,
+            </if>
+            <if test="notifyUrl != null and notifyUrl != '' " >
+                notify_url,
+            </if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="gewayName != null and gewayName != '' " >
+                <![CDATA[  #{gewayName}, ]]>
+            </if>
+            <if test="interfaceAds != null and interfaceAds != '' " >
+                <![CDATA[  #{interfaceAds}, ]]>
+            </if>
+            <if test="companyName != null and companyName != '' " >
+                <![CDATA[  #{companyName}, ]]>
+            </if>
+            <if test="contacts != null and contacts != '' " >
+                <![CDATA[  #{contacts}, ]]>
+            </if>
+            <if test="phoneNum != null and phoneNum != '' " >
+                <![CDATA[  #{phoneNum}, ]]>
+            </if>
+            <if test="payType != 0 and payType >0 " >
+                <![CDATA[  #{payType}, ]]>
+            </if>
+            <if test="payId != null and payId != '' " >
+                <![CDATA[  #{payId}, ]]>
+            </if>
+            <if test="balance != null and balance != '' " >
+                <![CDATA[  #{balance}, ]]>
+            </if>
+            <if test="secretKey != null and secretKey != '' " >
+                <![CDATA[  #{secretKey}, ]]>
+            </if>
+            <if test="identify != null and identify != '' " >
+                <![CDATA[  #{identify}, ]]>
+            </if>
+            <if test="notifyUrl != null and notifyUrl != '' " >
+                <![CDATA[  #{notifyUrl}, ]]>
+            </if>
+            <![CDATA[  NOW(), ]]>
+        </trim>
+    </insert>
+
+
+    <!-- 更新记录 -->
+    <update id="update" parameterType="Object">
+        UPDATE tb_hz_geway a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="gewayName != null and gewayName != '' " >
+                a.geway_name = #{gewayName},
+            </if>
+            <if test="interfaceAds != null and interfaceAds != '' " >
+                a.interface_ads = #{interfaceAds},
+            </if>
+            <if test="companyName != null and companyName != '' " >
+                a.company_name = #{companyName},
+            </if>
+            a.contacts = #{contacts},
+            a.phone_num = #{phoneNum},
+            <if test="payType != 0 and payType >0 " >
+                a.pay_type = #{payType},
+            </if>
+            <if test="payId != null and payId != '' " >
+                a.pay_id = #{payId},
+            </if>
+            a.balance = #{balance},
+            <if test="secretKey != null and secretKey != '' " >
+                a.secret_key = #{secretKey},
+            </if>
+            <if test="identify != null and identify != '' " >
+                a.identify = #{identify},
+            </if>
+            <if test="notifyUrl != null and notifyUrl != '' " >
+                a.notify_url = #{notifyUrl},
+            </if>
+            a.update_time = NOW(),
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+
+    <!-- 主要作用1.逻辑删除，2更新状态 -->
+    <update id="manyOperation" parameterType="Object">
+        update tb_hz_geway a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="isEnable != 0 and isEnable >0 " >
+                a.is_enable=#{isEnable},
+            </if>
+            a.yn=#{yn},
+            a.update_time=NOW()
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+    <!--逻辑删除数据 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE tb_hz_geway a set a.yn = 1,
+        a.update_time = now()
+        where 1=1
+        and a.id =#{id}
+        and a.yn=0
+    </update>
+
+</mapper>

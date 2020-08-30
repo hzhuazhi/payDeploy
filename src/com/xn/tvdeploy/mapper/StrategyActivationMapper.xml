@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.tvdeploy.dao.StrategyActivationDao">
+    <!-- 属性映射 -->
+    <resultMap type="com.xn.tvdeploy.model.StrategyActivationModel" id="dataMap">
+        <id property="id" column="id" />
+        <result property="channelId" column="channel_id" />
+        <result property="batchId" column="batch_id" />
+        <result property="appId" column="app_id" />
+        <result property="activationName" column="activation_name" />
+        <result property="limitNum" column="limit_num" />
+        <result property="isLimitNum" column="is_limit_num" />
+        <result property="isLimitOk" column="is_limit_ok" />
+        <result property="province" column="province" />
+        <result property="city" column="city" />
+        <result property="limitType" column="limit_type" />
+        <result property="activationTime" column="activation_time" />
+        <result property="nextTime" column="next_time" />
+        <result property="remark" column="remark" />
+        <result property="isEnable" column="is_enable" />
+        <result property="createUser" column="create_user" />
+        <result property="updateUser" column="update_user" />
+        <result property="createRole" column="create_role" />
+        <result property="updateRole" column="update_role" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="yn" column="yn" />
+        <result property="tpId" column="tp_id" />
+        <result property="tpAcName" column="tp_ac_name" />
+        <result property="channelName" column="channel_name" />
+        <result property="batchName" column="batch_name" />
+        <result property="dpId" column="dp_id" />
+        <result property="dpAcName" column="dp_ac_name" />
+        <result property="appName" column="app_name" />
+    </resultMap>
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List">
+        a.id,a.channel_id,a.batch_id,a.app_id,a.activation_name,a.limit_num,a.is_limit_num,a.is_limit_ok,a.province,a.city,a.limit_type,a.activation_time,a.next_time,
+        a.remark,a.is_enable,a.create_user,a.update_user,a.create_time,a.update_time,a.yn,
+        b.channel_name,
+        c.id as tp_id,c.ac_name as tp_ac_name,
+        d.batch_name,
+        e.app_name,
+        f.id as dp_id,f.ac_name as dp_ac_name
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            <if test="channelId != 0 and channelId >0 " >
+                and a.channel_id = #{channelId}
+            </if>
+            <if test="batchId != 0 and batchId >0 " >
+                and a.batch_id = #{batchId}
+            </if>
+            <if test="appId != 0 and appId >0 " >
+                and a.app_id = #{appId}
+            </if>
+            <if test="activationName != null and activationName != '' " >
+                and a.activation_name = #{activationName}
+            </if>
+            <if test="limitType != 0 and limitType >0 " >
+                and a.limit_type = #{limitType}
+            </if>
+            <if test="isEnable != 0 and isEnable >0 " >
+                and a.is_enable = #{isEnable}
+            </if>
+            <if test="tpId != 0 and tpId >0 " >
+                and c.id = #{tpId}
+            </if>
+            <if test="dpId != 0 and dpId >0 " >
+                and f.id = #{dpId}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <!-- 查询条件_id -->
+    <sql id="Example_Where_Clause_id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <!-- 查询总数-->
+    <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1)
+        from tb_xn_strategy_activation a
+        left join tb_xn_channel b on a.channel_id = b.id and b.yn = 0
+        left join tb_xn_account_tp c on b.tp_id = c.id and c.yn = 0
+        left join tb_xn_batch d on a.batch_id = d.id and d.yn = 0
+        left join tb_xn_app e on a.app_id = e.id and e.yn = 0
+        left join tb_xn_account_dp f on e.dp_id = f.id and f.yn = 0
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询分页列表 -->
+    <select id="queryByList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_strategy_activation a
+        left join tb_xn_channel b on a.channel_id = b.id and b.yn = 0
+        left join tb_xn_account_tp c on b.tp_id = c.id and c.yn = 0
+        left join tb_xn_batch d on a.batch_id = d.id and d.yn = 0
+        left join tb_xn_app e on a.app_id = e.id and e.yn = 0
+        left join tb_xn_account_dp f on e.dp_id = f.id and f.yn = 0
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 查询列表-无分页-有条件/有条件 -->
+    <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_strategy_activation a
+        left join tb_xn_channel b on a.channel_id = b.id and b.yn = 0
+        left join tb_xn_account_tp c on b.tp_id = c.id and c.yn = 0
+        left join tb_xn_batch d on a.batch_id = d.id and d.yn = 0
+        left join tb_xn_app e on a.app_id = e.id and e.yn = 0
+        left join tb_xn_account_dp f on e.dp_id = f.id and f.yn = 0
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+    </select>
+
+    <!-- 根据id查询记录 -->
+    <select id="queryById"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_strategy_activation a
+        left join tb_xn_channel b on a.channel_id = b.id and b.yn = 0
+        left join tb_xn_account_tp c on b.tp_id = c.id and c.yn = 0
+        left join tb_xn_batch d on a.batch_id = d.id and d.yn = 0
+        left join tb_xn_app e on a.app_id = e.id and e.yn = 0
+        left join tb_xn_account_dp f on e.dp_id = f.id and f.yn = 0
+        <include refid="Example_Where_Clause_id"/>
+    </select>
+
+    <!-- 根据条件查询记录 -->
+    <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_strategy_activation a
+        left join tb_xn_channel b on a.channel_id = b.id and b.yn = 0
+        left join tb_xn_account_tp c on b.tp_id = c.id and c.yn = 0
+        left join tb_xn_batch d on a.batch_id = d.id and d.yn = 0
+        left join tb_xn_app e on a.app_id = e.id and e.yn = 0
+        left join tb_xn_account_dp f on e.dp_id = f.id and f.yn = 0
+        <include refid="Example_Where_Clause"/>
+        limit 1
+    </select>
+
+    <!-- 添加记录 -->
+    <insert id="add" parameterType="Object" >
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        insert into tb_xn_strategy_activation
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="channelId != 0 and channelId >0 " >
+                channel_id,
+            </if>
+            <if test="batchId != 0 and batchId >0 " >
+                batch_id,
+            </if>
+            <if test="appId != 0  and appId >0 " >
+                app_id,
+            </if>
+            <if test="activationName != null and activationName != '' " >
+                activation_name,
+            </if>
+            <if test="limitNum != 0 and limitNum >0 " >
+                limit_num,
+            </if>
+            <if test="isLimitNum != 0  and isLimitNum >0 " >
+                is_limit_num,
+            </if>
+            <if test="isLimitOk != 0  and isLimitOk >0 " >
+                is_limit_ok,
+            </if>
+            <if test="province != null and province != '' " >
+                province,
+            </if>
+            <if test="city != null and city != '' " >
+                city,
+            </if>
+            <if test="province != null and province != '' " >
+                province,
+            </if>
+            <if test="limitType != 0 and limitType >0 " >
+                limit_type,
+            </if>
+            <if test="activationTime != 0 and activationTime >0 " >
+                activation_time,
+            </if>
+            <if test="nextTime != 0 and nextTime >0 " >
+                next_time,
+            </if>
+            <if test="remark != null and remark != '' " >
+                remark,
+            </if>
+            <if test="createUser != 0 and createUser >0 " >
+                create_user,
+            </if>
+            <if test="createRole != 0 and createRole >0 " >
+                create_role,
+            </if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="channelId != 0 and channelId >0 " >
+                <![CDATA[  #{channelId}, ]]>
+            </if>
+            <if test="batchId != 0 and batchId >0 " >
+                <![CDATA[  #{batchId}, ]]>
+            </if>
+            <if test="appId != 0  and appId >0 " >
+                <![CDATA[  #{appId}, ]]>
+            </if>
+            <if test="activationName != null and activationName != '' " >
+                <![CDATA[  #{activationName}, ]]>
+            </if>
+            <if test="limitNum != 0 and limitNum >0 " >
+                <![CDATA[  #{limitNum}, ]]>
+            </if>
+            <if test="isLimitNum != 0  and isLimitNum >0 " >
+                <![CDATA[  #{isLimitNum}, ]]>
+            </if>
+            <if test="isLimitOk != 0  and isLimitOk >0 " >
+                <![CDATA[  #{isLimitOk}, ]]>
+            </if>
+            <if test="province != null and province != '' " >
+                <![CDATA[  #{province}, ]]>
+            </if>
+            <if test="city != null and city != '' " >
+                <![CDATA[  #{city}, ]]>
+            </if>
+            <if test="province != null and province != '' " >
+                <![CDATA[  #{province}, ]]>
+            </if>
+            <if test="limitType != 0 and limitType >0 " >
+                <![CDATA[  #{limitType}, ]]>
+            </if>
+            <if test="activationTime != 0 and activationTime >0 " >
+                <![CDATA[  #{activationTime}, ]]>
+            </if>
+            <if test="nextTime != 0 and nextTime >0 " >
+                <![CDATA[  #{nextTime}, ]]>
+            </if>
+            <if test="remark != null and remark != '' " >
+                <![CDATA[  #{remark}, ]]>
+            </if>
+            <if test="createUser != 0 and createUser >0 " >
+                <![CDATA[  #{createUser}, ]]>
+            </if>
+            <if test="createRole != 0 and createRole >0 " >
+                <![CDATA[  #{createRole}, ]]>
+            </if>
+            <![CDATA[  NOW(), ]]>
+        </trim>
+    </insert>
+
+
+    <!-- 更新记录 -->
+    <update id="update" parameterType="Object">
+        UPDATE tb_xn_strategy_activation a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="channelId != 0 and channelId >0 " >
+                a.channel_id = #{channelId},
+            </if>
+            <if test="batchId != 0 and batchId >0 " >
+                a.batch_id = #{batchId},
+            </if>
+            <if test="appId != 0  and appId >0 " >
+                a.app_id = #{appId},
+            </if>
+            <if test="activationName != null and activationName != '' " >
+                a.activation_name = #{activationName},
+            </if>
+            <if test="limitNum != 0 and limitNum >0 " >
+                a.limit_num = #{limitNum},
+            </if>
+            <if test="isLimitNum != 0 and isLimitNum >0 " >
+                a.is_limit_num = #{isLimitNum},
+            </if>
+            <if test="isLimitOk != 0 and isLimitOk >0 " >
+                a.is_limit_ok = #{isLimitOk},
+            </if>
+            <if test="province != null and province != '' " >
+                a.province = #{province},
+            </if>
+            <if test="city != null and city != '' " >
+                a.city = #{city},
+            </if>
+            <if test="limitType != 0 and limitType >0 " >
+                a.limit_type = #{limitType},
+            </if>
+            <if test="activationTime != 0 and activationTime >0 " >
+                a.activation_time = #{activationTime},
+            </if>
+            <if test="nextTime != 0 and nextTime >0 " >
+                a.next_time = #{nextTime},
+            </if>
+            <if test="remark != null and remark != '' " >
+                a.remark = #{remark},
+            </if>
+            <if test="isEnable != 0 and isEnable >0 " >
+                a.is_enable = #{isEnable},
+            </if>
+            <if test="updateUser != 0 and updateUser >0 " >
+                a.update_user = #{updateUser},
+            </if>
+            <if test="updateRole != 0 and updateRole >0 " >
+                a.update_role = #{updateRole},
+            </if>
+            a.update_time = NOW(),
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+
+    <!-- 主要作用1.逻辑删除，2更新状态 -->
+    <update id="manyOperation" parameterType="Object">
+        update tb_xn_strategy_activation a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="isEnable != 0 and isEnable >0 " >
+                a.is_enable=#{isEnable},
+            </if>
+            a.yn=#{yn},
+            <if test="updateUser != 0 and updateUser >0 " >
+                a.update_user=#{updateUser},
+            </if>
+            <if test="updateRole != 0 and updateRole >0 " >
+                a.update_role=#{updateRole},
+            </if>
+            a.update_time=NOW()
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+    <!--逻辑删除数据 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE tb_xn_strategy_activation a set a.yn = 1,
+        <if test="updateUser != 0 and updateUser >0 " >
+            a.update_user=#{updateUser},
+        </if>
+        <if test="updateRole != 0 and updateRole >0 " >
+            a.update_role=#{updateRole},
+        </if>
+        a.update_time = now()
+        where 1=1
+        and a.id =#{id}
+        and a.yn=0
+    </update>
+
+</mapper>

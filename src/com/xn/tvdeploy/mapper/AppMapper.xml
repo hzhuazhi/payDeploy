@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.tvdeploy.dao.AppDao">
+    <!-- 属性映射 -->
+    <resultMap type="com.xn.tvdeploy.model.AppModel" id="dataMap">
+        <id property="id" column="id" />
+        <result property="dpId" column="dp_id" />
+        <result property="appNum" column="app_num" />
+        <result property="appKey" column="app_key" />
+        <result property="appName" column="app_name" />
+        <result property="appVer" column="app_ver" />
+        <result property="appUrl" column="app_url" />
+        <result property="appPackage" column="app_package" />
+        <result property="startBoundary" column="start_boundary" />
+        <result property="remark" column="remark" />
+        <result property="isEnable" column="is_enable" />
+        <result property="createUser" column="create_user" />
+        <result property="updateUser" column="update_user" />
+        <result property="createRole" column="create_role" />
+        <result property="updateRole" column="update_role" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="yn" column="yn" />
+        <result property="acName" column="ac_name" />
+    </resultMap>
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List">
+        a.id,a.dp_id,a.app_num,a.app_key,a.app_name,a.app_ver,a.app_url,a.app_package,a.start_boundary,
+        a.remark,a.is_enable,a.create_user,a.update_user,a.create_time,a.update_time,a.yn,
+        b.ac_name
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            <if test="dpId != 0 and dpId >0 " >
+                and a.dp_id = #{dpId}
+            </if>
+            <if test="appNum != null and appNum != '' " >
+                and a.app_num = #{appNum}
+            </if>
+            <if test="appKey != null and appKey != '' " >
+                and a.app_key = #{appKey}
+            </if>
+            <if test="appName != null and appName != '' " >
+                and a.app_name = #{appName}
+            </if>
+            <if test="appVer != null and appVer != '' " >
+                and a.app_ver = #{appVer}
+            </if>
+            <if test="isEnable != 0 and isEnable >0 " >
+                and a.is_enable = #{isEnable}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <!-- 查询条件_id -->
+    <sql id="Example_Where_Clause_id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <!-- 查询总数-->
+    <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1)
+        from tb_xn_app a
+        left join tb_xn_account_dp b on a.dp_id = b.id
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询分页列表 -->
+    <select id="queryByList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_app a left join tb_xn_account_dp b on a.dp_id = b.id
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 查询列表-无分页-有条件/有条件 -->
+    <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_app a left join tb_xn_account_dp b on a.dp_id = b.id
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+    </select>
+
+    <!-- 根据id查询记录 -->
+    <select id="queryById"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_app a left join tb_xn_account_dp b on a.dp_id = b.id
+        <include refid="Example_Where_Clause_id"/>
+    </select>
+
+    <!-- 根据条件查询记录 -->
+    <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_app a left join tb_xn_account_dp b on a.dp_id = b.id
+        <include refid="Example_Where_Clause"/>
+        limit 1
+    </select>
+
+    <!-- 添加记录 -->
+    <insert id="add" parameterType="Object" >
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        insert into tb_xn_app
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="dpId != 0 and dpId >0 " >
+                dp_id,
+            </if>
+            <if test="appNum != null and appNum != '' " >
+                app_num,
+            </if>
+            <if test="appKey != null and appKey != '' " >
+                app_key,
+            </if>
+            <if test="appName != null and appName != '' " >
+                app_name,
+            </if>
+            <if test="appVer != null and appVer != '' " >
+                app_ver,
+            </if>
+            <if test="appUrl != null and appUrl != '' " >
+                app_url,
+            </if>
+            <if test="appPackage != null  and appPackage != '' " >
+                app_package,
+            </if>
+            <if test="startBoundary != null  and startBoundary != '' " >
+                start_boundary,
+            </if>
+            <if test="remark != null and remark != '' " >
+                remark,
+            </if>
+            <if test="createUser != 0 and createUser >0 " >
+                create_user,
+            </if>
+            <if test="createRole != 0 and createRole >0 " >
+                create_role,
+            </if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="dpId != 0 and dpId >0 " >
+                <![CDATA[  #{dpId}, ]]>
+            </if>
+            <if test="appNum != null and appNum != '' " >
+                <![CDATA[  #{appNum}, ]]>
+            </if>
+            <if test="appKey != null and appKey != '' " >
+                <![CDATA[  #{appKey}, ]]>
+            </if>
+            <if test="appName != null and appName != '' " >
+                <![CDATA[  #{appName}, ]]>
+            </if>
+            <if test="appVer != null and appVer != '' " >
+                <![CDATA[  #{appVer}, ]]>
+            </if>
+            <if test="appUrl != null and appUrl != '' " >
+                <![CDATA[  #{appUrl}, ]]>
+            </if>
+            <if test="appPackage != null  and appPackage != '' " >
+                <![CDATA[  #{appPackage}, ]]>
+            </if>
+            <if test="startBoundary != null  and startBoundary != '' " >
+                <![CDATA[  #{startBoundary}, ]]>
+            </if>
+            <if test="remark != null and remark != '' " >
+                <![CDATA[  #{remark}, ]]>
+            </if>
+            <if test="createUser != 0 and createUser >0 " >
+                <![CDATA[  #{createUser}, ]]>
+            </if>
+            <if test="createRole != 0 and createRole >0 " >
+                <![CDATA[  #{createRole}, ]]>
+            </if>
+            <![CDATA[  NOW(), ]]>
+        </trim>
+    </insert>
+
+
+    <!-- 更新记录 -->
+    <update id="update" parameterType="Object">
+        UPDATE tb_xn_app a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="dpId != 0 and dpId >0 " >
+                a.dp_id = #{dpId},
+            </if>
+            <if test="appNum != null and appNum != '' " >
+                a.app_num = #{appNum},
+            </if>
+            <if test="appKey != null and appKey != '' " >
+                a.app_key = #{appKey},
+            </if>
+            <if test="appName != null and appName != '' " >
+                a.app_name = #{appName},
+            </if>
+            <if test="appVer != null and appVer != '' " >
+                a.app_ver = #{appVer},
+            </if>
+            <if test="appUrl != null and appUrl != '' " >
+                a.app_url = #{appUrl},
+            </if>
+            <if test="appPackage != null  and appPackage != '' " >
+                a.app_package = #{appPackage},
+            </if>
+            <if test="startBoundary != null  and startBoundary != '' " >
+                a.start_boundary = #{startBoundary},
+            </if>
+            <if test="remark != null and remark != '' " >
+                a.remark = #{remark},
+            </if>
+            <if test="updateUser != 0 and updateUser >0 " >
+                a.update_user = #{updateUser},
+            </if>
+            <if test="updateRole != 0 and updateRole >0 " >
+                a.update_role = #{updateRole},
+            </if>
+            a.update_time = NOW(),
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+
+    <!-- 主要作用1.逻辑删除，2更新状态 -->
+    <update id="manyOperation" parameterType="Object">
+        update tb_xn_app a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="isEnable != 0 and isEnable >0 " >
+                a.is_enable=#{isEnable},
+            </if>
+            a.yn=#{yn},
+            <if test="updateUser != 0 and updateUser >0 " >
+                a.update_user=#{updateUser},
+            </if>
+            <if test="updateRole != 0 and updateRole >0 " >
+                a.update_role=#{updateRole},
+            </if>
+            a.update_time=NOW()
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+    <!--逻辑删除数据 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE tb_xn_app a set a.yn = 1,
+        <if test="updateUser != 0 and updateUser >0 " >
+            a.update_user=#{updateUser},
+        </if>
+        <if test="updateRole != 0 and updateRole >0 " >
+            a.update_role=#{updateRole},
+        </if>
+        a.update_time = now()
+        where 1=1
+        and a.id =#{id}
+        and a.yn=0
+    </update>
+
+</mapper>

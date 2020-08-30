@@ -1,0 +1,101 @@
+.pagebar { /* font-size: 100%;
+	margin-left: 19px;
+	display: inline-block;
+	float: left; */
+	float: right;
+	margin: 0px 0 10px 0;
+	position:relative;
+	display:inline-block;background-color: #fff;
+}
+.pagebar select{
+	appearance:none;
+	-moz-appearance:none; /* Firefox */
+	-webkit-appearance:none; /* Safari 和 Chrome */
+	background-image: url("/adminfile/images/close_icon.png");
+	background-repeat: no-repeat;
+	background-position: center;background-position-x: 58px;margin-right: 4px;
+	border-radius: 4px;cursor: pointer;
+}
+.pagebar select:hover{
+	cursor: pointer;
+}
+.pagebar a { /* 
+	padding: 2px 8px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	text-decoration: none;
+	border: solid 1px #bbb; */
+	color: #7e7e7e;
+	border: 1px solid #E6E6E6;
+	cursor: pointer;
+	height: 25px;
+	text-align: center;
+	line-height: 24px;
+	display: inline-block;
+	margin-left: -1px;
+	float: left;
+}
+
+/* �����ͣ��ť����ʽ */
+.pagebar a:hover,.pagebar a.on { /* background: #ededed;
+	color: #666; */
+	color: #FFF;
+	background-color: #767DC3;
+}
+
+.pagebar span {
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	display: inline-block;
+}
+
+.pageName { /* border: solid 1px #AAE;
+	cursor: pointer;
+	color: #5F7690; */
+	width: 80px;
+}
+
+.page_number { /* float: left;
+	padding: 0.3em 0.5em;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	text-decoration: none;
+	border: solid 1px #AAE;
+	cursor: pointer; */
+	width: 25px;
+}
+
+.current_pageName {
+	cursor: default;
+	border: 1px solid #eee;
+	color: #ddd;
+}
+
+/* ��ǰҳ����ʽ */
+.current_page_number { /* background: #26B;
+	color: white;
+	border: solid 1px #eee;
+	cursor: default; */
+	color: #FFF;
+	background-color: #a6a7ab;
+	width: 25px;
+}
+
+#jpagebar a.current_pageName,a.current_page_number {
+	color: #FFF;
+	background-color: #767DC3;
+}
+
+/* ��nҳ ����ʽ */
+.totalpage_number {
+	color: #2278db;
+	border: 1px solid #a6a7ab;
+	height: 25px;
+	line-height: 24px;
+	width: 60px;
+	text-align: center;
+	/* position:absolute;
+	left:-65px; */
+	margin-left: 5px;
+}

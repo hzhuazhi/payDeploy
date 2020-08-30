@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.tvdeploy.dao.OfferMDao">
+    <!-- 属性映射 -->
+    <!-- 属性映射-广告主档 -->
+    <resultMap type="com.xn.tvdeploy.model.OfferMModel" id="dataMap">
+        <id property="id" column="id" />
+        <result property="apiId" column="api_id" />
+        <result property="advertiserId" column="advertiser_id" />
+        <result property="sourceId" column="source_type" />
+        <result property="sourceType" column="source_type" />
+        <result property="offerName" column="offer_name" />
+        <result property="spreadUrl" column="spread_url" />
+        <result property="spreadType" column="spread_type" />
+        <result property="payout" column="payout" />
+        <result property="offerType" column="offer_type" />
+        <result property="offerClickType" column="offer_click_type" />
+        <result property="warehousingType" column="warehousing_type" />
+        <result property="dayBudgetType" column="day_budget_type" />
+        <result property="dayBudget" column="day_budget" />
+        <result property="spreadCycleType" column="spread_cycle_type" />
+        <result property="spreadStartDay" column="spread_start_day" />
+        <result property="spreadEndDay" column="spread_end_day" />
+        <result property="startTime" column="start_time" />
+        <result property="endTime" column="end_time" />
+        <result property="province" column="province" />
+        <result property="city" column="city" />
+        <result property="isHandle" column="is_handle" />
+        <result property="handleStatus" column="handle_status" />
+        <result property="upStatus" column="up_status" />
+        <result property="remark" column="remark" />
+        <result property="isEnable" column="is_enable" />
+        <result property="createUser" column="create_user" />
+        <result property="updateUser" column="update_user" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="yn" column="yn" />
+    </resultMap>
+
+
+    <!-- 属性映射-一对多 -->
+    <resultMap type="com.xn.tvdeploy.model.OfferMModel" id="moreDataMap">
+        <id property="id" column="id" />
+        <result property="apiId" column="api_id" />
+        <result property="advertiserId" column="advertiser_id" />
+        <result property="sourceId" column="source_id" />
+        <result property="sourceType" column="source_type" />
+        <result property="offerName" column="offer_name" />
+        <result property="spreadUrl" column="spread_url" />
+        <result property="spreadType" column="spread_type" />
+        <result property="payout" column="payout" />
+        <result property="offerType" column="offer_type" />
+        <result property="offerClickType" column="offer_click_type" />
+        <result property="warehousingType" column="warehousing_type" />
+        <result property="dayBudgetType" column="day_budget_type" />
+        <result property="dayBudget" column="day_budget" />
+        <result property="spreadCycleType" column="spread_cycle_type" />
+        <result property="spreadStartDay" column="spread_start_day" />
+        <result property="spreadEndDay" column="spread_end_day" />
+        <result property="startTime" column="start_time" />
+        <result property="endTime" column="end_time" />
+        <result property="province" column="province" />
+        <result property="city" column="city" />
+        <result property="isHandle" column="is_handle" />
+        <result property="handleStatus" column="handle_status" />
+        <result property="upStatus" column="up_status" />
+        <result property="remark" column="remark" />
+        <result property="isEnable" column="is_enable" />
+        <result property="createUser" column="create_user" />
+        <result property="updateUser" column="update_user" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="yn" column="yn" />
+        <!--<collection property="offerMaterialList" ofType="com.xn.tvdeploy.model.OfferDModel"
+                    resultMap="dataInfoMap"/>-->
+    </resultMap>
+
+    <!-- 属性映射-广告素材 -->
+    <resultMap type="com.xn.tvdeploy.model.OfferDModel" id="dataInfoMap">
+        <id property="offerDId" column="offer_D_id" />
+        <result property="offerMId" column="offer_m_id" />
+        <result property="offerDName" column="offer_d_name" />
+        <result property="resUrl" column="res_url" />
+        <result property="offerJson" column="offer_json" />
+        <result property="remark" column="remark" />
+        <result property="isEnable" column="is_enable" />
+        <result property="createUser" column="create_user" />
+        <result property="updateUser" column="update_user" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="yn" column="yn" />
+    </resultMap>
+
+
+
+
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List">
+        a.id,a.api_id,a.advertiser_id,a.source_id,a.source_type,a.offer_name,a.spread_url,a.spread_type,a.payout,a.offer_type,a.offer_click_type,a.warehousing_type,
+        a.day_budget_type,a.day_budget,a.spread_cycle_type,a.spread_start_day,a.spread_end_day,a.start_time,a.end_time,a.province,a.city,a.is_handle,a.handle_status,a.up_status,
+        a.remark,a.is_enable,a.create_user,a.update_user,a.create_time,a.update_time,a.yn
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            <if test="apiId != 0 and apiId >0 " >
+                and a.api_id = #{apiId}
+            </if>
+            <if test="advertiserId != 0 and advertiserId >0 " >
+                and a.advertiser_id = #{advertiserId}
+            </if>
+            <if test="sourceId != null and sourceId != '' " >
+                and a.source_id = #{sourceId}
+            </if>
+            <if test="sourceType != null and sourceType != '' " >
+                and a.source_type = #{sourceType}
+            </if>
+            <if test="offerName != null and offerName != '' " >
+                and a.offer_name = #{offerName}
+            </if>
+            <if test="spreadType != 0 and spreadType >0 " >
+                and a.spread_type = #{spreadType}
+            </if>
+            <if test="offerType != 0 and offerType >0 " >
+                and a.offer_type = #{offerType}
+            </if>
+            <if test="offerClickType != 0 and offerClickType >0 " >
+                and a.offer_click_type = #{offerClickType}
+            </if>
+            <if test="warehousingType != 0 and warehousingType >0 " >
+                and a.warehousing_type = #{warehousingType}
+            </if>
+            <if test="isHandle != 0 and isHandle >0 " >
+                and a.is_handle = #{isHandle}
+            </if>
+            <if test="handleStatus != 0 and handleStatus >0 " >
+                and a.handle_status = #{handleStatus}
+            </if>
+            <if test="upStatus != 0 and upStatus >0 " >
+                and a.up_status = #{upStatus}
+            </if>
+            <if test="isEnable != 0 and isEnable >0 " >
+                and a.is_enable = #{isEnable}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <!-- 查询条件_id -->
+    <sql id="Example_Where_Clause_id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+
+    <!-- 查询总数-->
+    <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1)
+        from tb_xn_offer_m a
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询分页列表 -->
+    <select id="queryByList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_offer_m a
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 查询列表-无分页-有条件/有条件 -->
+    <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_offer_m a
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+    </select>
+
+    <!-- 根据id查询记录 -->
+    <select id="queryById"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_offer_m a
+        <include refid="Example_Where_Clause_id"/>
+    </select>
+
+    <!-- 根据条件查询记录 -->
+    <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_offer_m a
+        <include refid="Example_Where_Clause"/>
+        limit 1
+    </select>
+
+
+
+    <!-- 添加基本信息 -->
+    <insert id="add" parameterType="Object" >
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        insert into tb_xn_offer_m
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="apiId != 0 and apiId >0 " >
+                api_id,
+            </if>
+            <if test="advertiserId != 0 and advertiserId >0 " >
+                advertiser_id,
+            </if>
+            <if test="sourceId != null and sourceId != '' " >
+                source_id,
+            </if>
+            <if test="sourceType != null and sourceType != '' " >
+                source_type,
+            </if>
+            <if test="offerName != null and offerName != '' " >
+                offer_name,
+            </if>
+            <if test="spreadUrl != null and spreadUrl != '' " >
+                spread_url,
+            </if>
+            <if test="spreadType != 0 and spreadType >0 " >
+                spread_type,
+            </if>
+            <if test="payout != null and payout != '' " >
+                payout,
+            </if>
+            <if test="offerType != 0 and offerType >0 " >
+                offer_type,
+            </if>
+            <if test="offerClickType != 0 and offerClickType >0 " >
+                offer_click_type,
+            </if>
+            <if test="warehousingType != 0 and warehousingType >0 " >
+                warehousing_type,
+            </if>
+            <if test="dayBudgetType != 0  and dayBudgetType >0 " >
+                day_budget_type,
+            </if>
+            <if test="dayBudget != null and dayBudget != '' " >
+                day_budget,
+            </if>
+            <if test="spreadCycleType != 0  and spreadCycleType >0 " >
+                spread_cycle_type,
+            </if>
+            <if test="spreadStartDay != null and spreadStartDay != '' " >
+                spread_start_day,
+            </if>
+            <if test="spreadEndDay != null and spreadEndDay != '' " >
+                spread_end_day,
+            </if>
+            <if test="startTime != null and startTime != '' " >
+                start_time,
+            </if>
+            <if test="endTime != null and endTime != '' " >
+                end_time,
+            </if>
+            <if test="province != null and province != '' " >
+                province,
+            </if>
+            <if test="city != null and city != '' " >
+                city,
+            </if>
+            <if test="isHandle != 0  and isHandle >0 " >
+                is_handle,
+            </if>
+            <if test="handleStatus != 0  and handleStatus >0 " >
+                handle_status,
+            </if>
+            <if test="upStatus != 0  and upStatus >0 " >
+                up_status,
+            </if>
+            <if test="remark != null and remark != '' " >
+                remark,
+            </if>
+            <if test="createUser != 0 and createUser >0 " >
+                create_user,
+            </if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="apiId != 0 and apiId >0 " >
+                <![CDATA[  #{apiId}, ]]>
+            </if>
+            <if test="advertiserId != 0 and advertiserId >0 " >
+                <![CDATA[  #{advertiserId}, ]]>
+            </if>
+            <if test="sourceId != null and sourceId != '' " >
+                <![CDATA[  #{sourceId}, ]]>
+            </if>
+            <if test="sourceType != null and sourceType != '' " >
+                <![CDATA[  #{sourceType}, ]]>
+            </if>
+            <if test="offerName != null and offerName != '' " >
+                <![CDATA[  #{offerName}, ]]>
+            </if>
+            <if test="spreadUrl != null and spreadUrl != '' " >
+                <![CDATA[  #{spreadUrl}, ]]>
+            </if>
+            <if test="spreadType != 0 and spreadType >0 " >
+                <![CDATA[  #{spreadType}, ]]>
+            </if>
+            <if test="payout != null and payout != '' " >
+                <![CDATA[  #{payout}, ]]>
+            </if>
+            <if test="offerType != 0 and offerType >0 " >
+                <![CDATA[  #{offerType}, ]]>
+            </if>
+            <if test="offerClickType != 0 and offerClickType >0 " >
+                <![CDATA[  #{offerClickType}, ]]>
+            </if>
+            <if test="warehousingType != 0 and warehousingType >0 " >
+                <![CDATA[  #{warehousingType}, ]]>
+            </if>
+            <if test="dayBudgetType != 0  and dayBudgetType >0 " >
+                <![CDATA[  #{dayBudgetType}, ]]>
+            </if>
+            <if test="dayBudget != null and dayBudget != '' " >
+                <![CDATA[  #{dayBudget}, ]]>
+            </if>
+            <if test="spreadCycleType != 0  and spreadCycleType >0 " >
+                <![CDATA[  #{spreadCycleType}, ]]>
+            </if>
+            <if test="spreadStartDay != null and spreadStartDay != '' " >
+                <![CDATA[  #{spreadStartDay}, ]]>
+            </if>
+            <if test="spreadEndDay != null and spreadEndDay != '' " >
+                <![CDATA[  #{spreadEndDay}, ]]>
+            </if>
+            <if test="startTime != null and startTime != '' " >
+                <![CDATA[  #{startTime}, ]]>
+            </if>
+            <if test="endTime != null and endTime != '' " >
+                <![CDATA[  #{endTime}, ]]>
+            </if>
+            <if test="province != null and province != '' " >
+                <![CDATA[  #{province}, ]]>
+            </if>
+            <if test="city != null and city != '' " >
+                <![CDATA[  #{city}, ]]>
+            </if>
+            <if test="isHandle != 0  and isHandle >0 " >
+                <![CDATA[  #{isHandle}, ]]>
+            </if>
+            <if test="handleStatus != 0  and handleStatus >0 " >
+                <![CDATA[  #{handleStatus}, ]]>
+            </if>
+            <if test="upStatus != 0  and upStatus >0 " >
+                <![CDATA[  #{upStatus}, ]]>
+            </if>
+            <if test="remark != null and remark != '' " >
+                <![CDATA[  #{remark}, ]]>
+            </if>
+            <if test="createUser != 0 and createUser >0 " >
+                <![CDATA[  #{createUser}, ]]>
+            </if>
+            <![CDATA[  NOW(), ]]>
+        </trim>
+    </insert>
+
+
+    <!-- 更新基本信息 -->
+    <update id="update" parameterType="Object">
+        UPDATE tb_xn_offer_m a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="apiId != 0 and apiId >0 " >
+                a.api_id = #{apiId},
+            </if>
+            <if test="advertiserId != 0 and advertiserId >0 " >
+                a.advertiser_id = #{advertiserId},
+            </if>
+            <if test="sourceId != null and sourceId != '' " >
+                a.source_id = #{sourceId},
+            </if>
+            <if test="sourceType != null and sourceType != '' " >
+                a.source_type = #{sourceType},
+            </if>
+            <if test="offerName != null and offerName != '' " >
+                a.offer_name = #{offerName},
+            </if>
+            <if test="spreadUrl != null and spreadUrl != '' " >
+                a.spread_url = #{spreadUrl},
+            </if>
+            <if test="spreadType != 0 and spreadType >0 " >
+                a.spread_type = #{spreadType},
+            </if>
+            <if test="payout != null and payout != '' " >
+                a.payout = #{payout},
+            </if>
+            <if test="offerType != 0 and offerType >0 " >
+                a.offer_type = #{offerType},
+            </if>
+            <if test="offerClickType != 0 and offerClickType >0 " >
+                a.offer_click_type = #{offerClickType},
+            </if>
+            <if test="warehousingType != 0 and warehousingType >0 " >
+                a.warehousing_type = #{warehousingType},
+            </if>
+            <if test="dayBudgetType != 0  and dayBudgetType >0 " >
+                a.day_budget_type = #{dayBudgetType},
+            </if>
+            <if test="dayBudget != null and dayBudget != '' " >
+                a.day_budget = #{dayBudget},
+            </if>
+            <if test="spreadCycleType != 0  and spreadCycleType >0 " >
+                a.spread_cycle_type = #{spreadCycleType},
+            </if>
+            <if test="spreadStartDay != null and spreadStartDay != '' " >
+                a.spread_start_day = #{spreadStartDay},
+            </if>
+            <if test="spreadEndDay != null and spreadEndDay != '' " >
+                a.spread_end_day = #{spreadEndDay},
+            </if>
+            <if test="startTime != null and startTime != '' " >
+                a.start_time = #{startTime},
+            </if>
+            <if test="endTime != null and endTime != '' " >
+                a.end_time = #{endTime},
+            </if>
+            <if test="province != null and province != '' " >
+                a.province = #{province},
+            </if>
+            <if test="city != null and city != '' " >
+                a.city = #{city},
+            </if>
+            <if test="isHandle != 0  and isHandle >0 " >
+                a.is_handle = #{isHandle},
+            </if>
+            <if test="handleStatus != 0  and handleStatus >0 " >
+                a.handle_status = #{handleStatus},
+            </if>
+            <if test="upStatus != 0  and upStatus >0 " >
+                a.up_status = #{upStatus},
+            </if>
+            <if test="remark != null and remark != '' " >
+                a.remark = #{remark},
+            </if>
+            <if test="updateUser != 0 and updateUser >0 " >
+                a.update_user = #{updateUser},
+            </if>
+            a.update_time = NOW(),
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+
+    <!-- 主要作用1.逻辑删除，2更新状态 -->
+    <update id="manyOperation" parameterType="Object">
+        update tb_xn_offer_m a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="isEnable != 0 and isEnable >0 " >
+                a.is_enable=#{isEnable},
+            </if>
+            a.yn=#{yn},
+            <if test="updateUser != 0 and updateUser >0 " >
+                a.update_user=#{updateUser},
+            </if>
+            <if test="updateRole != 0 and updateRole >0 " >
+                a.update_role=#{updateRole},
+            </if>
+            a.update_time=NOW()
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+    <!--逻辑删除数据 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE tb_xn_offer_m a set a.yn = 1,
+        <if test="updateUser != 0 and updateUser >0 " >
+            a.update_user=#{updateUser},
+        </if>
+        <if test="updateRole != 0 and updateRole >0 " >
+            a.update_role=#{updateRole},
+        </if>
+        a.update_time = now()
+        where 1=1
+        and a.id =#{id}
+        and a.yn=0
+    </update>
+
+</mapper>

@@ -1,0 +1,103 @@
+@charset "utf-8";
+.barButtonClass {
+	width: 150px;
+	height:33px;
+}
+.inputCommonSty{
+	margin-top:-1px;
+}
+.condQueryDiv{
+	margin:8px;
+}
+.mall-index #index-topdiv{
+    margin-top: 0px;
+}
+
+/* .mall-index #content .conts,.mall-index #content .contentul{ 
+    margin-top: -10px;
+} */
+ .flex-direction-nav li a{
+	filter:alpha(opacity=20);
+}
+ .list-head .search .search-content #searchProductBtn{
+	top:-1px;
+}
+/* 这段加了，在ie7下前台 top，搜索框旁边的购物车div位置会偏移 */
+/*  .list-head .cart .dianzi{
+ left:554px;
+ }
+  .list-head .cart .c{
+  left:611px;
+  }*/ 
+.list-head .cart .dianzi span{
+line-height: 15px;
+ } 
+.list-head .head-right{
+	margin-top:-96px;	
+}
+  #alreadSpan{
+	margin:4px 0 8px 0;
+}
+
+.list-goods .conditions .chosed-conds span{
+	
+}
+.list-goods .conditions .chosed-conds .all-cancel{
+	
+	width:70px;
+	margin-top:-16px;
+	
+}
+.list-goods .conditions .chosed-conds .all-cancel .cancel-icon{
+	top: -4px
+	
+}
+.list-goods .conditions .chosed-conds .cond-item { margin:inherit;display:inline;} 
+ .list-goods .conditions .chosed-conds .cond-item .deletespan{}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+/*  about shop */
+ .about-shop .fenyediv{float: none;}
+ 
+ .shop-grade .back-star{
+ margin-top:-19px;
+ }
+ .shop-credit .shop-comments-menu ul li{
+  float: left;
+  margin-right:2px;
+ }
+.shop-credit .shop-comments-menu ul li.lastli,.shop-credit .shop-comments-menu ul li.lastli:hover {  width: 292px; }
+ 
+
+ 
+/*  搜索商品 */
+.list-goods .mod_search_guide .guide_main .guide_con li a span{
+	float: none;
+	
+}
+.list-goods .mod_search_guide .guide_main .guide_con li a .cb-span{
+	
+}
+.list-goods .mod_search_guide .guide_main .guide_con li a .process-way-span{
+	display: inline-block;
+	line-height: 14px;
+	}
+	
+
+	.list-goods .productStatus span.col-com .compare{margin-top:1px;height: 25px}
+	.collectdiv .productStatus span.col-com .collect-del{margin-top: 3px;}
+	.list-goods .productStatus span.col-com{line-height:16px;}
+	
+	
+	
+/* 会员、商家中心 */
+
+ .recommend-pro .recom-table table td span.price{line-height: 60px;position:absolute;top:-14px;}
+ 
+
+ 

@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.tvdeploy.dao.TpDataInfoDao">
+    <!-- 属性映射 -->
+    <resultMap type="com.xn.tvdeploy.model.TpDataInfoModel" id="dataMap">
+        <id property="id" column="id" />
+        <result property="myTradeNo" column="my_trade_no" />
+        <result property="tradeNo" column="trade_no" />
+        <result property="outTradeNo" column="out_trade_no" />
+        <result property="totalAmount" column="total_amount" />
+        <result property="serviceCharge" column="service_charge" />
+        <result property="actualMoney" column="actual_money" />
+        <result property="sendOk" column="send_ok" />
+        <result property="tradeStatus" column="trade_status" />
+        <result property="extraReturnParam" column="extra_return_param" />
+        <result property="clientIp" column="client_ip" />
+        <result property="tradeTime" column="trade_time" />
+        <result property="sign" column="sign" />
+        <result property="subTime" column="sub_time" />
+        <result property="productName" column="product_name" />
+        <result property="productCode" column="product_code" />
+
+
+        <result property="channelId" column="channel_id" />
+        <result property="gewayId" column="geway_id" />
+        <result property="channel" column="channel" />
+        <result property="tradeType" column="trade_type" />
+
+        <result property="notifyUrl" column="notify_url" />
+        <result property="myNotifyUrl" column="my_notify_url" />
+        <result property="interfaceVer" column="interface_ver" />
+        <result property="returnUrl" column="return_url" />
+
+        <result property="notifySuc" column="notify_suc" />
+        <result property="lowerSuc" column="lower_suc" />
+        <result property="deductRatio" column="deduct_ratio" />
+        <result property="workType" column="work_type" />
+        <result property="runStatus" column="run_status" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="dataCoreId" column="data_core_id" />
+
+        <result property="yn" column="yn" />
+
+        <result property="totalMoney" column="total_money" />
+        <result property="totalServiceCharge" column="total_service_charge" />
+        <result property="totalActualMoney" column="total_actual_money" />
+        <result property="totalPayAmount" column="total_pay_amount" />
+        <result property="totalPayActualMoney" column="total_pay_actual_money" />
+
+        <result property="payAmount" column="pay_amount" />
+        <result property="payActualMoney" column="pay_actual_money" />
+        <result property="replenishType" column="replenish_type" />
+    </resultMap>
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List">
+        a.id,a.my_trade_no,a.channel_id,a.geway_id,a.channel,a.trade_type,a.total_amount,a.service_charge,a.actual_money,
+        a.out_trade_no,a.notify_url,a.my_notify_url,a.interface_ver,a.return_url,a.extra_return_param,a.client_ip,
+        a.send_ok,a.create_time as trade_time,a.`sign`,a.sub_time,a.product_name,a.product_code,
+        a.curday,a.curhour,a.curminute,a.run_num,a.create_time,a.update_time,a.yn,
+        b.id as data_core_id,ifnull(b.trade_status, 0) as trade_status,
+        b.deduct_ratio,b.work_type,ifnull(b.run_status, 0) as run_status,
+        b.pay_amount,b.pay_actual_money,b.replenish_type
+    </sql>
+
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List_Channel_Data">
+        a.id,a.my_trade_no,a.channel_id,a.geway_id,a.channel,a.trade_type,a.total_amount,a.service_charge,a.actual_money,
+        a.out_trade_no,a.notify_url,a.my_notify_url,a.interface_ver,a.return_url,a.extra_return_param,a.client_ip,a.`sign`,
+        a.sub_time,a.product_name,a.product_code,a.send_ok,
+        a.curday,a.curhour,a.curminute,a.run_num,a.create_time,a.update_time,a.yn
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            <if test="channelId != 0 and channelId >0 " >
+                and a.channel_id = #{channelId}
+            </if>
+            <if test="myTradeNo != null and myTradeNo != '' " >
+                and a.my_trade_no = #{myTradeNo}
+            </if>
+            <if test="outTradeNo != null and outTradeNo != '' " >
+                and a.out_trade_no = #{outTradeNo}
+            </if>
+            <if test="sendOk != 0 and sendOk >0 " >
+                and a.send_ok = #{sendOk}
+            </if>
+            <if test="curday != 0 and curday >0 " >
+                and a.curday = #{curday}
+            </if>
+            <if test="curdayStart != 0 and curdayStart >0 and curdayEnd != 0 and curdayEnd >0 " >
+                and a.curday >= #{curdayStart} and a.curday &lt;= #{curdayEnd}
+            </if>
+            <if test="runStatus != 0 and runStatus >0 " >
+                and a.run_status = #{runStatus}
+            </if>
+            <if test="tradeStatus != 0 and tradeStatus >0 " >
+                and b.trade_status = #{tradeStatus}
+            </if>
+            <if test="replenishType != 0 and replenishType >0 " >
+                and b.replenish_type = #{replenishType}
+            </if>
+            <if test="otherStatus != 0 and otherStatus >0 " >
+                and b.id is null
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause_Channel_Data">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            <if test="channelId != 0 and channelId >0 " >
+                and a.channel_id = #{channelId}
+            </if>
+            <if test="myTradeNo != null and myTradeNo != '' " >
+                and a.my_trade_no = #{myTradeNo}
+            </if>
+            <if test="outTradeNo != null and outTradeNo != '' " >
+                and a.out_trade_no = #{outTradeNo}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <!-- 查询条件_id -->
+    <sql id="Example_Where_Clause_id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <!-- 查询总数-->
+    <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1)
+        from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询分页列表 -->
+    <select id="queryByList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 查询列表-无分页-有条件/有条件 -->
+    <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+    </select>
+
+    <!-- 根据id查询记录 -->
+    <select id="queryById"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        <include refid="Example_Where_Clause_id"/>
+    </select>
+
+    <!-- 根据条件查询记录 -->
+    <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        <include refid="Example_Where_Clause"/>
+        limit 1
+    </select>
+
+
+
+    <!-- 主要作用1.逻辑删除，2更新状态 -->
+    <update id="manyOperation" parameterType="Object">
+        UPDATE tb_hz_data_core a set a.run_num = 0, a.run_status =0,
+        a.update_time = now()
+        where 1=1
+        and a.id =#{id}
+        <if test="channelId != 0 and channelId >0 " >
+            and a.channel_id = #{channelId}
+        </if>
+        and a.yn=0
+    </update>
+
+
+    <!-- 获取订单的total信息 -->
+    <select id="getTotalData"  resultMap="dataMap" parameterType="Object">
+        select
+        ifnull(sum(convert(a.total_amount,decimal(19,4))), '0.0000') as total_money,
+        ifnull(sum(convert(a.service_charge * a.total_amount,decimal(19,4))),'0.0000') as total_service_charge,
+        ifnull(sum(convert(a.actual_money,decimal(19,4))),'0.0000') as total_actual_money,
+        ifnull(sum(convert(b.pay_amount,decimal(19,4))),'0.0000') as total_pay_amount,
+        ifnull(sum(convert(b.pay_actual_money,decimal(19,4))),'0.0000') as total_pay_actual_money
+        from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+
+    <!-- 根据条件查询渠道上报信息 -->
+    <select id="getChannelData"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List_Channel_Data" />
+        from tb_hz_channel_data a
+        <include refid="Example_Where_Clause_Channel_Data"/>
+        order by a.id desc
+        limit 1
+    </select>
+
+
+    <!-- 添加基本信息 -->
+    <insert id="add" parameterType="com.xn.tvdeploy.model.TpDataInfoModel" >
+        <!--<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">-->
+        <!--SELECT LAST_INSERT_ID() as id-->
+        <!--</selectKey>-->
+        insert into tb_hz_channel_data
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="myTradeNo != null and myTradeNo != '' " >
+                my_trade_no,
+            </if>
+            <if test="channelId != 0 and channelId >0 " >
+                channel_id,
+            </if>
+            <if test="gewayId != 0 and gewayId >0 " >
+                geway_id,
+            </if>
+            <if test="channel != null and channel != '' " >
+                channel,
+            </if>
+            <if test="tradeType != null and tradeType != '' " >
+                trade_type,
+            </if>
+            <if test="totalAmount != null and totalAmount != '' " >
+                total_amount,
+            </if>
+            <if test="serviceCharge != null and serviceCharge != '' " >
+                service_charge,
+            </if>
+            <if test="actualMoney != null and actualMoney != '' " >
+                actual_money,
+            </if>
+            <if test="outTradeNo != null and outTradeNo != '' " >
+                out_trade_no,
+            </if>
+            <if test="notifyUrl != null and notifyUrl != '' " >
+                notify_url,
+            </if>
+            <if test="myNotifyUrl != null and myNotifyUrl != '' " >
+                my_notify_url,
+            </if>
+            <if test="interfaceVer != null and interfaceVer != '' " >
+                interface_ver,
+            </if>
+            <if test="returnUrl != null and returnUrl != '' " >
+                return_url,
+            </if>
+            <if test="extraReturnParam != null and extraReturnParam != '' " >
+                extra_return_param,
+            </if>
+            <if test="clientIp != null and clientIp != '' " >
+                client_ip,
+            </if>
+            <if test="sign != null and sign != '' " >
+                `sign`,
+            </if>
+            <if test="subTime != null and subTime != '' " >
+                `sub_time`,
+            </if>
+            <if test="productName != null and productName != '' " >
+                product_name,
+            </if>
+            <if test="productCode != null and productCode != '' " >
+                product_code,
+            </if>
+            <if test="sendOk != 0 and sendOk >0 " >
+                send_ok,
+            </if>
+            <if test="curday != 0 and curday >0 " >
+                curday,
+            </if>
+            <if test="curhour != 0 and curhour >0 " >
+                curhour,
+            </if>
+            <if test="curminute != 0 and curminute >0 " >
+                curminute,
+            </if>
+            <if test="runNum != 0 and runNum >0 " >
+                run_num,
+            </if>
+            <if test="runStatus != 0 and runStatus >0 " >
+                run_status,
+            </if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="myTradeNo != null and myTradeNo != '' " >
+                <![CDATA[  #{myTradeNo}, ]]>
+            </if>
+            <if test="channelId != 0 and channelId >0 " >
+                <![CDATA[  #{channelId}, ]]>
+            </if>
+            <if test="gewayId != 0 and gewayId >0 " >
+                <![CDATA[  #{gewayId}, ]]>
+            </if>
+            <if test="channel != null and channel != '' " >
+                <![CDATA[  #{channel}, ]]>
+            </if>
+            <if test="tradeType != null and tradeType != '' " >
+                <![CDATA[  #{tradeType}, ]]>
+            </if>
+            <if test="totalAmount != null and totalAmount != '' " >
+                <![CDATA[  #{totalAmount}, ]]>
+            </if>
+            <if test="serviceCharge != null and serviceCharge != '' " >
+                <![CDATA[  #{serviceCharge}, ]]>
+            </if>
+            <if test="actualMoney != null and actualMoney != '' " >
+                <![CDATA[  #{actualMoney}, ]]>
+            </if>
+            <if test="outTradeNo != null and outTradeNo != '' " >
+                <![CDATA[  #{outTradeNo}, ]]>
+            </if>
+            <if test="notifyUrl != null and notifyUrl != '' " >
+                <![CDATA[  #{notifyUrl}, ]]>
+            </if>
+            <if test="myNotifyUrl != null and myNotifyUrl != '' " >
+                <![CDATA[  #{myNotifyUrl}, ]]>
+            </if>
+            <if test="interfaceVer != null and interfaceVer != '' " >
+                <![CDATA[  #{interfaceVer}, ]]>
+            </if>
+            <if test="returnUrl != null and returnUrl != '' " >
+                <![CDATA[  #{returnUrl}, ]]>
+            </if>
+            <if test="extraReturnParam != null and extraReturnParam != '' " >
+                <![CDATA[  #{extraReturnParam}, ]]>
+            </if>
+            <if test="clientIp != null and clientIp != '' " >
+                <![CDATA[  #{clientIp}, ]]>
+            </if>
+            <if test="sign != null and sign != '' " >
+                <![CDATA[  #{sign}, ]]>
+            </if>
+            <if test="subTime != null and subTime != '' " >
+                <![CDATA[  #{subTime}, ]]>
+            </if>
+            <if test="productName != null and productName != '' " >
+                <![CDATA[  #{productName}, ]]>
+            </if>
+            <if test="productCode != null and productCode != '' " >
+                <![CDATA[  #{productCode}, ]]>
+            </if>
+            <if test="sendOk != 0 and sendOk >0 " >
+                <![CDATA[  #{sendOk}, ]]>
+            </if>
+            <if test="curday != 0 and curday >0 " >
+                <![CDATA[  #{curday}, ]]>
+            </if>
+            <if test="curhour != 0 and curhour >0 " >
+                <![CDATA[  #{curhour}, ]]>
+            </if>
+            <if test="curminute != 0 and curminute >0 " >
+                <![CDATA[  #{curminute}, ]]>
+            </if>
+            <if test="runNum != 0 and runNum >0 " >
+                <![CDATA[  #{runNum}, ]]>
+            </if>
+            <if test="runStatus != 0 and runStatus >0 " >
+                <![CDATA[  #{runStatus}, ]]>
+            </if>
+            NOW(),
+        </trim>
+    </insert>
+
+
+
+    <!-- 添加上游下发的数据 -->
+    <insert id="addDataCore" parameterType="com.xn.tvdeploy.model.TpDataInfoModel" >
+        <!--<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">-->
+        <!--SELECT LAST_INSERT_ID() as id-->
+        <!--</selectKey>-->
+        insert into tb_hz_data_core
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="myTradeNo != null and myTradeNo != '' " >
+                my_trade_no,
+            </if>
+            <if test="tradeNo != null and tradeNo != '' " >
+                trade_no,
+            </if>
+            <if test="outTradeNo != null and outTradeNo != '' " >
+                out_trade_no,
+            </if>
+            <if test="totalAmount != null and totalAmount != '' " >
+                total_amount,
+            </if>
+            <if test="serviceCharge != null and serviceCharge != '' " >
+                service_charge,
+            </if>
+            <if test="actualMoney != null and actualMoney != '' " >
+                actual_money,
+            </if>
+            <if test="payAmount != null and payAmount != '' " >
+                pay_amount,
+            </if>
+            <if test="payActualMoney != null and payActualMoney != '' " >
+                pay_actual_money,
+            </if>
+            <if test="tradeStatus != 0 and tradeStatus >0 " >
+                trade_status,
+            </if>
+            <if test="extraReturnParam != null and extraReturnParam != '' " >
+                extra_return_param,
+            </if>
+            <if test="tradeTime != null and tradeTime != '' " >
+                trade_time,
+            </if>
+            <if test="sign != null and sign != '' " >
+                `sign`,
+            </if>
+            <if test="channelId != 0 and channelId >0 " >
+                channel_id,
+            </if>
+            <if test="gewayId != 0 and gewayId >0 " >
+                geway_id,
+            </if>
+            <if test="notifyUrl != null and notifyUrl != '' " >
+                notify_url,
+            </if>
+            <if test="notifySuc != null and notifySuc != '' " >
+                notify_suc,
+            </if>
+            <if test="xyExtraReturnParam != null and xyExtraReturnParam != '' " >
+                xy_extra_return_param,
+            </if>
+            <if test="deductRatio != 0 and deductRatio >0 " >
+                deduct_ratio,
+            </if>
+            <if test="replenishType != 0 and replenishType >0 " >
+                replenish_type,
+            </if>
+            <if test="moneyFitType != 0 and moneyFitType >0 " >
+                money_fit_type,
+            </if>
+            <if test="workType != 0 and workType >0 " >
+                work_type,
+            </if>
+            <if test="curday != 0 and curday >0 " >
+                curday,
+            </if>
+            <if test="curhour != 0 and curhour >0 " >
+                curhour,
+            </if>
+            <if test="curminute != 0 and curminute >0 " >
+                curminute,
+            </if>
+            <if test="runNum != 0 and runNum >0 " >
+                run_num,
+            </if>
+            <if test="runStatus != 0 and runStatus >0 " >
+                run_status,
+            </if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="myTradeNo != null and myTradeNo != '' " >
+                <![CDATA[  #{myTradeNo}, ]]>
+            </if>
+            <if test="tradeNo != null and tradeNo != '' " >
+                <![CDATA[  #{tradeNo}, ]]>
+            </if>
+            <if test="outTradeNo != null and outTradeNo != '' " >
+                <![CDATA[  #{outTradeNo}, ]]>
+            </if>
+            <if test="totalAmount != null and totalAmount != '' " >
+                <![CDATA[  #{totalAmount}, ]]>
+            </if>
+            <if test="serviceCharge != null and serviceCharge != '' " >
+                <![CDATA[  #{serviceCharge}, ]]>
+            </if>
+            <if test="actualMoney != null and actualMoney != '' " >
+                <![CDATA[  #{actualMoney}, ]]>
+            </if>
+            <if test="payAmount != null and payAmount != '' " >
+                <![CDATA[  #{payAmount}, ]]>
+            </if>
+            <if test="payActualMoney != null and payActualMoney != '' " >
+                <![CDATA[  #{payActualMoney}, ]]>
+            </if>
+            <if test="tradeStatus != 0 and tradeStatus >0 " >
+                <![CDATA[  #{tradeStatus}, ]]>
+            </if>
+            <if test="extraReturnParam != null and extraReturnParam != '' " >
+                <![CDATA[  #{extraReturnParam}, ]]>
+            </if>
+            <if test="tradeTime != null and tradeTime != '' " >
+                <![CDATA[  #{tradeTime}, ]]>
+            </if>
+            <if test="sign != null and sign != '' " >
+                <![CDATA[  #{sign}, ]]>
+            </if>
+            <if test="channelId != 0 and channelId >0 " >
+                <![CDATA[  #{channelId}, ]]>
+            </if>
+            <if test="gewayId != 0 and gewayId >0 " >
+                <![CDATA[  #{gewayId}, ]]>
+            </if>
+            <if test="notifyUrl != null and notifyUrl != '' " >
+                <![CDATA[  #{notifyUrl}, ]]>
+            </if>
+            <if test="notifySuc != null and notifySuc != '' " >
+                <![CDATA[  #{notifySuc}, ]]>
+            </if>
+            <if test="xyExtraReturnParam != null and xyExtraReturnParam != '' " >
+                <![CDATA[  #{xyExtraReturnParam}, ]]>
+            </if>
+            <if test="deductRatio != 0 and deductRatio >0 " >
+                <![CDATA[  #{deductRatio}, ]]>
+            </if>
+            <if test="replenishType != 0 and replenishType >0 " >
+                <![CDATA[  #{replenishType}, ]]>
+            </if>
+            <if test="moneyFitType != 0 and moneyFitType >0 " >
+                <![CDATA[  #{moneyFitType}, ]]>
+            </if>
+            <if test="workType != 0 and workType >0 " >
+                <![CDATA[  #{workType}, ]]>
+            </if>
+            <if test="curday != 0 and curday >0 " >
+                <![CDATA[  #{curday}, ]]>
+            </if>
+            <if test="curhour != 0 and curhour >0 " >
+                <![CDATA[  #{curhour}, ]]>
+            </if>
+            <if test="curminute != 0 and curminute >0 " >
+                <![CDATA[  #{curminute}, ]]>
+            </if>
+            <if test="runNum != 0 and runNum >0 " >
+                <![CDATA[  #{runNum}, ]]>
+            </if>
+            <if test="runStatus != 0 and runStatus >0 " >
+                <![CDATA[  #{runStatus}, ]]>
+            </if>
+            NOW(),
+        </trim>
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,11 @@
+ 
+#main-content table thead th {
+	font-weight: bold;
+	font-size: 12px;
+	border-bottom: 1px solid #DDD;
+}
+
+#main-content table td,#main-content table th {
+	padding: 5px 1px 5px 1px;
+	line-height: 1.3em;
+} 

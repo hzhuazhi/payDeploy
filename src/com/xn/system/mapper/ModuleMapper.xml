@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.system.dao.ModuleDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.xn.system.entity.Module" >
+
+	<result column="module_id" property="moduleId"/>
+	<result column="module_name" property="moduleName"/>
+	<result column="parent_id" property="parentId"/>
+	<result column="create_time" property="createTime"/>
+	<result column="is_ok" property="isOk"/>
+	<result column="action_url" property="actionUrl"/>
+	<result column="remark" property="remark"/>
+	<result column="type" property="type"/>
+	<result column="level" property="level"/>
+	<result column="is_allowed" property="isAllowed"/>
+	<result column="sort" property="sort"/>
+</resultMap>
+       
+<!-- table all fields -->
+<sql id="Base_Column_List" >
+ 	<trim suffixOverrides="," >
+		 module_id,
+		 module_name,
+		 parent_id,
+		 create_time,
+		 is_ok,
+		 action_url,
+		 remark,
+		 type,
+		 level,
+		 is_allowed,
+		 sort,
+		</trim>
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+	where 1=1
+<trim  suffixOverrides="," >
+	<if test="moduleId != null " >
+    	and module_id =  #{moduleId}
+	</if>
+	<if test="moduleName != null and moduleName != '' " >
+    	and module_name =  #{moduleName}
+	</if>
+	<if test="parentId != null " >
+    	and parent_id =  #{parentId}
+	</if>
+	<if test="createTime != null " >
+    	and create_time =  #{createTime}
+	</if>
+	<if test="isOk != null " >
+    	and is_ok =  #{isOk}
+	</if>
+	<if test="actionUrl != null and actionUrl != '' " >
+    	and action_url =  #{actionUrl}
+	</if>
+	<if test="remark != null and remark != '' " >
+    	and remark =  #{remark}
+	</if>
+
+	<if test="type != null and type != 0" >
+		and type =  #{type}
+	</if>
+	<if test="level != null " >
+    	and level =  #{level}
+	</if>
+	<if test="isAllowed != null " >
+    	and is_allowed =  #{isAllowed}
+	</if>
+	<if test="sort != null " >
+    	and sort =  #{sort}
+	</if>
+  	 and type in (1,2)
+	</trim>
+</sql>
+
+<!-- 添加方法 -->
+<insert id="add" parameterType="Object" >
+  <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="moduleId">
+	SELECT LAST_INSERT_ID() as module_id 
+  </selectKey>
+	insert into tb_hz_sys_module
+	  <trim prefix="(" suffix=")" suffixOverrides="," >
+	<if test="moduleId != null " >
+		module_id,
+	</if>
+	<if test="moduleName != null and moduleName != '' " >
+		module_name,
+	</if>
+	<if test="parentId != null " >
+		parent_id,
+	</if>
+	<if test="createTime != null " >
+		create_time,
+	</if>
+	<if test="isOk != null " >
+		is_ok,
+	</if>
+	<if test="actionUrl != null and actionUrl != '' " >
+		action_url,
+	</if>
+	<if test="remark != null and remark != '' " >
+		remark,
+	</if>
+	<if test="type != null " >
+		type,
+	</if>
+	<if test="level != null " >
+		level,
+	</if>
+	<if test="isAllowed != null " >
+		is_allowed,
+	</if>
+	<if test="sort != null " >
+		sort,
+	</if>
+ </trim>
+	values
+	 <trim prefix="(" suffix=")" suffixOverrides="," >
+	 	<if test="moduleId != null " >
+  		<![CDATA[  #{moduleId}, ]]>
+    	</if>
+    	<if test="moduleName != null and moduleName != '' " >
+  		<![CDATA[  #{moduleName}, ]]>
+    	</if>
+    	<if test="parentId != null " >
+  		<![CDATA[  #{parentId}, ]]>
+    	</if>
+    	<if test="createTime != null " >
+  		<![CDATA[  #{createTime}, ]]>
+    	</if>
+    	<if test="isOk != null " >
+  		<![CDATA[  #{isOk}, ]]>
+    	</if>
+    	<if test="actionUrl != null and actionUrl != '' " >
+  		<![CDATA[  #{actionUrl}, ]]>
+    	</if>
+    	<if test="remark != null and remark != '' " >
+  		<![CDATA[  #{remark}, ]]>
+    	</if>
+    	<if test="type != null " >
+  		<![CDATA[  #{type}, ]]>
+    	</if>
+    	<if test="level != null " >
+  		<![CDATA[  #{level}, ]]>
+    	</if>
+    	<if test="isAllowed != null " >
+  		<![CDATA[  #{isAllowed}, ]]>
+    	</if>
+    	<if test="sort != null " >
+  		<![CDATA[  #{sort}, ]]>
+    	</if>
+    	 </trim>
+</insert>
+
+<!-- 更新-->  
+<update id="update" parameterType="Object" >
+	update tb_hz_sys_module set 
+   <trim suffixOverrides="," >
+	<if test="moduleId != null " >
+  		<![CDATA[  module_id = #{moduleId}, ]]>
+    </if>
+	<if test="moduleName != null and moduleName != '' " >
+  		<![CDATA[  module_name = #{moduleName}, ]]>
+    </if>
+	<if test="parentId != null " >
+  		<![CDATA[  parent_id = #{parentId}, ]]>
+    </if>
+	<if test="createTime != null " >
+  		<![CDATA[  create_time = #{createTime}, ]]>
+    </if>
+	<if test="isOk != null " >
+  		<![CDATA[  is_ok = #{isOk}, ]]>
+    </if>
+	<if test="actionUrl != null and actionUrl != '' " >
+  		<![CDATA[  action_url = #{actionUrl}, ]]>
+    </if>
+	<if test="remark != null and remark != '' " >
+  		<![CDATA[  remark = #{remark}, ]]>
+    </if>
+	<if test="type != null " >
+  		<![CDATA[  type = #{type}, ]]>
+    </if>
+	<if test="level != null " >
+  		<![CDATA[  level = #{level}, ]]>
+    </if>
+	<if test="isAllowed != null " >
+  		<![CDATA[  is_allowed = #{isAllowed}, ]]>
+    </if>
+    <if test="sort != null " >
+  		<![CDATA[  sort = #{sort}, ]]>
+    </if>
+ </trim> where module_id= #{moduleId}
+ </update>
+
+<!-- 删除 -->
+<delete id="delete" parameterType="Object">
+	delete from tb_hz_sys_module where module_id= #{moduleId}
+</delete>
+ 
+<!-- 根据ID查询 -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from tb_hz_sys_module where module_id= #{moduleId}
+	and type in (1,2)
+</select>
+
+<!-- 查询总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from tb_hz_sys_module where is_ok = 0
+	<if test="moduleName != null and moduleName != '' " >
+    	and module_name like CONCAT('%',#{moduleName},'%')  
+	</if>
+	<if test="type != null and type != 0" >
+    	and type =  #{type}
+	</if>
+	<if test="level != null " >
+    	and level =  #{level}
+	</if>
+	and type in (1,2)
+</select>
+  	
+<!-- 查询数据列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	m.*,mo.module_name parentName 
+	from tb_hz_sys_module m left join (select * from tb_hz_sys_module t where t.is_ok = 0 and t.type in (1,2)) mo on m.parent_id = mo.module_id
+	where m.is_ok = 0 
+	<if test="moduleName != null and moduleName != '' " >
+    	and m.module_name like CONCAT('%',#{moduleName},'%')  
+	</if>
+	<if test="type != null and type != 0" >
+		and m.type =  #{type}
+	</if>
+	<if test="level != null " >
+    	and m.level =  #{level}
+	</if>
+	and m.type in (1,2)
+	order by m.level,m.sort
+	limit #{startIndex},#{pageSize}
+</select>
+<!-- *************************************自定义接口***************************************************** -->
+
+<select id="getParentModule" resultMap="BaseResultMap"  parameterType="Object">
+	select * from tb_hz_sys_module where level = #{level} and is_ok = 0 and type in (1,2)
+</select>
+<select id="getModuleList" resultMap="BaseResultMap"  parameterType="Object">
+	select  m.* from tb_hz_sys_role_module_rel mr,tb_hz_sys_module m where 
+	m.is_ok = 0 and mr.is_ok = 0 and m.module_id = mr.module_id and m.type in (1,2)
+	and mr.role_id = #{roleId} and m.level = #{level}
+	order by m.sort
+</select>
+
+<select id="getAllModule" resultMap="BaseResultMap"  parameterType="Object">
+	select  m.* from tb_hz_sys_module m where m.is_ok = 0 and m.level = #{level}
+	<if test="type != null and type != 0" >
+		and m.type =  #{type}
+	</if>
+	<if test="isAllowed != null " >
+    	and m.is_allowed =  0
+	</if>
+	and m.type in (1,2)
+	order by m.sort
+</select>
+</mapper>   

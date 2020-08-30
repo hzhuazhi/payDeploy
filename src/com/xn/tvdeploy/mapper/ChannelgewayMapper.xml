@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.tvdeploy.dao.ChannelgewayDao">
+    <!-- 属性映射 -->
+    <resultMap type="com.xn.tvdeploy.model.ChannelgewayModel" id="dataMap">
+        <id property="id" column="id" />
+        <result property="channelId" column="channel_id" />
+        <result property="gewayId" column="geway_id" />
+        <result property="linkName" column="link_name" />
+        <result property="serviceCharge" column="service_charge" />
+        <result property="deductRatio" column="deduct_ratio" />
+        <result property="remark" column="remark" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="yn" column="yn" />
+        <result property="channelName" column="channel_name" />
+        <result property="gewayName" column="geway_name" />
+    </resultMap>
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List">
+        a.id,a.channel_id,a.geway_id,a.link_name,a.service_charge,a.deduct_ratio,a.remark,
+        a.create_time,a.update_time,a.yn,
+        b.channel_name,c.geway_name
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            <if test="channelId != 0 and channelId >0 " >
+                and a.channel_id = #{channelId}
+            </if>
+            <if test="gewayId != 0 and gewayId >0 " >
+                and a.geway_id = #{gewayId}
+            </if>
+            <if test="linkName != null and linkName != '' " >
+                and a.link_name = #{linkName}
+            </if>
+            and a.yn = 0
+        </trim>
+    </sql>
+
+    <!-- 查询条件_id -->
+    <sql id="Example_Where_Clause_id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            and a.yn = 0
+        </trim>
+    </sql>
+
+    <!-- 查询总数-->
+    <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1)
+        from tb_hz_channel_geway a
+        left join tb_hz_channel b on a.channel_id = b.id left join tb_hz_geway c on a.geway_id = c.id
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询分页列表 -->
+    <select id="queryByList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_channel_geway a
+        left join tb_hz_channel b on a.channel_id = b.id left join tb_hz_geway c on a.geway_id = c.id
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 查询列表-无分页-有条件/有条件 -->
+    <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_channel_geway a
+        left join tb_hz_channel b on a.channel_id = b.id left join tb_hz_geway c on a.geway_id = c.id
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+    </select>
+
+    <!-- 根据id查询记录 -->
+    <select id="queryById"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_channel_geway a
+        left join tb_hz_channel b on a.channel_id = b.id left join tb_hz_geway c on a.geway_id = c.id
+        <include refid="Example_Where_Clause_id"/>
+    </select>
+
+    <!-- 根据条件查询记录 -->
+    <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_channel_geway a
+        left join tb_hz_channel b on a.channel_id = b.id left join tb_hz_geway c on a.geway_id = c.id
+        <include refid="Example_Where_Clause"/>
+        limit 1
+    </select>
+
+    <!-- 添加记录 -->
+    <insert id="add" parameterType="Object" >
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        insert into tb_hz_channel_geway
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="channelId != 0 and channelId >0 " >
+                channel_id,
+            </if>
+            <if test="gewayId != 0 and gewayId >0 " >
+                geway_id,
+            </if>
+            <if test="linkName != null and linkName != '' " >
+                link_name,
+            </if>
+            <if test="serviceCharge != null and serviceCharge != '' " >
+                service_charge,
+            </if>
+            deduct_ratio,
+            <if test="remark != null and remark != '' " >
+                remark,
+            </if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="channelId != 0 and channelId >0 " >
+                <![CDATA[  #{channelId}, ]]>
+            </if>
+            <if test="gewayId != 0 and gewayId >0 " >
+                <![CDATA[  #{gewayId}, ]]>
+            </if>
+            <if test="linkName != null and linkName != '' " >
+                <![CDATA[  #{linkName}, ]]>
+            </if>
+            <if test="serviceCharge != null and serviceCharge != '' " >
+                <![CDATA[  #{serviceCharge}, ]]>
+            </if>
+            <![CDATA[  #{deductRatio}, ]]>
+            <if test="remark != null and remark != '' " >
+                <![CDATA[  #{remark}, ]]>
+            </if>
+            <![CDATA[  NOW(), ]]>
+        </trim>
+    </insert>
+
+
+    <!-- 更新记录 -->
+    <update id="update" parameterType="Object">
+        UPDATE tb_hz_channel_geway a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="channelId != 0 and channelId >0 " >
+                a.channel_id = #{channelId},
+            </if>
+            <if test="gewayId != 0 and gewayId >0 " >
+                a.geway_id = #{gewayId},
+            </if>
+            <if test="linkName != null and linkName != '' " >
+                a.link_name = #{linkName},
+            </if>
+            a.service_charge = #{serviceCharge},
+            a.deduct_ratio = #{deductRatio},
+            a.remark = #{remark},
+            a.update_time = NOW(),
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+
+    <!-- 主要作用1.逻辑删除，2更新状态 -->
+    <update id="manyOperation" parameterType="Object">
+        update tb_hz_channel_geway a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="isEnable != 0 and isEnable >0 " >
+                a.is_enable=#{isEnable},
+            </if>
+            a.yn=#{yn},
+            a.update_time=NOW()
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+    <!--逻辑删除数据 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE tb_hz_channel_geway a set a.yn = 1,
+        a.update_time = now()
+        where 1=1
+        and a.id =#{id}
+        and a.yn=0
+    </update>
+
+</mapper>

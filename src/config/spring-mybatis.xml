@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+	default-autowire="byType">
+	<!-- Annotation Config -->
+	<context:annotation-config />
+	<!-- 扫描Service -->
+	<context:component-scan base-package="com.xn.system.service.*" />
+	<context:component-scan base-package="com.xn.tvdeploy.service.*" />
+	<context:component-scan base-package="com.xn.system.*" />
+	<context:component-scan base-package="com.xn.tvdeploy.*" />
+	
+	
+	<!-- 1. 数据源 : DriverManagerDataSource -->
+	<bean id="dataSource"
+		  class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="resourceRef">
+			<value>false</value>
+		</property>
+		<property name="jndiName">
+			<value>java:comp/env/jdbc/hz-pay</value>
+			<!--<value>java:comp/env/jdbc/adCore_dev</value>-->
+			<!--<value>java:comp/env/jdbc/adCore_production</value>-->
+			<!--<value>java:comp/env/jdbc/tvsdk_xjp</value>-->
+		</property>
+	</bean>
+
+	<!-- 扫描 MyBatis Sql -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:com/xn/system/mapper/*Mapper.xml</value>
+				<value>classpath:com/xn/tvdeploy/mapper/*Mapper.xml</value>
+				<!--<value>classpath:com/xn/tvdeploy/mapper/*/*Mapper.xml</value>-->
+			</list>
+		</property>
+	</bean>
+	<!-- ***************事务配置************** -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+		<property name="defaultTimeout" value="10"/>
+	</bean>
+	<aop:config>
+		<aop:advisor pointcut="execution(* com.xn.system.service.*.*(..))"
+			advice-ref="txAdvice" />
+		<aop:advisor pointcut="execution(* com.xn.tvdeploy.service.*.*(..))"
+			advice-ref="txAdvice" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="query*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="load*" read-only="true" />
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception" isolation="SERIALIZABLE"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 扫描dao.java -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		autowire="byName">
+		<property name="basePackage"
+			value="com.xn.system.dao,com.xn.tvdeploy.dao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+</beans>
+

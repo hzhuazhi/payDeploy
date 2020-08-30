@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.tvdeploy.dao.GewaytradetypeDao">
+    <!-- 属性映射 -->
+    <resultMap type="com.xn.tvdeploy.model.GewaytradetypeModel" id="dataMap">
+        <id property="id" column="id" />
+        <result property="gewayId" column="geway_id" />
+        <result property="myName" column="my_name" />
+        <result property="myTradeType" column="my_trade_type" />
+        <result property="myServiceCharge" column="my_service_charge" />
+        <result property="outName" column="out_name" />
+        <result property="outTradeType" column="out_trade_type" />
+        <result property="serviceCharge" column="service_charge" />
+        <result property="limitMoney" column="limit_money" />
+        <result property="limitDay" column="limit_day" />
+        <result property="limitMonth" column="limit_month" />
+        <result property="remark" column="remark" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="yn" column="yn" />
+        <result property="gewayName" column="geway_name" />
+    </resultMap>
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List">
+        a.id,a.geway_id,a.my_name,a.my_trade_type,a.my_service_charge,a.out_name,a.out_trade_type,a.service_charge,
+        a.limit_money,a.limit_day,a.limit_month,a.remark,
+        a.create_time,a.update_time,a.yn,
+        b.geway_name
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            <if test="gewayId != 0 and gewayId >0 " >
+                and a.geway_id = #{gewayId}
+            </if>
+            <if test="myName != null and myName != '' " >
+                and a.my_name = #{myName}
+            </if>
+            <if test="myTradeType != null and myTradeType != '' " >
+                and a.my_trade_type = #{myTradeType}
+            </if>
+            <if test="outName != null and outName != '' " >
+                and a.out_name = #{outName}
+            </if>
+            <if test="outTradeType != null and outTradeType != '' " >
+                and a.out_trade_type = #{outTradeType}
+            </if>
+            and a.yn = 0
+        </trim>
+    </sql>
+
+    <!-- 查询条件_id -->
+    <sql id="Example_Where_Clause_id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            and a.yn = 0
+        </trim>
+    </sql>
+
+    <!-- 查询总数-->
+    <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1)
+        from tb_hz_geway_trade_type a left join tb_hz_geway b on a.geway_id = b.id
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询分页列表 -->
+    <select id="queryByList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_geway_trade_type a left join tb_hz_geway b on a.geway_id = b.id
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 查询列表-无分页-有条件/有条件 -->
+    <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_geway_trade_type a left join tb_hz_geway b on a.geway_id = b.id
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+    </select>
+
+    <!-- 根据id查询记录 -->
+    <select id="queryById"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_geway_trade_type a left join tb_hz_geway b on a.geway_id = b.id
+        <include refid="Example_Where_Clause_id"/>
+    </select>
+
+    <!-- 根据条件查询记录 -->
+    <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_hz_geway_trade_type a left join tb_hz_geway b on a.geway_id = b.id
+        <include refid="Example_Where_Clause"/>
+        limit 1
+    </select>
+
+    <!-- 添加记录 -->
+    <insert id="add" parameterType="Object" >
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        insert into tb_hz_geway_trade_type
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="gewayId != 0 and gewayId >0 " >
+                geway_id,
+            </if>
+            <if test="myName != null and myName != '' " >
+                my_name,
+            </if>
+            <if test="myTradeType != null and myTradeType != '' " >
+                my_trade_type,
+            </if>
+            <if test="myServiceCharge != null and myServiceCharge != '' " >
+                my_service_charge,
+            </if>
+            <if test="outName != null and outName != '' " >
+                out_name,
+            </if>
+            <if test="outTradeType != null and outTradeType != '' " >
+                out_trade_type,
+            </if>
+            <if test="serviceCharge != null and serviceCharge != '' " >
+                service_charge,
+            </if>
+            <if test="limitMoney != null and limitMoney != '' " >
+                limit_money,
+            </if>
+            <if test="limitDay != null and limitDay != '' " >
+                limit_day,
+            </if>
+            <if test="limitMonth != null and limitMonth != '' " >
+                limit_month,
+            </if>
+            <if test="remark != null and remark != '' " >
+                remark,
+            </if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="gewayId != 0 and gewayId >0 " >
+                <![CDATA[  #{gewayId}, ]]>
+            </if>
+            <if test="myName != null and myName != '' " >
+                <![CDATA[  #{myName}, ]]>
+            </if>
+            <if test="myTradeType != null and myTradeType != '' " >
+                <![CDATA[  #{myTradeType}, ]]>
+            </if>
+            <if test="myServiceCharge != null and myServiceCharge != '' " >
+                <![CDATA[  #{myServiceCharge}, ]]>
+            </if>
+            <if test="outName != null and outName != '' " >
+                <![CDATA[  #{outName}, ]]>
+            </if>
+            <if test="outTradeType != null and outTradeType != '' " >
+                <![CDATA[  #{outTradeType}, ]]>
+            </if>
+            <if test="serviceCharge != null and serviceCharge != '' " >
+                <![CDATA[  #{serviceCharge}, ]]>
+            </if>
+            <if test="limitMoney != null and limitMoney != '' " >
+                <![CDATA[  #{limitMoney}, ]]>
+            </if>
+            <if test="limitDay != null and limitDay != '' " >
+                <![CDATA[  #{limitDay}, ]]>
+            </if>
+            <if test="limitMonth != null and limitMonth != '' " >
+                <![CDATA[  #{limitMonth}, ]]>
+            </if>
+            <if test="remark != null and remark != '' " >
+                <![CDATA[  #{remark}, ]]>
+            </if>
+            <![CDATA[  NOW(), ]]>
+        </trim>
+    </insert>
+
+
+    <!-- 更新记录 -->
+    <update id="update" parameterType="Object">
+        UPDATE tb_hz_geway_trade_type a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="gewayId != 0 and gewayId >0 " >
+                a.geway_id = #{gewayId},
+            </if>
+            <if test="myName != null and myName != '' " >
+                a.my_name = #{myName},
+            </if>
+            <if test="myTradeType != null and myTradeType != '' " >
+                a.my_trade_type = #{myTradeType},
+            </if>
+            <if test="myServiceCharge != null and myServiceCharge != '' " >
+                a.my_service_charge = #{myServiceCharge},
+            </if>
+            <if test="outName != null and outName != '' " >
+                a.out_name = #{outName},
+            </if>
+            <if test="outTradeType != null and outTradeType != '' " >
+                a.out_trade_type = #{outTradeType},
+            </if>
+            a.service_charge = #{serviceCharge},
+            a.limit_money = #{limitMoney},
+            a.limit_day = #{limitDay},
+            a.limit_month = #{limitMonth},
+            a.remark = #{remark},
+            a.update_time = NOW(),
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+
+    <!-- 主要作用1.逻辑删除，2更新状态 -->
+    <update id="manyOperation" parameterType="Object">
+        update tb_hz_geway_trade_type a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="isEnable != 0 and isEnable >0 " >
+                a.is_enable=#{isEnable},
+            </if>
+            a.yn=#{yn},
+            a.update_time=NOW()
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+    <!--逻辑删除数据 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE tb_hz_geway_trade_type a set a.yn = 1,
+        a.update_time = now()
+        where 1=1
+        and a.id =#{id}
+        and a.yn=0
+    </update>
+
+</mapper>

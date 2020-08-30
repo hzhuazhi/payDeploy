@@ -1,0 +1,21 @@
+
+.role-menu hr {  background-color: #AFC6F5;height: 5px;border: none;}
+.role-menu .first-menu { margin: 6px 0;}
+.role-menu .menu-div { clear: both;display: inline-block;width: 750px;}
+.role-menu .menu-op { float: left; height: 30px; cursor: pointer;}
+.role-menu .menu-op img { width: 20px;height: 20px;vertical-align: middle;}
+.role-menu .first-menu .first-menu-btn { 
+	background-color: #292929; opacity: 0.8;filter:alpha(opacity=80);
+}
+.role-menu .menu-btn { 
+	width: 120px;height: 30px;line-height: 30px;color: white;font-weight: bold; border-radius: 3px;
+	display: inline-block;text-align: center;cursor: pointer;float: left;overflow: hidden;text-overflow: ellipsis; 
+	white-space: nowrap;  margin: 0 0px 8px 10px;padding: 0 5px;
+	-webkit-transition: all 0.1s ease-in;-moz-transition: all 0.1s ease-in;-o-transition: all 0.1s ease-in;
+}
+.role-menu .first-menu { margin: 6px 0;font-size:14px;}
+.role-menu .second-menu { padding-left: 30px;}
+.role-menu .third-menu { padding-left: 40px;width: 860px;}
+.role-menu .second-menu .second-menu-btn { width: 140px;background-color: #44B4B0;}
+.role-menu .third-menu .third-menu-btn { width: 150px;background-color: #64C0DC;}
+.role-menu .menu-btn:hover { opacity: 0.5;filter:alpha(opacity=50);text-decoration: none;} 

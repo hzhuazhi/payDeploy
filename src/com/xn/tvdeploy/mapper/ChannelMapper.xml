@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xn.tvdeploy.dao.ChannelDao">
+    <!-- 属性映射 -->
+    <resultMap type="com.xn.tvdeploy.model.ChannelModel" id="dataMap">
+        <id property="id" column="id" />
+        <result property="tpId" column="tp_id" />
+        <result property="channelName" column="channel_name" />
+        <result property="channelNum" column="channel_num" />
+        <result property="channelType" column="channel_type" />
+        <result property="remark" column="remark" />
+        <result property="isEnable" column="is_enable" />
+        <result property="createUser" column="create_user" />
+        <result property="updateUser" column="update_user" />
+        <result property="createRole" column="create_role" />
+        <result property="updateRole" column="update_role" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="yn" column="yn" />
+        <result property="acName" column="ac_name" />
+    </resultMap>
+    <!-- 定义数据库基本列,只适用代替单表的*-->
+    <sql id="Base_Column_List">
+        a.id,a.tp_id,a.channel_name,a.channel_num,a.channel_type,
+        a.remark,a.is_enable,a.create_user,a.update_user,a.create_time,a.update_time,a.yn,
+        b.ac_name
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            <if test="tpId != 0 and tpId >0 " >
+                and a.tp_id = #{tpId}
+            </if>
+            <if test="channelName != null and channelName != '' " >
+                and a.channel_name = #{channelName}
+            </if>
+            <if test="channelNum != null and channelNum != '' " >
+                and a.channel_num = #{channelNum}
+            </if>
+            <if test="channelType != 0 and channelType >0 " >
+                and a.channel_type = #{channelType}
+            </if>
+            <if test="isEnable != 0 and isEnable >0 " >
+                and a.is_enable = #{isEnable}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <!-- 查询条件_id -->
+    <sql id="Example_Where_Clause_id">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="id != 0 and id >0 " >
+                and a.id = #{id}
+            </if>
+            and a.yn =  0
+        </trim>
+    </sql>
+
+    <!-- 查询总数-->
+    <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1)
+        from tb_xn_channel a
+        left join tb_xn_account_tp b on a.tp_id = b.id
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询分页列表 -->
+    <select id="queryByList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_channel a left join tb_xn_account_tp b on a.tp_id = b.id
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 查询列表-无分页-有条件/有条件 -->
+    <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_channel a left join tb_xn_account_tp b on a.tp_id = b.id
+        <include refid="Example_Where_Clause"/>
+        order by a.create_time desc
+    </select>
+
+    <!-- 根据id查询记录 -->
+    <select id="queryById"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_channel a left join tb_xn_account_tp b on a.tp_id = b.id
+        <include refid="Example_Where_Clause_id"/>
+    </select>
+
+    <!-- 根据条件查询记录 -->
+    <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List" />
+        from tb_xn_channel a left join tb_xn_account_tp b on a.tp_id = b.id
+        <include refid="Example_Where_Clause"/>
+        limit 1
+    </select>
+
+    <!-- 添加记录 -->
+    <insert id="add" parameterType="Object" >
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        insert into tb_xn_channel
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="tpId != 0 and tpId >0 " >
+                tp_id,
+            </if>
+            <if test="channelName != null and channelName != '' " >
+                channel_name,
+            </if>
+            <if test="channelNum != null and channelNum != '' " >
+                channel_num,
+            </if>
+            <if test="channelType != 0 and channelType >0 " >
+                channel_type,
+            </if>
+            <if test="remark != null and remark != '' " >
+                remark,
+            </if>
+            <if test="createUser != 0 and createUser >0 " >
+                create_user,
+            </if>
+            <if test="createRole != 0 and createRole >0 " >
+                create_role,
+            </if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="tpId != 0 and tpId >0 " >
+                <![CDATA[  #{tpId}, ]]>
+            </if>
+            <if test="channelName != null and channelName != '' " >
+                <![CDATA[  #{channelName}, ]]>
+            </if>
+            <if test="channelNum != null and channelNum != '' " >
+                <![CDATA[  #{channelNum}, ]]>
+            </if>
+            <if test="channelType != 0 and channelType >0 " >
+                <![CDATA[  #{channelType}, ]]>
+            </if>
+            <if test="remark != null and remark != '' " >
+                <![CDATA[  #{remark}, ]]>
+            </if>
+            <if test="createUser != 0 and createUser >0 " >
+                <![CDATA[  #{createUser}, ]]>
+            </if>
+            <if test="createRole != 0 and createRole >0 " >
+                <![CDATA[  #{createRole}, ]]>
+            </if>
+            <![CDATA[  NOW(), ]]>
+        </trim>
+    </insert>
+
+
+    <!-- 更新记录 -->
+    <update id="update" parameterType="Object">
+        UPDATE tb_xn_channel a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="tpId != 0 and tpId >0 " >
+                a.tp_id = #{tpId},
+            </if>
+            <if test="channelName != null and channelName != '' " >
+                a.channel_name = #{channelName},
+            </if>
+            <if test="channelNum != null and channelNum != '' " >
+                a.channel_num = #{channelNum},
+            </if>
+            <if test="channelType != 0 and channelType >0 " >
+                a.channel_type = #{channelType},
+            </if>
+            <if test="remark != null and remark != '' " >
+                a.remark = #{remark},
+            </if>
+            <if test="updateUser != 0 and updateUser >0 " >
+                a.update_user = #{updateUser},
+            </if>
+            <if test="updateRole != 0 and updateRole >0 " >
+                a.update_role = #{updateRole},
+            </if>
+            a.update_time = NOW(),
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+
+    <!-- 主要作用1.逻辑删除，2更新状态 -->
+    <update id="manyOperation" parameterType="Object">
+        update tb_xn_channel a
+        <trim prefix="set" suffixOverrides=",">
+            <if test="isEnable != 0 and isEnable >0 " >
+                a.is_enable=#{isEnable},
+            </if>
+            a.yn=#{yn},
+            <if test="updateUser != 0 and updateUser >0 " >
+                a.update_user=#{updateUser},
+            </if>
+            <if test="updateRole != 0 and updateRole >0 " >
+                a.update_role=#{updateRole},
+            </if>
+            a.update_time=NOW()
+        </trim>
+        <include refid="Example_Where_Clause_id"/>
+    </update>
+
+    <!--逻辑删除数据 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE tb_xn_channel a set a.yn = 1,
+        <if test="updateUser != 0 and updateUser >0 " >
+            a.update_user=#{updateUser},
+        </if>
+        <if test="updateRole != 0 and updateRole >0 " >
+            a.update_role=#{updateRole},
+        </if>
+        a.update_time = now()
+        where 1=1
+        and a.id =#{id}
+        and a.yn=0
+    </update>
+
+</mapper>
