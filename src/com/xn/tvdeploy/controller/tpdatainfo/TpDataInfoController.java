@@ -54,12 +54,12 @@ public class TpDataInfoController extends BaseController {
     @RequestMapping("/dataList")
     public void dataList(HttpServletRequest request, HttpServletResponse response, TpDataInfoModel model) throws Exception {
 
-        if (model.getTradeStatus() == 0){
-            model.setOtherStatus(1);
-        }
-        if (model.getTradeStatus() == -1){
-            model.setTradeStatus(0);
-        }
+//        if (model.getTradeStatus() >= 0 || model.getRunStatus() > 0 || model.getReplenishType() > 0){
+//            model.setOtherStatus(1);
+//        }
+//        if (model.getTradeStatus() == -1){
+//            model.setTradeStatus(0);
+//        }
         List<TpDataInfoModel> dataList = new ArrayList<TpDataInfoModel>();
         Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
@@ -137,8 +137,8 @@ public class TpDataInfoController extends BaseController {
             String[] titles = new String[10];
             String[] titleCode = new String[10];
             String filename = "订单信息";
-            titles = new String[]{"平台订单", "商家订单", "订单金额", "手续费", "实际金额", "请求状态", "交易状态", "交易时间","回传参数","同步状态"};
-            titleCode = new String[]{"myTradeNo", "outTradeNo", "totalAmount", "serviceCharge", "actualMoney", "sendOkStr", "tradeStatusStr", "tradeTime", "extraReturnParam", "runStatusStr"};
+            titles = new String[]{"平台订单", "商家订单", "订单金额", "手续费", "实际金额", "实际支付金额", "请求状态", "交易状态", "交易时间","回传参数","补单类型","同步状态"};
+            titleCode = new String[]{"myTradeNo", "outTradeNo", "totalAmount", "serviceCharge", "actualMoney", "payAmount", "sendOkStr", "tradeStatusStr", "tradeTime", "extraReturnParam", "replenishTypeStr","runStatusStr"};
             List<Map<String,Object>> paramList = new ArrayList<>();
             for(TpDataInfoModel paramO : dataList){
 
@@ -164,6 +164,13 @@ public class TpDataInfoController extends BaseController {
                     paramO.setRunStatusStr("失败");
                 }else if (paramO.getRunStatus() == 3){
                     paramO.setRunStatusStr("成功");
+                }
+                if (paramO.getReplenishType() == 0){
+                    paramO.setReplenishTypeStr("不是补单");
+                }else if (paramO.getReplenishType() == 1){
+                    paramO.setReplenishTypeStr("不是补单");
+                }else if (paramO.getReplenishType() == 2){
+                    paramO.setReplenishTypeStr("是补单");
                 }
                 Map<String,Object> map = BeanUtils.transBeanToMap(paramO);
                 paramList.add(map);

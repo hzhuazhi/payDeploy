@@ -97,7 +97,7 @@
                 and a.curday >= #{curdayStart} and a.curday &lt;= #{curdayEnd}
             </if>
             <if test="runStatus != 0 and runStatus >0 " >
-                and a.run_status = #{runStatus}
+                and b.run_status = #{runStatus}
             </if>
             <if test="tradeStatus != 0 and tradeStatus >0 " >
                 and b.trade_status = #{tradeStatus}

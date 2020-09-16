@@ -11,13 +11,22 @@
     <div class = "condQueryDiv">
         <form id = "condForm">
             <div class = "condQueryCtrl">
-                <%--<div class = "condQueryLabelDiv">平台订单：</div>--%>
-                <%--<div class="formCtrlDiv">--%>
-                <%--<input type ="text" class ="inputCommonSty" id="myTradeNo" name ="myTradeNo">--%>
-                <%--</div>--%>
+                <div class = "condQueryLabelDiv">平台订单：</div>
+                <div class="formCtrlDiv">
+                <input type ="text" class ="inputCommonSty" id="myTradeNo" name ="myTradeNo">
+                </div>
                 <div class = "condQueryLabelDiv">商家订单：</div>
                 <div class="formCtrlDiv">
                     <input type ="text" class ="inputCommonSty" id="outTradeNo" name ="outTradeNo">
+                </div>
+
+                <div class = "condQueryLabelDiv">补单类型：</div>
+                <div class="formCtrlDiv" >
+                    <select id="replenishType" name="replenishType" class='text-input medium-input'>
+                        <option value="0" selected="selected">=请选择=</option>
+                        <option value="1">不是补单</option>
+                        <option value="2">是补单</option>
+                    </select>
                 </div>
 
                 <div class = "condQueryLabelDiv">交易状态：</div>
@@ -30,16 +39,16 @@
                         <option value="3">其它</option>
                     </select>
                 </div>
-                <%--<div class = "condQueryLabelDiv">同步状态：</div>--%>
-                <%--<div class="formCtrlDiv" id = "runStatusDiv">--%>
-                <%--<select id="runStatus" name="runStatus" class='text-input medium-input'>--%>
-                <%--<option value="" selected="selected">=请选择=</option>--%>
-                <%--<option value="0">初始化</option>--%>
-                <%--<option value="1">锁定</option>--%>
-                <%--<option value="2">失败</option>--%>
-                <%--<option value="3">成功</option>--%>
-                <%--</select>--%>
-                <%--</div>--%>
+                <div class = "condQueryLabelDiv">同步状态：</div>
+                <div class="formCtrlDiv" id = "runStatusDiv">
+                <select id="runStatus" name="runStatus" class='text-input medium-input'>
+                <option value="" selected="selected">=请选择=</option>
+                <option value="0">初始化</option>
+                <option value="1">锁定</option>
+                <option value="2">失败</option>
+                <option value="3">成功</option>
+                </select>
+                </div>
 
                 <div class = "condQueryLabelDiv">开始日期：</div>
                 <div class="formCtrlDiv">

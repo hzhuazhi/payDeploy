@@ -101,6 +101,7 @@ var account = {
     condJsonData : {
         myTradeNo:null,
         outTradeNo:null,
+        replenishType:0,
         sendOk:0,
         tradeStatus:-1,
         runStatus:0,
@@ -119,6 +120,7 @@ var account = {
         $('#btnQuery').click(function() {
             account.condJsonData['myTradeNo'] = $("#myTradeNo").val();
             account.condJsonData['outTradeNo'] = $("#outTradeNo").val();
+            account.condJsonData['replenishType'] = $("#replenishType").val();
             account.condJsonData['sendOk'] = $("#sendOk").val();
             account.condJsonData['tradeStatus'] = $("#tradeStatus").val();
             account.condJsonData['runStatus'] = $("#runStatus").val();
@@ -134,6 +136,8 @@ var account = {
             $("#myTradeNo").val("");
             account.condJsonData['outTradeNo'] = "";
             $("#outTradeNo").val("");
+            account.condJsonData['replenishType'] = "0";
+            $("#replenishType").val("0");
             account.condJsonData['sendOk'] = "-1";
             $("#sendOk").val("-1");
             account.condJsonData['tradeStatus'] = "0";
@@ -199,6 +203,7 @@ var account = {
         var url = basePath + "tpDataInfo/totalData.do";
         var myTradeNo = $("#myTradeNo").val();
         var outTradeNo = $("#outTradeNo").val();
+        var replenishType = $("#replenishType").val();
         var sendOk = $("#sendOk").val();
         var tradeStatus = $("#tradeStatus").val();
         var runStatus = $("#runStatus").val();
@@ -207,6 +212,7 @@ var account = {
         var data = {
             "myTradeNo":myTradeNo,
             "outTradeNo":outTradeNo,
+            "replenishType":replenishType,
             "sendOk":sendOk,
             "tradeStatus":tradeStatus,
             "runStatus":runStatus,

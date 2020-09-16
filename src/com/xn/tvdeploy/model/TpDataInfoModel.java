@@ -265,6 +265,11 @@ public class TpDataInfoModel extends BasePage {
      */
     private int moneyFitType;
 
+    /**
+     * 补单类型
+     */
+    private String replenishTypeStr;
+
     public long getId() {
         return id;
     }
@@ -696,5 +701,13 @@ public class TpDataInfoModel extends BasePage {
 
     public void setMoneyFitType(int moneyFitType) {
         this.moneyFitType = moneyFitType;
+    }
+
+    public String getReplenishTypeStr() {
+        return replenishTypeStr;
+    }
+
+    public void setReplenishTypeStr(String replenishTypeStr) {
+        this.replenishTypeStr = replenishTypeStr;
     }
 }
