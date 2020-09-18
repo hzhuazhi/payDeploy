@@ -21,6 +21,8 @@
         <tr>
             <th width="150">代理名称</th>
             <th width="150">渠道名称</th>
+            <th width="150">渠道与通道的关联名称</th>
+            <th width="150">收益分成</th>
             <th width="150">备注</th>
         </tr>
         </thead>

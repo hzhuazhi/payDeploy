@@ -4,8 +4,8 @@
     <!-- 属性映射 -->
     <resultMap type="com.xn.tvdeploy.model.AgentChannelModel" id="dataMap">
         <id property="id" column="id" />
-        <result property="channelId" column="channel_id" />
         <result property="agentId" column="agent_id" />
+        <result property="channelGewayId" column="channel_geway_id" />
         <result property="linkName" column="link_name" />
         <result property="serviceCharge" column="service_charge" />
         <result property="deductRatio" column="deduct_ratio" />
@@ -13,14 +13,18 @@
         <result property="createTime" column="create_time" />
         <result property="updateTime" column="update_time" />
         <result property="yn" column="yn" />
-        <result property="channelName" column="channel_name" />
+        <result property="channelId" column="channel_id" />
+        <result property="channelGewayLinkName" column="channel_geway_link_name" />
         <result property="agentName" column="agent_name" />
+        <result property="channelName" column="channel_name" />
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
-        a.id,a.channel_id,a.agent_id,a.link_name,a.service_charge,a.deduct_ratio,a.remark,
-        a.create_time,a.update_time,a.yn,
-        b.channel_name,c.agent_name
+        a.id,a.agent_id,a.channel_geway_id,a.link_name,a.service_charge,a.deduct_ratio,a.remark,
+        a.create_time,a.yn,
+        b.channel_id,b.link_name as channel_geway_link_name,
+        c.agent_name,
+        d.channel_name
     </sql>
 
     <!-- 查询条件 -->
@@ -30,14 +34,23 @@
             <if test="id != 0 and id >0 " >
                 and a.id = #{id}
             </if>
-            <if test="channelId != 0 and channelId >0 " >
-                and a.channel_id = #{channelId}
-            </if>
             <if test="agentId != 0 and agentId >0 " >
                 and a.agent_id = #{agentId}
             </if>
             <if test="linkName != null and linkName != '' " >
                 and a.link_name = #{linkName}
+            </if>
+            <if test="channelId != 0 and channelId >0 " >
+                and b.channel_id = #{channelId}
+            </if>
+            <if test="channelGewayLinkName != null and channelGewayLinkName != '' " >
+                and b.link_name = #{channelGewayLinkName}
+            </if>
+            <if test="agentName != null and agentName != '' " >
+                and c.agent_name = #{agentName}
+            </if>
+            <if test="channelName != null and channelName != '' " >
+                and d.channel_name = #{channelName}
             </if>
             and a.yn = 0
         </trim>
@@ -57,8 +70,10 @@
     <!-- 查询总数-->
     <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
         select count(1)
-        from tb_hz_agent_channel a
-        left join tb_hz_channel b on a.channel_id = b.id left join tb_hz_agent c on a.agent_id = c.id
+        from tb_hz_agent_channel_geway a
+        left join tb_hz_channel_geway b on a.channel_geway_id = b.id and b.yn = 0
+        left join tb_hz_agent c on a.agent_id = c.id and c.yn = 0
+        left join tb_hz_channel d on b.channel_id = d.id and d.yn = 0
         <include refid="Example_Where_Clause"/>
     </select>
 
@@ -66,8 +81,10 @@
     <select id="queryByList" resultMap="dataMap"  parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_hz_agent_channel a
-        left join tb_hz_channel b on a.channel_id = b.id left join tb_hz_agent c on a.agent_id = c.id
+        from tb_hz_agent_channel_geway a
+        left join tb_hz_channel_geway b on a.channel_geway_id = b.id and b.yn = 0
+        left join tb_hz_agent c on a.agent_id = c.id and c.yn = 0
+        left join tb_hz_channel d on b.channel_id = d.id and d.yn = 0
         <include refid="Example_Where_Clause"/>
         order by a.create_time desc
         limit #{startIndex},#{pageSize}
@@ -77,8 +94,10 @@
     <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_hz_agent_channel a
-        left join tb_hz_channel b on a.channel_id = b.id left join tb_hz_agent c on a.agent_id = c.id
+        from tb_hz_agent_channel_geway a
+        left join tb_hz_channel_geway b on a.channel_geway_id = b.id and b.yn = 0
+        left join tb_hz_agent c on a.agent_id = c.id and c.yn = 0
+        left join tb_hz_channel d on b.channel_id = d.id and d.yn = 0
         <include refid="Example_Where_Clause"/>
         order by a.create_time desc
     </select>
@@ -87,8 +106,10 @@
     <select id="queryById"  resultMap="dataMap" parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_hz_agent_channel a
-        left join tb_hz_channel b on a.channel_id = b.id left join tb_hz_agent c on a.agent_id = c.id
+        from tb_hz_agent_channel_geway a
+        left join tb_hz_channel_geway b on a.channel_geway_id = b.id and b.yn = 0
+        left join tb_hz_agent c on a.agent_id = c.id and c.yn = 0
+        left join tb_hz_channel d on b.channel_id = d.id and d.yn = 0
         <include refid="Example_Where_Clause_id"/>
     </select>
 
@@ -96,8 +117,10 @@
     <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_hz_agent_channel a
-        left join tb_hz_channel b on a.channel_id = b.id left join tb_hz_agent c on a.agent_id = c.id
+        from tb_hz_agent_channel_geway a
+        left join tb_hz_channel_geway b on a.channel_geway_id = b.id and b.yn = 0
+        left join tb_hz_agent c on a.agent_id = c.id and c.yn = 0
+        left join tb_hz_channel d on b.channel_id = d.id and d.yn = 0
         <include refid="Example_Where_Clause"/>
         limit 1
     </select>
@@ -107,13 +130,13 @@
         <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() as id
         </selectKey>
-        insert into tb_hz_agent_channel
+        insert into tb_hz_agent_channel_geway
         <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="channelId != 0 and channelId >0 " >
-                channel_id,
-            </if>
             <if test="agentId != 0 and agentId >0 " >
                 agent_id,
+            </if>
+            <if test="channelGewayId != 0 and channelGewayId >0 " >
+                channel_geway_id,
             </if>
             <if test="linkName != null and linkName != '' " >
                 link_name,
@@ -129,11 +152,11 @@
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="channelId != 0 and channelId >0 " >
-                <![CDATA[  #{channelId}, ]]>
-            </if>
             <if test="agentId != 0 and agentId >0 " >
                 <![CDATA[  #{agentId}, ]]>
+            </if>
+            <if test="channelGewayId != 0 and channelGewayId >0 " >
+                <![CDATA[  #{channelGewayId}, ]]>
             </if>
             <if test="linkName != null and linkName != '' " >
                 <![CDATA[  #{linkName}, ]]>
@@ -152,13 +175,13 @@
 
     <!-- 更新记录 -->
     <update id="update" parameterType="Object">
-        UPDATE tb_hz_agent_channel a
+        UPDATE tb_hz_agent_channel_geway a
         <trim prefix="set" suffixOverrides=",">
-            <if test="channelId != 0 and channelId >0 " >
-                a.channel_id = #{channelId},
-            </if>
             <if test="agentId != 0 and agentId >0 " >
                 a.agent_id = #{agentId},
+            </if>
+            <if test="channelGewayId != 0 and channelGewayId >0 " >
+                a.channel_geway_id = #{channelGewayId},
             </if>
             <if test="linkName != null and linkName != '' " >
                 a.link_name = #{linkName},
@@ -174,7 +197,7 @@
 
     <!-- 主要作用1.逻辑删除，2更新状态 -->
     <update id="manyOperation" parameterType="Object">
-        update tb_hz_agent_channel a
+        update tb_hz_agent_channel_geway a
         <trim prefix="set" suffixOverrides=",">
             <if test="isEnable != 0 and isEnable >0 " >
                 a.is_enable=#{isEnable},
@@ -187,7 +210,7 @@
 
     <!--逻辑删除数据 -->
     <update id="delete" parameterType="java.lang.Long">
-        UPDATE tb_hz_agent_channel a set a.yn = 1,
+        UPDATE tb_hz_agent_channel_geway a set a.yn = 1,
         a.update_time = now()
         where 1=1
         and a.id =#{id}

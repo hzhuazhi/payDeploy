@@ -20,13 +20,13 @@ public class AgentChannelModel extends BasePage {
     private long agentId;
 
     /**
-     * 渠道ID
+     * 关联ID：对应表tb_hz_channel_geway的主键ID
      */
-    private long channelId;
+    private long channelGewayId;
 
 
     /**
-     * 关联关系的名称
+     * 代理与渠道跟通道关联关系的名称
      */
     private String linkName;
 
@@ -61,6 +61,16 @@ public class AgentChannelModel extends BasePage {
     private int yn;
 
     /**
+     * 渠道ID
+     */
+    private long channelId;
+
+    /**
+     * 渠道与通道的关联名称
+     */
+    private String channelGewayLinkName;
+
+    /**
      * 代理名称
      */
     private String agentName;
@@ -69,7 +79,6 @@ public class AgentChannelModel extends BasePage {
      * 渠道名称
      */
     private String channelName;
-
 
     public long getId() {
         return id;
@@ -87,12 +96,12 @@ public class AgentChannelModel extends BasePage {
         this.agentId = agentId;
     }
 
-    public long getChannelId() {
-        return channelId;
+    public long getChannelGewayId() {
+        return channelGewayId;
     }
 
-    public void setChannelId(long channelId) {
-        this.channelId = channelId;
+    public void setChannelGewayId(long channelGewayId) {
+        this.channelGewayId = channelGewayId;
     }
 
     public String getLinkName() {
@@ -151,6 +160,14 @@ public class AgentChannelModel extends BasePage {
         this.yn = yn;
     }
 
+    public String getChannelGewayLinkName() {
+        return channelGewayLinkName;
+    }
+
+    public void setChannelGewayLinkName(String channelGewayLinkName) {
+        this.channelGewayLinkName = channelGewayLinkName;
+    }
+
     public String getAgentName() {
         return agentName;
     }
@@ -165,5 +182,13 @@ public class AgentChannelModel extends BasePage {
 
     public void setChannelName(String channelName) {
         this.channelName = channelName;
+    }
+
+    public long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(long channelId) {
+        this.channelId = channelId;
     }
 }

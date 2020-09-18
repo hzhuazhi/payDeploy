@@ -16,12 +16,16 @@ var account = {
     list:[
         {"data":"agentName",},
         {"data":"channelName",},
+        {"data":"channelGewayLinkName",},
+        {"data":"serviceCharge",},
         {"data":"remark",}
     ],
     // 查询条件，aoData是必要的。其他的就是对应的实体类字段名，因为条件查询是把数据封装在实体类中的。
     condJsonData : {
         linkName:null,
-        channelId:0
+        gewayId:0,
+        channelId:0,
+        channelGewayLinkName:null
 
     },
     //页面加载
@@ -36,18 +40,24 @@ var account = {
         common.showDatas(this.condJsonData,this.list);
         // 条件查询按钮事件
         $('#btnQuery').click(function() {
-            // account.condJsonData['channelId'] = $("#channelId").val();
+            account.condJsonData['linkName'] = $("#linkName").val();
+            account.condJsonData['gewayId'] = $("#gewayId").val();
+            account.condJsonData['channelId'] = $("#channelId").val();
+            account.condJsonData['channelGewayLinkName'] = $("#channelGewayLinkName").val();
             common.showDatas(account.condJsonData,account.list);
         });
 
         // 重置
         $("#butReset").click(function(){
-            // account.condJsonData['linkName'] = "";
-            // $("#linkName").val("");
-            // account.condJsonData['channelId'] = "0";
-            // $("#channelId").val("0");
-            // account.condJsonData['gewayId'] = "0";
-            // $("#gewayId").val("0");
+            account.condJsonData['linkName'] = "";
+            $("#linkName").val("");
+            account.condJsonData['gewayId'] = "0";
+            $("#gewayId").val("0");
+            account.condJsonData['channelId'] = "0";
+            $("#channelId").val("0");
+            account.condJsonData['channelGewayLinkName'] = "";
+            $("#channelGewayLinkName").val("");
+
             common.showDatas(account.condJsonData,account.list);
         });
 

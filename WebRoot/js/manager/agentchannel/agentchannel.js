@@ -17,6 +17,8 @@ var account = {
         {"data":"linkName",},
         {"data":"agentName",},
         {"data":"channelName",},
+        {"data":"channelGewayLinkName",},
+        {"data":"serviceCharge",},
         {"data":"remark",},
         {"data":"id",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {

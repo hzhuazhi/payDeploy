@@ -21,6 +21,12 @@
                 <div class = "condQueryLabelDiv">渠道：</div>
                 <div class="formCtrlDiv" id = "channelDiv">
                 </div>
+
+                <div class = "condQueryLabelDiv">渠道与通道关联名称：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="channelGewayLinkName" name ="channelGewayLinkName">
+                </div>
+
                 <div class="searchdiv">
                     <input type = "button" id = "btnQuery" class = "buttonClass imginput" value = "搜索" />
                 </div>
@@ -28,7 +34,7 @@
                     <input type = "button" id = "butReset" class = "buttonClass imginput" value = "重置" />
                 </div>
                 <div class = "searchdiv">
-                    <input type="button" class = "buttonClass imginput addbtn" value="添加关联关系" style="margin-left: 30px;" >
+                    <input type="button" class = "buttonClass imginput addbtn" value="添加利益分配" style="margin-left: 30px;" >
                 </div>
             </div>
         </form>
@@ -40,6 +46,8 @@
             <th width="200">关联名称</th>
             <th width="150">代理名称</th>
             <th width="150">渠道名称</th>
+            <th width="200">渠道与通道关联名称</th>
+            <th width="150">收益分成</th>
             <th width="150">备注</th>
             <th width="250">操作</th>
         </tr>
