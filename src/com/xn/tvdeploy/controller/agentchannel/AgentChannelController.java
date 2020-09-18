@@ -40,6 +40,9 @@ public class AgentChannelController extends BaseController {
     @Autowired
     private AgentService<AgentModel> agentService;
 
+    @Autowired
+    private ChannelgewayService<ChannelgewayModel> channelgewayService;
+
 
     /**
      * 获取页面
@@ -101,7 +104,9 @@ public class AgentChannelController extends BaseController {
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.ROLE_SYS){
                 sendFailureMessage(response,"无法操作,请登录其它账号角色!");
             }else {
-                model.addAttribute("tp", accountTpService.queryAllList(new AccountTpModel()));
+                ChannelgewayModel channelgewayModel = new ChannelgewayModel();
+                channelgewayModel.setProfitType(2);
+                model.addAttribute("channel_geway", channelgewayService.queryAllList(channelgewayModel));
                 model.addAttribute("agent", agentService.queryAllList(new AgentModel()));
             }
 //            sendSuccessMessage(response, "保存成功~");
@@ -133,7 +138,9 @@ public class AgentChannelController extends BaseController {
         AgentChannelModel atModel = new AgentChannelModel();
         atModel.setId(id);
         model.addAttribute("account", agentChannelService.queryById(atModel));
-        model.addAttribute("tp", accountTpService.queryAllList());
+        ChannelgewayModel channelgewayModel = new ChannelgewayModel();
+        channelgewayModel.setProfitType(2);
+        model.addAttribute("channel_geway", channelgewayService.queryAllList(channelgewayModel));
         model.addAttribute("agent", agentService.queryAllList());
         return "manager/agentchannel/agentchannelEdit";
     }

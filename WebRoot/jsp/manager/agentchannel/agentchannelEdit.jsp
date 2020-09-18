@@ -19,7 +19,7 @@
 <body>
 <div class="col_main">
     <div class="formHeadDiv">
-        <h2>编辑支付类型</h2>
+        <h2>编辑分配利益</h2>
     </div>
     <div class="formContentDiv">
         <form id="addSupplierForm">
@@ -60,22 +60,32 @@
 
                 <li style="border-top: none;">
                     <div class="formTextDiv">
-                        <span class="require" ><font color="red">*</font>渠道：</span>
+                        <span class="require" ><font color="red">*</font>渠道与通道关联：</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <select id="channelId" name="channelId" >
+                        <select id="channelGewayId" name="channelGewayId" >
                             <option value="">===请选择===</option>
-                            <c:forEach items="${tp}" var="dataList">
+                            <c:forEach items="${channel_geway}" var="dataList">
                                 <c:choose>
-                                    <c:when test="${dl.channelId == dataList.id}">
+                                    <c:when test="${dl.channelGewayId == dataList.id}">
                                         <option selected="selected" value="${dataList.id}">${dataList.channelName}</option>
                                     </c:when>
-                                    <c:when test="${dl.channelId != dataList.id}">
+                                    <c:when test="${dl.channelGewayId != dataList.id}">
                                         <option value="${dataList.id}">${dataList.channelName}</option>
                                     </c:when>
                                 </c:choose>
                             </c:forEach>
                         </select>
+                    </div>
+                </li>
+
+
+                <li style="border-top: none;">
+                    <div class="formTextDiv">
+                        <span class="require" ><font color="red">*</font>收益分成：</span>
+                    </div>
+                    <div class="formCtrlDiv">
+                        <input type="text" class="formInput" id="serviceCharge" name="serviceCharge" value="${dl.serviceCharge}"	maxlength="240" />
                     </div>
                 </li>
 

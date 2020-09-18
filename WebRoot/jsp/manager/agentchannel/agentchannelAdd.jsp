@@ -19,7 +19,7 @@
 <body>
 <div class="col_main">
     <div class="formHeadDiv">
-        <h2>新增支付类型</h2>
+        <h2>新增利益分配</h2>
     </div>
     <div class="formContentDiv">
         <form id="addSupplierForm">
@@ -51,15 +51,24 @@
 
                 <li style="border-top: none;">
                     <div class="formTextDiv">
-                        <span class="require" ><font color="red">*</font>渠道：</span>
+                        <span class="require" ><font color="red">*</font>渠道与通道的关联：</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <select id="channelId" name="channelId" >
+                        <select id="channelGewayId" name="channelGewayId" >
                             <option value="">===请选择===</option>
-                            <c:forEach items="${tp}" var="dataList">
-                                <option value="${dataList.id}">${dataList.channelName}</option>
+                            <c:forEach items="${channel_geway}" var="dataList">
+                                <option value="${dataList.id}">${dataList.linkName}</option>
                             </c:forEach>
                         </select>
+                    </div>
+                </li>
+
+                <li style="border-top: none;">
+                    <div class="formTextDiv">
+                        <span class="require" ><font color="red">*</font>收益分成：</span>
+                    </div>
+                    <div class="formCtrlDiv">
+                        <input type="text" class="formInput" id="serviceCharge" name="serviceCharge"	maxlength="240" />
                     </div>
                 </li>
 
@@ -98,7 +107,7 @@
                 agentId:{
                     required:true
                 },
-                channelId:{
+                channelGewayId:{
                     required:true
                 }
 
@@ -111,8 +120,8 @@
                 agentId:{
                     required : "代理不能为空!"
                 },
-                channelId:{
-                    required : "渠道不能为空!"
+                channelGewayId:{
+                    required : "渠道与通道的关联不能为空!"
                 }
             },
 
