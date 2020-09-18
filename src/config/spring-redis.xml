@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+
+
+    <!-- jedis pool配置 -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!-- 最大链接数 -->
+        <property name="maxTotal" value="25" />
+        <!-- 最大空闲时间 -->
+        <property name="maxIdle" value="10" />
+        <!-- 最大等待毫秒数-->
+        <property name="maxWaitMillis" value="1000" />
+        <!-- 连接有效性验证 -->
+        <property name="testOnBorrow" value="true" />
+    </bean>
+
+    <!-- redis服务器中心 -->
+    <bean id="connectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig" />
+        <property name="port" value="${module-web.redis.port}" />
+        <property name="hostName" value="${module-web.redis.host}" />
+        <property name="password" value="${module-web.redis.password}" />
+        <property name="timeout" value="100000"></property>
+    </bean>
+
+
+    <!-- redis客户端模板 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <!-- 注入连接工厂 -->
+        <property name="connectionFactory" ref="connectionFactory" />
+        <!-- 配置key序列化类 -->
+        <property name="keySerializer">
+            <bean
+                    class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <!-- 配置value序列化类 -->
+        <property name="valueSerializer">
+            <bean
+                    class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+        </property>
+    </bean>
+
+</beans>

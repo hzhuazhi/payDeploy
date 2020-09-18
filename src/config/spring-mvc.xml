@@ -53,6 +53,19 @@
     	<property name="maxUploadSize" value="5000000"/>
 	</bean>
 
+
+	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:config/redis.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+	<import resource="spring-redis.xml" />
+
 	<!--<task:scheduled-tasks>-->
 		<!--<task:scheduled ref="tsApiTask" method="callTsApi" cron="0 0/2 * * * ?"/>-->
 	<!--</task:scheduled-tasks>-->
