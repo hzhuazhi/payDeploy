@@ -40,6 +40,11 @@ public class ChannelgewayModel extends BasePage {
     private int deductRatio;
 
     /**
+     * 收益类型：1普通收益类型，2多人分配收益类型
+     */
+    private int profitType;
+
+    /**
      * 备注
      */
     private String remark;
@@ -163,5 +168,13 @@ public class ChannelgewayModel extends BasePage {
 
     public void setGewayName(String gewayName) {
         this.gewayName = gewayName;
+    }
+
+    public int getProfitType() {
+        return profitType;
+    }
+
+    public void setProfitType(int profitType) {
+        this.profitType = profitType;
     }
 }

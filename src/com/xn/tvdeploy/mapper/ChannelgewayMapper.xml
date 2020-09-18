@@ -9,6 +9,7 @@
         <result property="linkName" column="link_name" />
         <result property="serviceCharge" column="service_charge" />
         <result property="deductRatio" column="deduct_ratio" />
+        <result property="profitType" column="profit_type" />
         <result property="remark" column="remark" />
         <result property="createTime" column="create_time" />
         <result property="updateTime" column="update_time" />
@@ -18,7 +19,7 @@
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
-        a.id,a.channel_id,a.geway_id,a.link_name,a.service_charge,a.deduct_ratio,a.remark,
+        a.id,a.channel_id,a.geway_id,a.link_name,a.service_charge,a.deduct_ratio,a.profit_type,a.remark,
         a.create_time,a.update_time,a.yn,
         b.channel_name,c.geway_name
     </sql>
@@ -35,6 +36,9 @@
             </if>
             <if test="gewayId != 0 and gewayId >0 " >
                 and a.geway_id = #{gewayId}
+            </if>
+            <if test="profitType != 0 and profitType >0 " >
+                and a.profit_type = #{profitType}
             </if>
             <if test="linkName != null and linkName != '' " >
                 and a.link_name = #{linkName}
@@ -122,6 +126,9 @@
                 service_charge,
             </if>
             deduct_ratio,
+            <if test="profitType != 0 and profitType >0 " >
+                profit_type,
+            </if>
             <if test="remark != null and remark != '' " >
                 remark,
             </if>
@@ -142,6 +149,9 @@
                 <![CDATA[  #{serviceCharge}, ]]>
             </if>
             <![CDATA[  #{deductRatio}, ]]>
+            <if test="profitType != 0 and profitType >0 " >
+                <![CDATA[  #{profitType}, ]]>
+            </if>
             <if test="remark != null and remark != '' " >
                 <![CDATA[  #{remark}, ]]>
             </if>
@@ -165,6 +175,7 @@
             </if>
             a.service_charge = #{serviceCharge},
             a.deduct_ratio = #{deductRatio},
+            a.profit_type = #{profitType}
             a.remark = #{remark},
             a.update_time = NOW(),
         </trim>
