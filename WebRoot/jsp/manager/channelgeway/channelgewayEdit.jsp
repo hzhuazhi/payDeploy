@@ -94,6 +94,26 @@
                         <input type="text" class="formInput" id="deductRatio" name="deductRatio" value="${dl.deductRatio}" maxlength="240" />
                     </div>
                 </li>
+
+                <li style="border-top: none;">
+                    <div class="formTextDiv">
+                        <span class="require" ><font color="red">*</font>利益类型：</span>
+                    </div>
+                    <div class="formCtrlDiv">
+                        <select id="profitType" name="profitType">
+                            <option value="">===请选择===</option>
+                            <c:if test="${dl.profitType == 1}">
+                                <option value="1" selected="selected">普通利益</option>
+                                <option value="2">多人利益</option>
+                            </c:if>
+                            <c:if test="${dl.profitType == 2}">
+                                <option value="1">普通利益</option>
+                                <option value="2" selected="selected">多人利益</option>
+                            </c:if>
+                        </select>
+                    </div>
+                </li>
+
                 <li style="border-top: none;">
                     <div class="formTextDiv">
                         <span class="require">备注</span>

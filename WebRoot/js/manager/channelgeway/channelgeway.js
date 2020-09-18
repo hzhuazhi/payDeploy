@@ -19,6 +19,17 @@ var account = {
         {"data":"gewayName",},
         {"data":"serviceCharge",},
         {"data":"deductRatio",},
+        {"data":"profitType",
+            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                var html="";
+                if(oData.profitType==1){
+                    html='<span>普通利益</span>';
+                }else if(oData.profitType==2){
+                    html='<span><font color="red">多人利益</font></span>';
+                }
+                $(nTd).html(html);
+            }
+        },
         {"data":"remark",},
         {"data":"id",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {

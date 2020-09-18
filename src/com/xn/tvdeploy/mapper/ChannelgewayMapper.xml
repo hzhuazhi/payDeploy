@@ -175,7 +175,7 @@
             </if>
             a.service_charge = #{serviceCharge},
             a.deduct_ratio = #{deductRatio},
-            a.profit_type = #{profitType}
+            a.profit_type = #{profitType},
             a.remark = #{remark},
             a.update_time = NOW(),
         </trim>

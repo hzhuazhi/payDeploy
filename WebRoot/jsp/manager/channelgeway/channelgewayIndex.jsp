@@ -42,6 +42,7 @@
             <th width="150">通道名称</th>
             <th width="150">手续费</th>
             <th width="150">扣量比例</th>
+            <th width="150">利益类型</th>
             <th width="150">备注</th>
             <th width="250">操作</th>
         </tr>

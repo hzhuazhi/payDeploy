@@ -79,6 +79,20 @@
                         <input type="text" class="formInput" id="deductRatio" name="deductRatio"	maxlength="240" />
                     </div>
                 </li>
+
+                <li style="border-top: none;">
+                    <div class="formTextDiv">
+                        <span class="require" ><font color="red">*</font>利益类型：</span>
+                    </div>
+                    <div class="formCtrlDiv" id = "moduleTypeDiv">
+                        <select id="profitType" name="profitType" class='text-input medium-input'>
+                            <option value="0" selected="selected">===请选择===</option>
+                            <option value="1">普通利益</option>
+                            <option value="2">多人利益</option>
+                        </select>
+                    </div>
+                </li>
+
                 <li style="border-top: none;">
                     <div class="formTextDiv">
                         <span class="require">备注</span>
