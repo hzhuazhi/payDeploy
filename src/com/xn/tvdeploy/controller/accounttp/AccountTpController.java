@@ -128,12 +128,12 @@ public class AccountTpController extends BaseController {
                 bean.setRoleId(ManagerEnum.RoleTypeEnum.TP.getRoleType());
                 bean.setSecretKey(MD5.parseMD5(bean.getAccountNum()));
                 accountTpService.add(bean);
-                if (bean.getAgentId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-                    AgentChannelModel agentChannelModel = new AgentChannelModel();
-                    agentChannelModel.setAgentId(bean.getAgentId());
-                    agentChannelModel.setChannelId(bean.getId());
-                    agentChannelService.add(agentChannelModel);
-                }
+//                if (bean.getAgentId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+//                    AgentChannelModel agentChannelModel = new AgentChannelModel();
+//                    agentChannelModel.setAgentId(bean.getAgentId());
+//                    agentChannelModel.setChannelId(bean.getId());
+//                    agentChannelService.add(agentChannelModel);
+//                }
                 sendSuccessMessage(response, "保存成功~");
             }
         }else {

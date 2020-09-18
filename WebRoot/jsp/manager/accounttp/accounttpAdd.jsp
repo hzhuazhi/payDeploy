@@ -52,19 +52,19 @@
                     </div>
                 </li>
 
-                <li style="border-top: none;">
-                    <div class="formTextDiv">
-                        <span class="require" >归属代理</span>
-                    </div>
-                    <div class="formCtrlDiv">
-                        <select id="agentId" name="agentId" >
-                            <option value="">===请选择===</option>
-                            <c:forEach items="${agent}" var="dataList">
-                                <option value="${dataList.id}">${dataList.agentName}===${dataList.accountNum}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </li>
+                <%--<li style="border-top: none;">--%>
+                    <%--<div class="formTextDiv">--%>
+                        <%--<span class="require" >归属代理</span>--%>
+                    <%--</div>--%>
+                    <%--<div class="formCtrlDiv">--%>
+                        <%--<select id="agentId" name="agentId" >--%>
+                            <%--<option value="">===请选择===</option>--%>
+                            <%--<c:forEach items="${agent}" var="dataList">--%>
+                                <%--<option value="${dataList.id}">${dataList.agentName}===${dataList.accountNum}</option>--%>
+                            <%--</c:forEach>--%>
+                        <%--</select>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
 
                 <li style="border-top: none;">
                     <div class="formTextDiv">

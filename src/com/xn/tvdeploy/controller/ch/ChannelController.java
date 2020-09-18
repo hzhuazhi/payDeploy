@@ -100,9 +100,9 @@ public class ChannelController extends BaseController {
                 //不是管理员，只能查询自己的数据
                 queryTpModel.setId(account.getId());
             }
-            tpList = accountTpService.queryAllList(queryTpModel);
+//            tpList = accountTpService.queryAllList(queryTpModel);
         }
-        model.addAttribute("tpList", tpList);
+//        model.addAttribute("tpList", tpList);
         return "manager/ch/channelAdd";
     }
 

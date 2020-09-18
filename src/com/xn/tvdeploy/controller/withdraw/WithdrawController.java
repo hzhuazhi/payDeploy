@@ -17,6 +17,7 @@ import com.xn.tvdeploy.service.AgentService;
 import com.xn.tvdeploy.service.BankService;
 import com.xn.tvdeploy.service.WithdrawService;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.cache.CacheKey;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -155,6 +156,8 @@ public class WithdrawController extends BaseController {
             }
             boolean flag = false;
             if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.ROLE_TP){
+                // redis锁住此渠道的主键ID
+//                CachedKeyUtils.getCacheKey(CacheKey.LOCK_TASK_WORK_TYPE_CHANNEL, data.getChannelId());
                 AccountTpModel accountTpModel = new AccountTpModel();
                 accountTpModel.setId(account.getId());
                 accountTpModel = accountTpService.queryById(accountTpModel);
