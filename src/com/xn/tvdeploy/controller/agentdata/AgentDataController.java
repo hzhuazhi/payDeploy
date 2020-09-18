@@ -88,23 +88,6 @@ public class AgentDataController extends BaseController {
 
 
 
-    /**
-     * 重发
-     */
-    @RequestMapping("/manyOperation")
-    public void manyOperation(HttpServletRequest request, HttpServletResponse response, AgentDataModel bean) throws Exception {
-        Account account = (Account) WebUtils.getSessionAttribute(request, ManagerConstant.PUBLIC_CONSTANT.ACCOUNT);
-        if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
-            if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
-                //不是管理员，只能查询自己的数据
-                bean.setChannelId(account.getId());
-            }
-            agentDataService.manyOperation(bean);
-            sendSuccessMessage(response, "更新成功");
-        }else{
-            sendFailureMessage(response, "登录超时,请重新登录在操作!");
-        }
-    }
 
 
     /**
@@ -137,19 +120,11 @@ public class AgentDataController extends BaseController {
             // 导出数据
             String[] titles = new String[9];
             String[] titleCode = new String[9];
-            String filename = "订单信息";
-            titles = new String[]{"平台订单", "商家订单", "订单金额", "交易状态", "交易时间","回传参数"};
-            titleCode = new String[]{"myTradeNo", "outTradeNo", "totalAmount", "tradeStatusStr", "tradeTime", "xyExtraReturnParam"};
+            String filename = "代理收益信息";
+            titles = new String[]{"代理名称", "渠道名称", "平台订单", "订单金额", "实际支付金额", "手续费", "收益分成", "收益", "创建时间"};
+            titleCode = new String[]{"agentName", "channelName", "myTradeNo", "totalAmount", "payAmount", "serviceCharge", "profitRatio", "profit", "createTime"};
             List<Map<String,Object>> paramList = new ArrayList<>();
             for(AgentDataModel paramO : dataList){
-                if (paramO.getTradeStatus() == 1){
-                    paramO.setTradeStatusStr("成功");
-                }else if (paramO.getTradeStatus() == 2){
-                    paramO.setTradeStatusStr("失败");
-                }else if (paramO.getTradeStatus() == 3){
-                    paramO.setTradeStatusStr("其它");
-                }
-
                 Map<String,Object> map = BeanUtils.transBeanToMap(paramO);
                 paramList.add(map);
             }
@@ -169,11 +144,6 @@ public class AgentDataController extends BaseController {
             if (account.getRoleId() != ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ONE){
                 //不是管理员，只能查询自己的数据
                 model.setAgentId(account.getId());
-                // 查询代理的收益提成
-                AgentModel agentModel = new AgentModel();
-                agentModel.setId(account.getId());
-                agentModel = agentService.queryById(agentModel);
-                model.setRoyalty(agentModel.getRoyalty());
             }
             if (model.getCurdayStart() ==0 || model.getCurdayEnd() == 0){
                 model.setCurdayStart(DateUtil.getDayNumber(new Date()));

@@ -18,16 +18,6 @@ public class AgentDataModel extends BasePage {
     private long id;
 
     /**
-     * 代理的主键ID
-     */
-    private long agentId;
-
-    /**
-     * 上游数据的ID
-     */
-    private long dataCoreId;
-
-    /**
      * 我方订单号
      */
     private String myTradeNo;
@@ -58,24 +48,15 @@ public class AgentDataModel extends BasePage {
     private String actualMoney;
 
     /**
-     * 订单状态：1成功，2失败，3其它
+     * 实际支付金额
      */
-    private int tradeStatus;
+    private String payAmount;
 
     /**
-     * 参数名称：回传参数商户如果支付请求是传递了该参数，则通知商户支付成功时会回传该参数
+     * 实际支付金额后扣了收付费后的金额
      */
-    private String extraReturnParam;
+    private String payActualMoney;
 
-    /**
-     * 参数名：平台订单时间格式：yyyy-MM-dd HH:mm:ss
-     */
-    private String tradeTime;
-
-    /**
-     * 参数名称：平台返回签名数据该参数用于验签
-     */
-    private String sign;
 
     /**
      * 渠道的主键ID
@@ -88,29 +69,36 @@ public class AgentDataModel extends BasePage {
     private long gewayId;
 
     /**
-     * 异步通知地址
+     * 代理主键ID
      */
-    private String notifyUrl;
+    private long agentId;
 
     /**
-     * 返回的成功标识
+     * 渠道与通道关联关系ID
      */
-    private String notifySuc;
+    private long channelGewayId;
 
     /**
-     * 下游透传参数
+     * 是否补单
      */
-    private String xyExtraReturnParam;
+    private int replenishType;
 
     /**
-     * 扣量比例
+     * 金额是否一致
      */
-    private int deductRatio;
+    private int moneyFitType;
 
     /**
-     * 值以work形式填充计算,以后数据多起来则这些字段值填充由worker来跑数据：0初始化，1填充完毕，2无需下发数据
+     * 收益占比
      */
-    private int workType;
+    private String profitRatio;
+
+    /**
+     * 实际收益
+     */
+    private String profit;
+
+
 
     /**
      * 创建日期：存的日期格式20160530
@@ -156,54 +144,19 @@ public class AgentDataModel extends BasePage {
     private int curdayEnd;
 
     /**
-     * did的集合
+     * 代理名称
      */
-    private List<Long> idList;
-
-    private String sendOkStr;
-    private String tradeStatusStr;
-    private String runStatusStr;
-
-
-    /**
-     * 总的订单金额
-     */
-    private String totalMoney;
-
-    /**
-     * 总的手续费
-     */
-    private String totalServiceCharge;
-
-    /**
-     * 总的实际金额
-     */
-    private String totalActualMoney;
-
-    /**
-     * 总提成
-     */
-    private String totalRoyalty;
-
-    /**
-     * 提成
-     */
-    private String royalty;
-
-    /**
-     * 请求是否成功：1成功，2失败
-     */
-    private int sendOk;
-
-    /**
-     * 其它状态
-     */
-    private int otherStatus;
+    private String agentName;
 
     /**
      * 渠道名称
      */
     private String channelName;
+
+    private String totalProfit;
+
+    private String totalMoney;
+
 
     public long getId() {
         return id;
@@ -211,22 +164,6 @@ public class AgentDataModel extends BasePage {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getAgentId() {
-        return agentId;
-    }
-
-    public void setAgentId(long agentId) {
-        this.agentId = agentId;
-    }
-
-    public long getDataCoreId() {
-        return dataCoreId;
-    }
-
-    public void setDataCoreId(long dataCoreId) {
-        this.dataCoreId = dataCoreId;
     }
 
     public String getMyTradeNo() {
@@ -277,36 +214,20 @@ public class AgentDataModel extends BasePage {
         this.actualMoney = actualMoney;
     }
 
-    public int getTradeStatus() {
-        return tradeStatus;
+    public String getPayAmount() {
+        return payAmount;
     }
 
-    public void setTradeStatus(int tradeStatus) {
-        this.tradeStatus = tradeStatus;
+    public void setPayAmount(String payAmount) {
+        this.payAmount = payAmount;
     }
 
-    public String getExtraReturnParam() {
-        return extraReturnParam;
+    public String getPayActualMoney() {
+        return payActualMoney;
     }
 
-    public void setExtraReturnParam(String extraReturnParam) {
-        this.extraReturnParam = extraReturnParam;
-    }
-
-    public String getTradeTime() {
-        return tradeTime;
-    }
-
-    public void setTradeTime(String tradeTime) {
-        this.tradeTime = tradeTime;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
+    public void setPayActualMoney(String payActualMoney) {
+        this.payActualMoney = payActualMoney;
     }
 
     public long getChannelId() {
@@ -325,44 +246,52 @@ public class AgentDataModel extends BasePage {
         this.gewayId = gewayId;
     }
 
-    public String getNotifyUrl() {
-        return notifyUrl;
+    public long getAgentId() {
+        return agentId;
     }
 
-    public void setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
+    public void setAgentId(long agentId) {
+        this.agentId = agentId;
     }
 
-    public String getNotifySuc() {
-        return notifySuc;
+    public long getChannelGewayId() {
+        return channelGewayId;
     }
 
-    public void setNotifySuc(String notifySuc) {
-        this.notifySuc = notifySuc;
+    public void setChannelGewayId(long channelGewayId) {
+        this.channelGewayId = channelGewayId;
     }
 
-    public String getXyExtraReturnParam() {
-        return xyExtraReturnParam;
+    public int getReplenishType() {
+        return replenishType;
     }
 
-    public void setXyExtraReturnParam(String xyExtraReturnParam) {
-        this.xyExtraReturnParam = xyExtraReturnParam;
+    public void setReplenishType(int replenishType) {
+        this.replenishType = replenishType;
     }
 
-    public int getDeductRatio() {
-        return deductRatio;
+    public int getMoneyFitType() {
+        return moneyFitType;
     }
 
-    public void setDeductRatio(int deductRatio) {
-        this.deductRatio = deductRatio;
+    public void setMoneyFitType(int moneyFitType) {
+        this.moneyFitType = moneyFitType;
     }
 
-    public int getWorkType() {
-        return workType;
+    public String getProfitRatio() {
+        return profitRatio;
     }
 
-    public void setWorkType(int workType) {
-        this.workType = workType;
+    public void setProfitRatio(String profitRatio) {
+        this.profitRatio = profitRatio;
+    }
+
+    public String getProfit() {
+        return profit;
+    }
+
+    public void setProfit(String profit) {
+        this.profit = profit;
     }
 
     public int getCurday() {
@@ -445,76 +374,12 @@ public class AgentDataModel extends BasePage {
         this.curdayEnd = curdayEnd;
     }
 
-    public List<Long> getIdList() {
-        return idList;
+    public String getAgentName() {
+        return agentName;
     }
 
-    public void setIdList(List<Long> idList) {
-        this.idList = idList;
-    }
-
-    public String getSendOkStr() {
-        return sendOkStr;
-    }
-
-    public void setSendOkStr(String sendOkStr) {
-        this.sendOkStr = sendOkStr;
-    }
-
-    public String getTradeStatusStr() {
-        return tradeStatusStr;
-    }
-
-    public void setTradeStatusStr(String tradeStatusStr) {
-        this.tradeStatusStr = tradeStatusStr;
-    }
-
-    public String getRunStatusStr() {
-        return runStatusStr;
-    }
-
-    public void setRunStatusStr(String runStatusStr) {
-        this.runStatusStr = runStatusStr;
-    }
-
-    public String getTotalMoney() {
-        return totalMoney;
-    }
-
-    public void setTotalMoney(String totalMoney) {
-        this.totalMoney = totalMoney;
-    }
-
-    public String getTotalServiceCharge() {
-        return totalServiceCharge;
-    }
-
-    public void setTotalServiceCharge(String totalServiceCharge) {
-        this.totalServiceCharge = totalServiceCharge;
-    }
-
-    public String getTotalActualMoney() {
-        return totalActualMoney;
-    }
-
-    public void setTotalActualMoney(String totalActualMoney) {
-        this.totalActualMoney = totalActualMoney;
-    }
-
-    public int getSendOk() {
-        return sendOk;
-    }
-
-    public void setSendOk(int sendOk) {
-        this.sendOk = sendOk;
-    }
-
-    public int getOtherStatus() {
-        return otherStatus;
-    }
-
-    public void setOtherStatus(int otherStatus) {
-        this.otherStatus = otherStatus;
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
     }
 
     public String getChannelName() {
@@ -525,19 +390,19 @@ public class AgentDataModel extends BasePage {
         this.channelName = channelName;
     }
 
-    public String getTotalRoyalty() {
-        return totalRoyalty;
+    public String getTotalProfit() {
+        return totalProfit;
     }
 
-    public void setTotalRoyalty(String totalRoyalty) {
-        this.totalRoyalty = totalRoyalty;
+    public void setTotalProfit(String totalProfit) {
+        this.totalProfit = totalProfit;
     }
 
-    public String getRoyalty() {
-        return royalty;
+    public String getTotalMoney() {
+        return totalMoney;
     }
 
-    public void setRoyalty(String royalty) {
-        this.royalty = royalty;
+    public void setTotalMoney(String totalMoney) {
+        this.totalMoney = totalMoney;
     }
 }

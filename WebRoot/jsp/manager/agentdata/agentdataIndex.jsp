@@ -15,13 +15,10 @@
                 <%--<div class="formCtrlDiv">--%>
                 <%--<input type ="text" class ="inputCommonSty" id="myTradeNo" name ="myTradeNo">--%>
                 <%--</div>--%>
-                <div class = "condQueryLabelDiv">商家订单：</div>
-                <div class="formCtrlDiv">
-                    <input type ="text" class ="inputCommonSty" id="outTradeNo" name ="outTradeNo">
-                </div>
 
-                    <div class = "condQueryLabelDiv">渠道：</div>
-                    <div class="formCtrlDiv" id = "channelDiv">
+
+                    <div class = "condQueryLabelDiv">代理：</div>
+                    <div class="formCtrlDiv" id = "agentDiv">
                     </div>
 
                 <div class = "condQueryLabelDiv">开始日期：</div>
@@ -54,14 +51,15 @@
         <%--<c:set var="total" value="${total}"/>--%>
         <%--汇总：${total.totalMoney}---${total.totalServiceCharge}---${total.totalActualMoney}--%>
         <tr>
+            <th width="110">代理名称</th>
+            <th width="110">渠道名称</th>
             <th width="150">平台订单</th>
-            <th width="150">商家订单</th>
             <th width="100">订单金额</th>
-            <%--<th width="100">手续费</th>--%>
-            <%--<th width="150">实际金额</th>--%>
-            <th width="150">交易状态</th>
-            <th width="300">交易时间</th>
-            <th width="150">回传参数</th>
+            <th width="130">实际支付金额</th>
+            <th width="100">手续费</th>
+            <th width="100">收益分成</th>
+            <th width="100">收益</th>
+            <th width="150">创建时间</th>
         </tr>
         </thead>
         <tbody>

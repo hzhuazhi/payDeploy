@@ -15,34 +15,19 @@ var account = {
     },
     //列表显示参数
     list:[
+        {"data":"agentName",},
+        {"data":"channelName",},
         {"data":"myTradeNo",},
-        {"data":"outTradeNo",},
         {"data":"totalAmount",},
-        // {"data":"serviceCharge",},
-        // {"data":"actualMoney",},
-        {"data":"tradeStatus",
-            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                var html="";
-                if(oData.tradeStatus==0){
-                    html='<span>初始化</span>';
-                }else if(oData.tradeStatus==1){
-                    html='<span>成功</span>';
-                }else if(oData.tradeStatus==2){
-                    html='<span><font color="red">失败</font></span>';
-                }else if(oData.tradeStatus==3){
-                    html='<span>其它</span>';
-                }
-                $(nTd).html(html);
-            }
-        },
-        {"data":"tradeTime",},
-        {"data":"xyExtraReturnParam",}
+        {"data":"payAmount",},
+        {"data":"serviceCharge",},
+        {"data":"profitRatio",},
+        {"data":"profit",},
+        {"data":"createTime",}
     ],
     // 查询条件，aoData是必要的。其他的就是对应的实体类字段名，因为条件查询是把数据封装在实体类中的。
     condJsonData : {
-        myTradeNo:null,
-        outTradeNo:null,
-        channelId:0,
+        agentId:0,
         curdayStart:0,
         curdayEnd:0,
     },
@@ -52,14 +37,12 @@ var account = {
         common.updateUrl(this.url);
 
         // 初始化列表数据
-        this.queryTpAll();
+        this.queryAgAll();
         this.queryTotal();
         common.showDatas(this.condJsonData,this.list);
         // 条件查询按钮事件
         $('#btnQuery').click(function() {
-            account.condJsonData['myTradeNo'] = $("#myTradeNo").val();
-            account.condJsonData['outTradeNo'] = $("#outTradeNo").val();
-            account.condJsonData['channelId'] = $("#channelId").val();
+            account.condJsonData['agentId'] = $("#agentId").val();
             account.condJsonData['curdayStart'] = $("#curdayStart").val();
             account.condJsonData['curdayEnd'] = $("#curdayEnd").val();
             account.queryTotal();
@@ -68,12 +51,8 @@ var account = {
 
         // 重置
         $("#butReset").click(function(){
-            account.condJsonData['myTradeNo'] = "";
-            $("#myTradeNo").val("");
-            account.condJsonData['outTradeNo'] = "";
-            $("#outTradeNo").val("");
-            account.condJsonData['channelId'] = "0";
-            $("#channelId").val("0");
+            account.condJsonData['agentId'] = "0";
+            $("#agentId").val("0");
             account.condJsonData['curdayStart'] = "";
             $("#curdayStart").val("");
             account.condJsonData['curdayEnd'] = "";
@@ -131,15 +110,11 @@ var account = {
     //查询所有订单汇总数据
     queryTotal:function(){
         var url = basePath + "agentdata/totalData.do";
-        var myTradeNo = $("#myTradeNo").val();
-        var outTradeNo = $("#outTradeNo").val();
-        var channelId = $("#channelId").val();
+        var agentId = $("#agentId").val();
         var curdayStart = $("#curdayStart").val();
         var curdayEnd = $("#curdayEnd").val();
         var data = {
-            "myTradeNo":myTradeNo,
-            "outTradeNo":outTradeNo,
-            "channelId":channelId,
+            "agentId":agentId,
             "curdayStart":curdayStart,
             "curdayEnd":curdayEnd
         };
@@ -153,7 +128,7 @@ var account = {
             // shtml += "      实际金额：";
             // shtml += "<font color='red'>" + data.totalActualMoney + "</font>";
             shtml += "      收益：";
-            shtml += "<font color='red'>" + data.totalRoyalty + "</font>";
+            shtml += "<font color='red'>" + data.totalProfit + "</font>";
             $("#totalDiv").html(shtml);
         });
     },
@@ -174,6 +149,26 @@ var account = {
             }
             shtml +="</select>";
             $("#channelDiv").html(shtml);
+        });
+    },
+
+
+    //下拉框数据填充
+    //查询代理-无分页-下拉框选项:
+    queryAgAll:function(){
+        var url = basePath + "accountagent/dataAllList.do";
+        var data = {
+        };
+        common.ajax(url,data,function(data){
+            var dataList=data;
+            var shtml="";
+            shtml += "<select id='agentId' name='agentId'  class='text-input medium-input'>";
+            shtml +="<option value=''>===请选择===</option>";
+            for (var i=0;i<dataList.length>0;i++) {
+                shtml +="<option value="+dataList[i].id+">"+dataList[i].agentName+"</option>";
+            }
+            shtml +="</select>";
+            $("#agentDiv").html(shtml);
         });
     },
 

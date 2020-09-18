@@ -10,40 +10,33 @@
         <result property="totalAmount" column="total_amount" />
         <result property="serviceCharge" column="service_charge" />
         <result property="actualMoney" column="actual_money" />
-        <result property="sendOk" column="send_ok" />
-        <result property="tradeStatus" column="trade_status" />
-        <result property="extraReturnParam" column="extra_return_param" />
-        <result property="xyExtraReturnParam" column="xy_extra_return_param" />
-        <result property="tradeTime" column="trade_time" />
-        <result property="sign" column="sign" />
+        <result property="payAmount" column="pay_amount" />
+        <result property="payActualMoney" column="pay_actual_money" />
         <result property="channelId" column="channel_id" />
         <result property="gewayId" column="geway_id" />
         <result property="agentId" column="agent_id" />
-        <result property="notifyUrl" column="notify_url" />
-        <result property="notifySuc" column="notify_suc" />
-        <result property="lowerSuc" column="lower_suc" />
-        <result property="deductRatio" column="deduct_ratio" />
-        <result property="workType" column="work_type" />
-        <result property="runStatus" column="run_status" />
+        <result property="channelGewayId" column="channel_geway_id" />
+        <result property="replenishType" column="replenish_type" />
+        <result property="moneyFitType" column="money_fit_type" />
+        <result property="profitRatio" column="profit_ratio" />
+        <result property="profit" column="profit" />
         <result property="createTime" column="create_time" />
         <result property="updateTime" column="update_time" />
-        <result property="dataCoreId" column="data_core_id" />
-
         <result property="yn" column="yn" />
 
-        <result property="totalMoney" column="total_money" />
-        <result property="totalServiceCharge" column="total_service_charge" />
-        <result property="totalActualMoney" column="total_actual_money" />
-        <result property="totalRoyalty" column="total_royalty" />
-        <result property="royalty" column="royalty" />
+        <result property="agentName" column="agent_name" />
         <result property="channelName" column="channel_name" />
+        <result property="totalProfit" column="total_profit" />
+        <result property="totalMoney" column="total_money" />
+
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
-        a.id,a.my_trade_no,a.channel_id,a.geway_id,a.agent_id,a.total_amount,a.service_charge,a.actual_money,a.trade_status,
-        a.out_trade_no,a.trade_time,a.xy_extra_return_param,a.xy_extra_return_param as extra_return_param,
+        a.id,a.my_trade_no,a.trade_no,a.out_trade_no,a.total_amount,a.service_charge,a.actual_money,a.pay_amount,a.pay_actual_money,
+        a.channel_id,a.geway_id,a.agent_id,a.channel_geway_id,a.replenish_type,a.money_fit_type,a.profit_ratio,a.profit,
         a.curday,a.curhour,a.curminute,a.run_num,a.create_time,a.update_time,a.yn,
-        b.channel_name
+        b.agent_name,
+        c.channel_name
     </sql>
 
     <!-- 查询条件 -->
@@ -65,25 +58,12 @@
             <if test="outTradeNo != null and outTradeNo != '' " >
                 and a.out_trade_no = #{outTradeNo}
             </if>
-            <!--<if test="sendOk != 0 and sendOk >0 " >-->
-                <!--and a.send_ok = #{sendOk}-->
-            <!--</if>-->
             <if test="curday != 0 and curday >0 " >
                 and a.curday = #{curday}
             </if>
             <if test="curdayStart != 0 and curdayStart >0 and curdayEnd != 0 and curdayEnd >0 " >
                 and a.curday >= #{curdayStart} and a.curday &lt;= #{curdayEnd}
             </if>
-            <if test="runStatus != 0 and runStatus >0 " >
-                and a.run_status = #{runStatus}
-            </if>
-            <if test="idList != null and idList.size()>0 ">
-                and a.channel_id in
-                <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
-                    #{item}
-                </foreach>
-            </if>
-            and a.trade_status = 1
             and a.yn =  0
         </trim>
     </sql>
@@ -102,7 +82,8 @@
     <!-- 查询总数-->
     <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
         select count(1)
-        from tb_hz_data_core a left join tb_hz_channel b on a.channel_id = b.id
+        from tb_hz_agent_profit a left join tb_hz_agent b on a.agent_id = b.id
+        left join tb_hz_channel c on a.channel_id = c.id
         <include refid="Example_Where_Clause"/>
     </select>
 
@@ -110,7 +91,8 @@
     <select id="queryByList" resultMap="dataMap"  parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_hz_data_core a left join tb_hz_channel b on a.channel_id = b.id
+        from tb_hz_agent_profit a left join tb_hz_agent b on a.agent_id = b.id
+        left join tb_hz_channel c on a.channel_id = c.id
         <include refid="Example_Where_Clause"/>
         order by a.create_time desc
         limit #{startIndex},#{pageSize}
@@ -120,7 +102,8 @@
     <select id="queryAllList" resultMap="dataMap"  parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_hz_data_core a left join tb_hz_channel b on a.channel_id = b.id
+        from tb_hz_agent_profit a left join tb_hz_agent b on a.agent_id = b.id
+        left join tb_hz_channel c on a.channel_id = c.id
         <include refid="Example_Where_Clause"/>
         order by a.create_time desc
     </select>
@@ -129,7 +112,8 @@
     <select id="queryById"  resultMap="dataMap" parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_hz_data_core a left join tb_hz_channel b on a.channel_id = b.id
+        from tb_hz_agent_profit a left join tb_hz_agent b on a.agent_id = b.id
+        left join tb_hz_channel c on a.channel_id = c.id
         <include refid="Example_Where_Clause_id"/>
     </select>
 
@@ -137,34 +121,23 @@
     <select id="queryByCondition"  resultMap="dataMap" parameterType="Object">
         select
         <include refid="Base_Column_List" />
-        from tb_hz_data_core a left join tb_hz_channel b on a.channel_id = b.id
+        from tb_hz_agent_profit a left join tb_hz_agent b on a.agent_id = b.id
+        left join tb_hz_channel c on a.channel_id = c.id
         <include refid="Example_Where_Clause"/>
         limit 1
     </select>
 
 
 
-    <!-- 主要作用1.逻辑删除，2更新状态 -->
-    <update id="manyOperation" parameterType="Object">
-        UPDATE tb_hz_data_core a set a.run_num = 0, a.run_status =0,
-        a.update_time = now()
-        where 1=1
-        and a.id =#{id}
-        <if test="channelId != 0 and channelId >0 " >
-            and a.channel_id = #{channelId}
-        </if>
-        and a.yn=0
-    </update>
+
 
 
     <!-- 获取订单的total信息 -->
     <select id="getTotalData"  resultMap="dataMap" parameterType="Object">
         select
         ifnull(sum(convert(a.total_amount,decimal(19,4))), '0.0000') as total_money,
-        ifnull(sum(convert(a.service_charge * a.total_amount,decimal(19,4))),'0.0000') as total_service_charge,
-        ifnull(sum(convert(a.actual_money,decimal(19,4))),'0.0000') as total_actual_money,
-        IFNULL(SUM(CONVERT(a.total_amount*#{royalty},DECIMAL(19,4))),'0.0000') AS total_royalty
-        from tb_hz_data_core a
+        ifnull(sum(convert(a.profit,decimal(19,4))), '0.0000') as total_profit
+        from tb_hz_agent_profit a
         <include refid="Example_Where_Clause"/>
     </select>
 
