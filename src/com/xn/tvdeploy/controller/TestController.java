@@ -1,13 +1,21 @@
 package com.xn.tvdeploy.controller;
 
 import com.xn.common.controller.BaseController;
+import com.xn.common.redis.RedisAtomicClient;
+import com.xn.common.redis.RedisLock;
+import com.xn.common.util.constant.CacheKey;
+import com.xn.common.util.constant.CachedKeyUtils;
 import com.xn.system.util.ResourceUtil;
+import com.xn.tvdeploy.service.RedisIdService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,6 +45,10 @@ public class TestController extends BaseController {
     private static String path = "/opt/app/tomcat03/apache-tomcat-6.0.44/webapps/html/";
     //文件路径+名称
     private static String filenameTemp;
+
+
+    @Autowired
+    private RedisIdService redisIdService;
 
     @RequestMapping("/getData")
     public void getData(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -83,11 +95,17 @@ public class TestController extends BaseController {
     @RequestMapping("/test2")
     public void test2(HttpServletRequest request, HttpServletResponse response) throws Exception{
         try{
-            String sb1 = ResourceUtil.getData("sdk.deploy.value");
+//            String sb1 = ResourceUtil.getData("sdk.deploy.value");
 //            String sb2 = ResourceUtil.getSessionInfoName();
-            log.info("----------------------sb1:"+sb1);
+//            log.info("----------------------sb1:"+sb1);
 //            log.info("----------------------sb2:"+sb2);
-
+            log.info("-----------------进来了!");
+            // redis锁住此渠道的主键ID
+            String lockKey = CachedKeyUtils.getCacheKey(CacheKey.LOCK_TASK_WORK_TYPE_CHANNEL, 1);
+//            redisTemplate.
+            boolean flagLock = redisIdService.lock(lockKey);
+            log.info("----------------------flagLock:" + flagLock);
+//            redisIdService.delLock(lockKey);
         }catch (Exception e){
             e.printStackTrace();
         }

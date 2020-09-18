@@ -2,29 +2,31 @@ package com.xn.tvdeploy.controller.withdraw;
 
 import com.xn.common.constant.ManagerConstant;
 import com.xn.common.controller.BaseController;
+import com.xn.common.redis.RedisAtomicClient;
+import com.xn.common.redis.RedisLock;
 import com.xn.common.util.HtmlUtil;
 import com.xn.common.util.SendEmail;
 import com.xn.common.util.SendSms;
 import com.xn.common.util.StringUtil;
+import com.xn.common.util.constant.CacheKey;
+import com.xn.common.util.constant.CachedKeyUtils;
 import com.xn.system.entity.Account;
 import com.xn.tvdeploy.controller.bank.BankController;
 import com.xn.tvdeploy.model.AccountTpModel;
 import com.xn.tvdeploy.model.AgentModel;
 import com.xn.tvdeploy.model.BankModel;
 import com.xn.tvdeploy.model.WithdrawModel;
-import com.xn.tvdeploy.service.AccountTpService;
-import com.xn.tvdeploy.service.AgentService;
-import com.xn.tvdeploy.service.BankService;
-import com.xn.tvdeploy.service.WithdrawService;
+import com.xn.tvdeploy.service.*;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.cache.CacheKey;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.WebUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -44,6 +46,9 @@ public class WithdrawController extends BaseController {
     private static Logger log = Logger.getLogger(WithdrawController.class);
 
     @Autowired
+    private RedisIdService redisIdService;
+
+    @Autowired
     private WithdrawService<WithdrawModel> withdrawService;
 
     @Autowired
@@ -54,6 +59,10 @@ public class WithdrawController extends BaseController {
 
     @Autowired
     private BankService<BankModel> bankService;
+
+
+
+
 
 
     /**
@@ -147,38 +156,72 @@ public class WithdrawController extends BaseController {
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             if (account.getRoleId() < ManagerConstant.PUBLIC_CONSTANT.ROLE_TP){
                 sendFailureMessage(response,"管理员无法提现!");
+                return;
             }
             if (StringUtils.isBlank(bean.getMoney()) || StringUtils.isBlank(bean.getServiceCharge())){
                 sendFailureMessage(response,"请填写提现金额!");
+                return;
             }
             if (bean.getMoney().indexOf("-") > -1 || bean.getServiceCharge().indexOf("-") > -1){
                 sendFailureMessage(response,"错误,请重试!");
+                return;
+            }
+            if (StringUtils.isBlank(bean.getServiceCharge())){
+                sendFailureMessage(response,"错误,请重试!");
+                return;
+            }
+            boolean flag_serviceCharge = false;
+            if (bean.getServiceCharge().equals("2")){
+                flag_serviceCharge = true;
+            }
+            if (bean.getServiceCharge().equals("5")){
+                flag_serviceCharge = true;
+            }
+            if (!flag_serviceCharge){
+                sendFailureMessage(response,"错误,请重试!");
+                return;
             }
             boolean flag = false;
             if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.ROLE_TP){
                 // redis锁住此渠道的主键ID
-//                CachedKeyUtils.getCacheKey(CacheKey.LOCK_TASK_WORK_TYPE_CHANNEL, data.getChannelId());
-                AccountTpModel accountTpModel = new AccountTpModel();
-                accountTpModel.setId(account.getId());
-                accountTpModel = accountTpService.queryById(accountTpModel);
-                String totalMoney = StringUtil.getBigDecimalAdd(bean.getMoney(), bean.getServiceCharge());
-                flag = StringUtil.getBigDecimalSubtract(accountTpModel.getBalance(), totalMoney);
-            }
-            if (flag){
-                bean.setLinkId(account.getId());
-                bean.setRoleId(account.getRoleId());
-                withdrawService.add(bean);
+                String lockKey = CachedKeyUtils.getCacheKey(CacheKey.LOCK_TASK_WORK_TYPE_CHANNEL, account.getId());
+                boolean flagLock = redisIdService.lock(lockKey);
+                if (flagLock){
+                    AccountTpModel accountTpModel = new AccountTpModel();
+                    accountTpModel.setId(account.getId());
+                    accountTpModel = accountTpService.queryById(accountTpModel);
+                    String totalMoney = StringUtil.getBigDecimalAdd(bean.getMoney(), bean.getServiceCharge());
+                    flag = StringUtil.getBigDecimalSubtract(accountTpModel.getBalance(), totalMoney);
+
+                    if (flag){
+                        bean.setLinkId(account.getId());
+                        bean.setRoleId(account.getRoleId());
+                        withdrawService.add(bean);
 //                SendSms.aliSendSms("15967171415", "8888");
-                String  random = UUID.randomUUID().toString().replaceAll("\\-", "");
-                String content = random + "渠道：" + account.getAccountNum() + "，嘿嘿：" +  bean.getMoney();
-                SendEmail.sendEmail("提现审核", content);
-                sendSuccessMessage(response, "保存成功~");
-            }else {
-                sendFailureMessage(response,"提现金额超出余额!");
+//                String  random = UUID.randomUUID().toString().replaceAll("\\-", "");
+//                String content = random + "渠道：" + account.getAccountNum() + "，嘿嘿：" +  bean.getMoney();
+//                SendEmail.sendEmail("提现审核", content);
+                        redisIdService.delLock(lockKey);
+                        sendSuccessMessage(response, "保存成功~");
+                        return;
+                    }else {
+                        sendFailureMessage(response,"提现金额超出余额!");
+                        return;
+                    }
+
+
+                }else {
+                    // redis锁冲突，因为在计算金额
+                    sendFailureMessage(response,"请您重试!");
+                    return;
+                }
+
             }
+
 
         }else {
             sendFailureMessage(response,"登录超时,请重新登录在操作!");
+            return;
         }
     }
 

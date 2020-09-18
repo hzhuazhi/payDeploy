@@ -5,6 +5,8 @@ import com.xn.common.controller.BaseController;
 import com.xn.common.util.HtmlUtil;
 import com.xn.common.util.SendEmail;
 import com.xn.common.util.StringUtil;
+import com.xn.common.util.constant.CacheKey;
+import com.xn.common.util.constant.CachedKeyUtils;
 import com.xn.system.entity.Account;
 import com.xn.tvdeploy.controller.bank.BankController;
 import com.xn.tvdeploy.model.AccountTpModel;
@@ -36,6 +38,9 @@ import java.util.List;
 public class WithdrawAgentController extends BaseController {
 
     private static Logger log = Logger.getLogger(WithdrawAgentController.class);
+
+    @Autowired
+    private RedisIdService redisIdService;
 
     @Autowired
     private WithdrawAgentService<WithdrawModel> withdrawAgentService;
@@ -138,38 +143,69 @@ public class WithdrawAgentController extends BaseController {
         if(account !=null && account.getId() > ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
             if (account.getRoleId() < ManagerConstant.PUBLIC_CONSTANT.ROLE_TP){
                 sendFailureMessage(response,"管理员无法提现!");
+                return;
             }
             if (StringUtils.isBlank(bean.getMoney()) || StringUtils.isBlank(bean.getServiceCharge())){
                 sendFailureMessage(response,"请填写提现金额!");
+                return;
             }
             if (bean.getMoney().indexOf("-") > -1 || bean.getServiceCharge().indexOf("-") > -1){
                 sendFailureMessage(response,"错误,请重试!");
+                return;
             }
-            if (!bean.getServiceCharge().equals("2") || !bean.getServiceCharge().equals("5")){
+            if (StringUtils.isBlank(bean.getServiceCharge())){
                 sendFailureMessage(response,"错误,请重试!");
+                return;
+            }
+            boolean flag_serviceCharge = false;
+            if (bean.getServiceCharge().equals("2")){
+                flag_serviceCharge = true;
+            }
+            if (bean.getServiceCharge().equals("5")){
+                flag_serviceCharge = true;
+            }
+            if (!flag_serviceCharge){
+                sendFailureMessage(response,"错误,请重试!");
+                return;
             }
             boolean flag = false;
             if (account.getRoleId() == ManagerConstant.PUBLIC_CONSTANT.ROLE_AGENT){
-                AgentModel agentModel = new AgentModel();
-                agentModel.setId(account.getId());
-                agentModel = agentService.queryById(agentModel);
-                String totalMoney = StringUtil.getBigDecimalAdd(bean.getMoney(), bean.getServiceCharge());
-                flag = StringUtil.getBigDecimalSubtract(agentModel.getBalance(), totalMoney);
-            }
-            if (flag){
-                bean.setLinkId(account.getId());
-                bean.setRoleId(account.getRoleId());
-                withdrawAgentService.add(bean);
+                // redis锁住此渠道的主键ID
+                String lockKey = CachedKeyUtils.getCacheKey(CacheKey.LOCK_TASK_WORK_TYPE_AGENT, account.getId());
+                boolean flagLock = redisIdService.lock(lockKey);
+                if (flagLock){
+                    AgentModel agentModel = new AgentModel();
+                    agentModel.setId(account.getId());
+                    agentModel = agentService.queryById(agentModel);
+                    String totalMoney = StringUtil.getBigDecimalAdd(bean.getMoney(), bean.getServiceCharge());
+                    flag = StringUtil.getBigDecimalSubtract(agentModel.getBalance(), totalMoney);
+                    if (flag){
+                        bean.setRoleId(account.getRoleId());
+                        bean.setLinkId(account.getId());
+                        withdrawAgentService.add(bean);
 //                SendSms.aliSendSms("15967171415", "8888");
-                String content = "代理：" + account.getAccountNum() + "，嘿嘿：" +  bean.getMoney();
-                SendEmail.sendEmail("提现审核", content);
-                sendSuccessMessage(response, "保存成功~");
-            }else {
-                sendFailureMessage(response,"提现金额超出余额!");
+//                        String content = "代理：" + account.getAccountNum() + "，嘿嘿：" +  bean.getMoney();
+//                        SendEmail.sendEmail("提现审核", content);
+                        redisIdService.delLock(lockKey);
+
+                        sendSuccessMessage(response, "保存成功~");
+                        return;
+                    }else {
+                        sendFailureMessage(response,"提现金额超出余额!");
+                        return;
+                    }
+                }else {
+                    // redis锁冲突，因为在计算金额
+                    sendFailureMessage(response,"请您重试!");
+                    return;
+                }
+
             }
+
 
         }else {
             sendFailureMessage(response,"登录超时,请重新登录在操作!");
+            return;
         }
     }
 
