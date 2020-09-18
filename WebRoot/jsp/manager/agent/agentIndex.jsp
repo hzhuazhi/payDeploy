@@ -19,7 +19,7 @@
             <th width="150">代理名称</th>
             <th width="150">总额</th>
             <th width="150">余额</th>
-            <th width="350">收益提成</th>
+            <th width="150">今日收益</th>
             <th width="150">提现</th>
         </tr>
         </thead>

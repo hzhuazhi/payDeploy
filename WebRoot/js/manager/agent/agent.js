@@ -12,7 +12,7 @@ var account = {
         {"data":"agentName",},
         {"data":"totalMoney",},
         {"data":"balance",},
-        {"data":"royalty",},
+        {"data":"todayProfit",},
 
         {"data":"id",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {

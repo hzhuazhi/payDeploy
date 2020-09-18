@@ -82,6 +82,8 @@ public class AgentModel extends BasePage {
     private int yn;
     private String roleName; //所属的角色名称
 
+    private String todayProfit;
+
 
     public long getId() {
         return id;
@@ -209,5 +211,13 @@ public class AgentModel extends BasePage {
 
     public void setRoyalty(String royalty) {
         this.royalty = royalty;
+    }
+
+    public String getTodayProfit() {
+        return todayProfit;
+    }
+
+    public void setTodayProfit(String todayProfit) {
+        this.todayProfit = todayProfit;
     }
 }
