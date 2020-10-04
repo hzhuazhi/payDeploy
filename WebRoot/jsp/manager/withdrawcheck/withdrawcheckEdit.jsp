@@ -106,9 +106,9 @@
 
                     <li>
                         <div class="" style="margin-bottom: 20px; margin-top: 20px;margin-left:200px;">
-                            <input type="submit" class="formBtn" value="修 改" /> <span>
-						</span> <input type="reset" class="formBtn" value="重  置" />
-                            <input type="button" onClick="javascript :history.back(-1);" class="formBtn" value=" 返 回 " />
+                            <input type="submit" class="buttonClass imginput" value="修 改" /> <span>
+						</span> <input type="reset" class="buttonClass imginput" value="重  置" />
+                            <input type="button" onClick="javascript :history.back(-1);" class="buttonClass imginput" value=" 返 回 " />
                         </div>
                     </li>
                 </ul>

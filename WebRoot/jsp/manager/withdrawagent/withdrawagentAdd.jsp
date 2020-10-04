@@ -92,9 +92,9 @@
 
                 <li>
                     <div class="" style="margin-bottom: 20px; margin-top: 20px;margin-left:200px;">
-                        <input type="submit" class="formBtn" value="添  加" style="background-color: #54D8FE;"/> <span>
-						</span> <input type="reset" class="formBtn" value="重  置" style="background-color: #54D8FE;" />
-                        <input type="button" onClick="javascript :history.back(-1);" class="formBtn" value=" 返 回 " style="background-color: #54D8FE;"/>
+                        <input type="submit" class="buttonClass imginput" value="添  加" style="background-color: #54D8FE;"/> <span>
+						</span> <input type="reset" class="buttonClass imginput" value="重  置" style="background-color: #54D8FE;" />
+                        <input type="button" onClick="javascript :history.back(-1);" class="buttonClass imginput" value=" 返 回 " style="background-color: #54D8FE;"/>
                     </div>
                 </li>
             </ul>
