@@ -119,7 +119,7 @@ public class ChannelReplenishController extends BaseController {
             }
             queryBean.setOutTradeNo(bean.getOutTradeNo());
             TpDataInfoModel tpDataInfoModel = tpDataInfoService.queryByCondition(queryBean);
-            if (tpDataInfoModel == null || queryBean.getId() <= ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
+            if (tpDataInfoModel == null || tpDataInfoModel.getId() <= ManagerConstant.PUBLIC_CONSTANT.SIZE_VALUE_ZERO){
                 sendFailureMessage(response,"没有此订单的请求纪录,请您核实!");
                 return;
             }
@@ -140,6 +140,7 @@ public class ChannelReplenishController extends BaseController {
                 return;
             }
             bean.setChannelId(tpDataInfoModel.getChannelId());
+            bean.setMyTradeNo(tpDataInfoModel.getMyTradeNo());
             bean.setTotalAmount(tpDataInfoModel.getTotalAmount());
             bean.setPictureAds(pictureAds);
             channelReplenishService.add(bean);
