@@ -3,6 +3,7 @@ package com.xn.tvdeploy.controller.channelreplenish;
 import com.xn.common.constant.ManagerConstant;
 import com.xn.common.controller.BaseController;
 import com.xn.common.util.HtmlUtil;
+import com.xn.common.util.HttpSendUtils;
 import com.xn.common.util.OssUploadUtil;
 import com.xn.common.util.StringUtil;
 import com.xn.system.entity.Account;
@@ -39,7 +40,7 @@ import java.util.List;
 public class ChannelReplenishController extends BaseController {
     private static Logger log = Logger.getLogger(ChannelReplenishController.class);
 
-    public static String fruitUrl = "http://localhost:8002/";
+    public static String fruitUrl = "http://localhost:8002/fruitDeploy/merchantreplenish/actionAdd.do?";
 
     @Autowired
     private ChannelReplenishService<ChannelReplenishModel> channelReplenishService;
@@ -147,6 +148,11 @@ public class ChannelReplenishController extends BaseController {
             bean.setTotalAmount(tpDataInfoModel.getTotalAmount());
             bean.setPictureAds(pictureAds);
             channelReplenishService.add(bean);
+
+            // 发送给水果平台
+            String sendUrl = fruitUrl;
+            String sendData = "linkId=" + bean.getId() + "&outTradeNo=" + bean.getMyTradeNo() + "&pictureAds=" + pictureAds;
+            String resp = HttpSendUtils.sendGet(sendUrl + sendData, null, null);
             sendSuccessMessage(response, "保存成功~");
         }else {
             sendFailureMessage(response,"登录超时,请重新登录在操作!");
