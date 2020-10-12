@@ -237,9 +237,7 @@
             <if test="checkTime != null and checkTime != '' " >
                 a.check_time = #{checkTime},
             </if>
-            <if test="remark != null and remark != '' " >
-                a.remark = #{remark},
-            </if>
+            a.remark = #{remark},
             a.update_time = NOW(),
         </trim>
         <include refid="Example_Where_Clause_id"/>
