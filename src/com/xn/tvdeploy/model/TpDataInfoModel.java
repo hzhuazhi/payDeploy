@@ -270,6 +270,9 @@ public class TpDataInfoModel extends BasePage {
      */
     private String replenishTypeStr;
 
+    private String accountNum;
+    private String channelName;
+
     public long getId() {
         return id;
     }
@@ -709,5 +712,21 @@ public class TpDataInfoModel extends BasePage {
 
     public void setReplenishTypeStr(String replenishTypeStr) {
         this.replenishTypeStr = replenishTypeStr;
+    }
+
+    public String getAccountNum() {
+        return accountNum;
+    }
+
+    public void setAccountNum(String accountNum) {
+        this.accountNum = accountNum;
+    }
+
+    public String getChannelName() {
+        return channelName;
+    }
+
+    public void setChannelName(String channelName) {
+        this.channelName = channelName;
     }
 }

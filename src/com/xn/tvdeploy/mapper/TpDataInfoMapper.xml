@@ -51,6 +51,8 @@
         <result property="payAmount" column="pay_amount" />
         <result property="payActualMoney" column="pay_actual_money" />
         <result property="replenishType" column="replenish_type" />
+        <result property="accountNum" column="account_num" />
+        <result property="channelName" column="channel_name" />
     </resultMap>
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
@@ -60,7 +62,8 @@
         a.curday,a.curhour,a.curminute,a.run_num,a.create_time,a.update_time,a.yn,
         b.id as data_core_id,ifnull(b.trade_status, 0) as trade_status,
         b.deduct_ratio,b.work_type,ifnull(b.run_status, 0) as run_status,
-        b.pay_amount,b.pay_actual_money,b.replenish_type
+        b.pay_amount,b.pay_actual_money,b.replenish_type,
+        c.account_num,c.channel_name
     </sql>
 
     <!-- 定义数据库基本列,只适用代替单表的*-->
@@ -108,6 +111,9 @@
             <if test="otherStatus != 0 and otherStatus >0 " >
                 and b.id is null
             </if>
+            <if test="channelName != null and channelName != '' " >
+                and c.channel_name = #{channelName}
+            </if>
             and a.yn =  0
         </trim>
     </sql>
@@ -148,6 +154,7 @@
     <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
         select count(1)
         from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        left join tb_hz_channel c  on a.channel_id = c.id
         <include refid="Example_Where_Clause"/>
     </select>
 
@@ -156,6 +163,7 @@
         select
         <include refid="Base_Column_List" />
         from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        left join tb_hz_channel c  on a.channel_id = c.id
         <include refid="Example_Where_Clause"/>
         order by a.create_time desc
         limit #{startIndex},#{pageSize}
@@ -166,6 +174,7 @@
         select
         <include refid="Base_Column_List" />
         from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        left join tb_hz_channel c  on a.channel_id = c.id
         <include refid="Example_Where_Clause"/>
         order by a.create_time desc
     </select>
@@ -175,6 +184,7 @@
         select
         <include refid="Base_Column_List" />
         from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        left join tb_hz_channel c  on a.channel_id = c.id
         <include refid="Example_Where_Clause_id"/>
     </select>
 
@@ -183,6 +193,7 @@
         select
         <include refid="Base_Column_List" />
         from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        left join tb_hz_channel c  on a.channel_id = c.id
         <include refid="Example_Where_Clause"/>
         limit 1
     </select>
@@ -211,6 +222,7 @@
         ifnull(sum(convert(b.pay_amount,decimal(19,4))),'0.0000') as total_pay_amount,
         ifnull(sum(convert(b.pay_actual_money,decimal(19,4))),'0.0000') as total_pay_actual_money
         from tb_hz_channel_data a left join tb_hz_data_core b on a.my_trade_no = b.my_trade_no and b.yn = 0 and b.work_type > 0 and b.run_status &lt;= 3
+        left join tb_hz_channel c  on a.channel_id = c.id
         <include refid="Example_Where_Clause"/>
     </select>
 

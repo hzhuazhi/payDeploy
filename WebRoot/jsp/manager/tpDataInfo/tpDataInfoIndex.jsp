@@ -20,6 +20,11 @@
                     <input type ="text" class ="inputCommonSty" id="outTradeNo" name ="outTradeNo">
                 </div>
 
+                <div class = "condQueryLabelDiv">渠道：</div>
+                <div class="formCtrlDiv">
+                    <input type ="text" class ="inputCommonSty" id="channelName" name ="channelName">
+                </div>
+
                 <div class = "condQueryLabelDiv">补单类型：</div>
                 <div class="formCtrlDiv" >
                     <select id="replenishType" name="replenishType" class='text-input medium-input'>
@@ -82,6 +87,7 @@
         <tr>
             <th width="150">平台订单</th>
             <th width="150">商家订单</th>
+            <th width="120">渠道</th>
             <th width="100">订单金额</th>
             <th width="100">手续费</th>
             <th width="150">实际金额</th>
@@ -89,7 +95,7 @@
             <th width="150">请求状态</th>
             <th width="150">交易状态</th>
             <th width="300">交易时间</th>
-            <th width="150">回传参数</th>
+            <%--<th width="150">回传参数</th>--%>
             <th width="150">补单类型</th>
             <th width="150">同步状态</th>
             <th width="150">操作</th>

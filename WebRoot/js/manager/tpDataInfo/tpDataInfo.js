@@ -17,6 +17,7 @@ var account = {
     list:[
         {"data":"myTradeNo",},
         {"data":"outTradeNo",},
+        {"data":"channelName",},
         {"data":"totalAmount",},
         {"data":"serviceCharge",},
         {"data":"actualMoney",},
@@ -51,7 +52,7 @@ var account = {
             }
         },
         {"data":"tradeTime",},
-        {"data":"extraReturnParam",},
+        // {"data":"extraReturnParam",},
         {"data":"replenishType",
             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                 var html="";
@@ -101,12 +102,13 @@ var account = {
     condJsonData : {
         myTradeNo:null,
         outTradeNo:null,
+        channelName:null,
         replenishType:0,
         sendOk:0,
         tradeStatus:-1,
         runStatus:0,
         curdayStart:0,
-        curdayEnd:0,
+        curdayEnd:0
     },
     //页面加载
     indexInit : function (){
@@ -120,6 +122,7 @@ var account = {
         $('#btnQuery').click(function() {
             account.condJsonData['myTradeNo'] = $("#myTradeNo").val();
             account.condJsonData['outTradeNo'] = $("#outTradeNo").val();
+            account.condJsonData['channelName'] = $("#channelName").val();
             account.condJsonData['replenishType'] = $("#replenishType").val();
             account.condJsonData['sendOk'] = $("#sendOk").val();
             account.condJsonData['tradeStatus'] = $("#tradeStatus").val();
@@ -136,6 +139,8 @@ var account = {
             $("#myTradeNo").val("");
             account.condJsonData['outTradeNo'] = "";
             $("#outTradeNo").val("");
+            account.condJsonData['channelName'] = "";
+            $("#channelName").val("");
             account.condJsonData['replenishType'] = "0";
             $("#replenishType").val("0");
             account.condJsonData['sendOk'] = "-1";
@@ -203,6 +208,7 @@ var account = {
         var url = basePath + "tpDataInfo/totalData.do";
         var myTradeNo = $("#myTradeNo").val();
         var outTradeNo = $("#outTradeNo").val();
+        var channelName = $("#channelName").val();
         var replenishType = $("#replenishType").val();
         var sendOk = $("#sendOk").val();
         var tradeStatus = $("#tradeStatus").val();
@@ -212,6 +218,7 @@ var account = {
         var data = {
             "myTradeNo":myTradeNo,
             "outTradeNo":outTradeNo,
+            "channelName":channelName,
             "replenishType":replenishType,
             "sendOk":sendOk,
             "tradeStatus":tradeStatus,
