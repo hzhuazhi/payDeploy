@@ -4,6 +4,7 @@ import com.xn.common.constant.ManagerConstant;
 import com.xn.common.controller.BaseController;
 import com.xn.common.util.HtmlUtil;
 import com.xn.common.util.OssUploadUtil;
+import com.xn.common.util.StringUtil;
 import com.xn.system.entity.Account;
 import com.xn.tvdeploy.model.ChannelReplenishModel;
 import com.xn.tvdeploy.model.TpDataInfoModel;
@@ -14,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,8 +37,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/channelreplenish")
 public class ChannelReplenishController extends BaseController {
-
     private static Logger log = Logger.getLogger(ChannelReplenishController.class);
+
+    public static String fruitUrl = "http://localhost:8002/";
 
     @Autowired
     private ChannelReplenishService<ChannelReplenishModel> channelReplenishService;
@@ -227,9 +230,13 @@ public class ChannelReplenishController extends BaseController {
      * 更新审核-对外接口
      */
     @RequestMapping(value = "/actionUpdateCheck", method = {RequestMethod.GET})
-    public void updateCheck(HttpServletRequest request, HttpServletResponse response,ChannelReplenishModel bean) throws Exception{
-        if (bean != null && bean.getId() > 0){
-            channelReplenishService.updateCheck(bean);
+    public void updateCheck(HttpServletRequest request, HttpServletResponse response,ChannelReplenishModel channelReplenishModel) throws Exception{
+        if (channelReplenishModel != null && channelReplenishModel.getId() > 0){
+            if (!StringUtils.isBlank(channelReplenishModel.getCheckInfo())){
+                String checkInfo = StringUtil.decoderBase64(channelReplenishModel.getCheckInfo());
+                channelReplenishModel.setCheckInfo(checkInfo);
+            }
+            channelReplenishService.updateCheck(channelReplenishModel);
             // 返回数据给客户端
             PrintWriter out = response.getWriter();
             out.print("ok");

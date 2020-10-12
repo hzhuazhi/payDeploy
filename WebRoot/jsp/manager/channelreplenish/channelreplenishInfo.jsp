@@ -19,7 +19,7 @@
 <body>
 <div class="col_main">
     <div class="formHeadDiv">
-        <h2>下发详情</h2>
+        <h2>补单申请详情</h2>
     </div>
     <div class="formContentDiv">
         <form id="addSupplierForm">

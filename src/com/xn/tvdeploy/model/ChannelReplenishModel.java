@@ -2,14 +2,20 @@ package com.xn.tvdeploy.model;
 
 import com.xn.common.page.BasePage;
 
+import java.io.Serializable;
+
 /**
  * @Description 渠道补单申请的实体属性Bean
  * @Author yoko
  * @Date 2020/10/12 14:06
  * @Version 1.0
  */
-public class ChannelReplenishModel extends BasePage {
+public class ChannelReplenishModel extends BasePage implements Serializable {
+    private static final long   serialVersionUID = 1433293332180L;
 
+    public ChannelReplenishModel(){
+
+    }
     /**
      * 主键ID
      */

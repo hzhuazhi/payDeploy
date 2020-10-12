@@ -66,6 +66,7 @@ public class AdminLoginFilter extends BaseController implements Filter {
 		exceptURLs.add("/adminfile/images/close_icon.png");
 		exceptURLs.add("/system/module/menuList.do");
 		exceptURLs.add("/admin-login.jsp");
+		exceptURLs.add("/channelreplenish/actionUpdateCheck.do");
 		/*		exceptURLs.add("/admin/admin/admin-login");
 		exceptURLs.add("/admin/");
 		exceptURLs.add("/admin");
