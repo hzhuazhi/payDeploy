@@ -51,7 +51,7 @@
                     </div>
                     <div class="formCtrlDiv">
                         <%--<input type="text" class="formInput" id="remark" name="remark"	maxlength="240" />--%>
-                        <textarea class="formInput" id="remark" name="remark" cols="70" rows="9"></textarea>
+                        <textarea id="remark" name="remark" cols="70" rows="9"></textarea>
                     </div>
                 </li>
 
