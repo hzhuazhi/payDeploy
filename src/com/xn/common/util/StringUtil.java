@@ -1080,7 +1080,7 @@ public class StringUtil {
 	public final static String decoderBase64(String str) throws IOException {
 		BASE64Decoder decoder = new BASE64Decoder();
 		byte[] bytes = decoder.decodeBuffer(str);
-		String res=new String(bytes);
+		String res=new String(bytes,"UTF-8");
 		return res;
 	}
 

@@ -103,7 +103,7 @@
                         <span class="require">审核失败说明</span>
                     </div>
                     <div>
-                        <textarea id="checkInfo" name="checkInfo" >${dl.checkInfo}</textarea>
+                        <textarea id="checkInfo" name="checkInfo" cols="70" rows="9">${dl.checkInfo}</textarea>
                     </div>
                 </li>
 
@@ -112,7 +112,7 @@
                         <span class="require">备注</span>
                     </div>
                     <div class="formCtrlDiv">
-                        <textarea id="remark" name="remark" >${dl.remark}</textarea>
+                        <textarea id="remark" name="remark" cols="70" rows="9">${dl.remark}</textarea>
                     </div>
                 </li>
 

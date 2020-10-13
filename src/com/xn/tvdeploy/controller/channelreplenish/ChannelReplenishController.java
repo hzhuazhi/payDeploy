@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
@@ -26,6 +25,7 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +41,7 @@ public class ChannelReplenishController extends BaseController {
     private static Logger log = Logger.getLogger(ChannelReplenishController.class);
 
     public static String fruitUrl = "http://localhost:8002/fruitDeploy/merchantreplenish/actionAdd.do?";
+//public static String fruitUrl = "http://192.168.1.205:8080/merchantreplenish/actionAdd.do?";
 
     @Autowired
     private ChannelReplenishService<ChannelReplenishModel> channelReplenishService;
@@ -138,15 +139,19 @@ public class ChannelReplenishController extends BaseController {
                     return;
                 }
             }
-            String pictureAds = OssUploadUtil.localMethod(files);
-            if (StringUtils.isBlank(pictureAds)){
-                sendFailureMessage(response, "图片上传失败,请重试!");
-                return;
+            String pictureAds = "";
+            if (!files.isEmpty()){
+                pictureAds = OssUploadUtil.localMethod(files);
+                if (StringUtils.isBlank(pictureAds)){
+                    sendFailureMessage(response, "图片上传失败,请重试!");
+                    return;
+                }
+                bean.setPictureAds(pictureAds);
             }
             bean.setChannelId(tpDataInfoModel.getChannelId());
             bean.setMyTradeNo(tpDataInfoModel.getMyTradeNo());
             bean.setTotalAmount(tpDataInfoModel.getTotalAmount());
-            bean.setPictureAds(pictureAds);
+
             channelReplenishService.add(bean);
 
             // 发送给水果平台
@@ -235,8 +240,8 @@ public class ChannelReplenishController extends BaseController {
      *
      * 更新审核-对外接口
      */
-    @RequestMapping(value = "/actionUpdateCheck", method = {RequestMethod.GET})
-    public void updateCheck(HttpServletRequest request, HttpServletResponse response,ChannelReplenishModel channelReplenishModel) throws Exception{
+    @RequestMapping("/actionUpdateCheck")
+    public void updateCheck(HttpServletRequest request, HttpServletResponse response, ChannelReplenishModel channelReplenishModel) throws Exception{
         if (channelReplenishModel != null && channelReplenishModel.getId() > 0){
             if (!StringUtils.isBlank(channelReplenishModel.getCheckInfo())){
                 String checkInfo = StringUtil.decoderBase64(channelReplenishModel.getCheckInfo());
@@ -260,6 +265,91 @@ public class ChannelReplenishController extends BaseController {
 
     }
 
+//    /**
+//     *
+//     * 更新审核-对外接口
+//     */
+//    @RequestMapping(value = "/actionUpdateCheck", method = {RequestMethod.POST})
+//    public void updateCheck(HttpServletRequest request, HttpServletResponse response,@RequestBody ChannelReplenishModel channelReplenishModel) throws Exception{
+//        String id = request.getParameter("id");
+//        log.info("id:" + id);
+//        if (channelReplenishModel != null && channelReplenishModel.getId() > 0){
+//            if (!StringUtils.isBlank(channelReplenishModel.getCheckInfo())){
+//                String checkInfo = StringUtil.decoderBase64(channelReplenishModel.getCheckInfo());
+//                channelReplenishModel.setCheckInfo(checkInfo);
+//            }
+//            channelReplenishService.updateCheck(channelReplenishModel);
+//            // 返回数据给客户端
+//            PrintWriter out = response.getWriter();
+//            out.print("ok");
+//            out.flush();
+//            out.close();
+//            return;
+//        }else {
+//            // 返回数据给客户端
+//            PrintWriter out = response.getWriter();
+//            out.print("on");
+//            out.flush();
+//            out.close();
+//            return;
+//        }
+//
+//    }
 
+
+//    /**
+//     *
+//     * 更新审核-对外接口
+//     */
+//    @RequestMapping(value = "/actionUpdateCheck", method = {RequestMethod.GET})
+//    public void updateCheck(HttpServletRequest request, HttpServletResponse response,ChannelReplenishModel channelReplenishModel) throws Exception{
+//
+//        request.setCharacterEncoding("UTF-8");
+//        long id = Long.parseLong(request.getParameter("id"));
+//        String checkMoney = request.getParameter("checkMoney");
+//        String checkPictureAds = request.getParameter("checkPictureAds");
+//        int checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
+//        String checkInfo1 = request.getParameter("checkInfo");
+//        String temp = request.getParameter("temp");
+//        String temp1 = new String(temp.getBytes("UTF-8"),"UTF-8");
+//        String urlData = request.getParameter("urlData");
+//        String urlData1 = URLDecoder.decode( urlData, "UTF-8" );
+//        String urlData2 = "";
+//        if (!StringUtils.isBlank(channelReplenishModel.getUrlData())){
+//            urlData2 = channelReplenishModel.getUrlData();
+//        }
+//        log.info("id:" + id);
+//        log.info("checkMoney:" + checkMoney);
+//        log.info("checkPictureAds:" + checkPictureAds);
+//        log.info("checkStatus:" + checkStatus);
+//        log.info("checkInfo1:" + checkInfo1);
+//        log.info("checkInfo2:" + StringUtil.decoderBase64(checkInfo1));
+//        log.info("temp:" + temp);
+//        log.info("temp1:" + temp1);
+//        log.info("urlData:" + urlData);
+//        log.info("urlData1:" + urlData1);
+//        log.info("urlData2:" + urlData2);
+//        if (channelReplenishModel != null && channelReplenishModel.getId() > 0){
+//            if (!StringUtils.isBlank(channelReplenishModel.getCheckInfo())){
+//                String checkInfo = StringUtil.decoderBase64(channelReplenishModel.getCheckInfo());
+//                channelReplenishModel.setCheckInfo(checkInfo);
+//            }
+//            channelReplenishService.updateCheck(channelReplenishModel);
+//            // 返回数据给客户端
+//            PrintWriter out = response.getWriter();
+//            out.print("ok");
+//            out.flush();
+//            out.close();
+//            return;
+//        }else {
+//            // 返回数据给客户端
+//            PrintWriter out = response.getWriter();
+//            out.print("on");
+//            out.flush();
+//            out.close();
+//            return;
+//        }
+
+//    }
 
 }
