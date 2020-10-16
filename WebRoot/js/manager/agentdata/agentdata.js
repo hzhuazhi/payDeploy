@@ -20,7 +20,7 @@ var account = {
         {"data":"myTradeNo",},
         {"data":"totalAmount",},
         {"data":"payAmount",},
-        {"data":"serviceCharge",},
+        // {"data":"serviceCharge",},
         {"data":"profitRatio",},
         {"data":"profit",},
         {"data":"createTime",}

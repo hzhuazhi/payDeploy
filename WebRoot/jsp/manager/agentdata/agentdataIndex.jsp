@@ -56,7 +56,7 @@
             <th width="150">平台订单</th>
             <th width="100">订单金额</th>
             <th width="130">实际支付金额</th>
-            <th width="100">手续费</th>
+            <%--<th width="100">手续费</th>--%>
             <th width="100">收益分成</th>
             <th width="100">收益</th>
             <th width="150">创建时间</th>
