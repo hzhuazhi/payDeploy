@@ -85,6 +85,11 @@ public class AccountTpModel extends BasePage {
      */
     private int isSynchro;
 
+    /**
+     * 提现类型：1默认在支付平台操作，2发送下发数据到水果平台
+     */
+    private int withdrawType;
+
     private int isEnable;
 
     /**
@@ -282,5 +287,14 @@ public class AccountTpModel extends BasePage {
 
     public void setAgentId(long agentId) {
         this.agentId = agentId;
+    }
+
+
+    public int getWithdrawType() {
+        return withdrawType;
+    }
+
+    public void setWithdrawType(int withdrawType) {
+        this.withdrawType = withdrawType;
     }
 }

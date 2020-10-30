@@ -19,6 +19,7 @@
         <result property="lowerUrl" column="lower_url" />
         <result property="lowerSuc" column="lower_suc" />
         <result property="isSynchro" column="is_synchro" />
+        <result property="withdrawType" column="withdraw_type" />
         <result property="isEnable" column="is_enable" />
         <result property="createTime" column="create_time" />
         <result property="updateTime" column="update_time" />
@@ -28,7 +29,7 @@
     <!-- 定义数据库基本列,只适用代替单表的*-->
     <sql id="Base_Column_List">
         a.id,a.account_num,a.pass_wd,a.channel_name,a.channel,a.company_name,a.contacts,a.phone_num,a.pay_type,a.total_money,a.balance,a.secret_key,
-        a.lower_url,a.lower_suc,a.is_synchro,a.role_id,a.is_enable,
+        a.lower_url,a.lower_suc,a.is_synchro,a.withdraw_type,a.role_id,a.is_enable,
         a.create_time,a.update_time,a.yn,
         b.role_name
     </sql>
@@ -48,6 +49,9 @@
             </if>
             <if test="roleId != 0 and roleId >0 " >
                 and a.role_id = #{roleId}
+            </if>
+            <if test="withdrawType != 0 and withdrawType >0 " >
+                and a.withdraw_type = #{withdrawType}
             </if>
             <if test="channelName != null and channelName != '' " >
                 and a.channel_name = #{channelName}
